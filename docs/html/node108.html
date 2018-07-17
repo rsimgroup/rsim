@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Cache initialization and statistics</TITLE>
+<META NAME="description" CONTENT="Cache initialization and statistics">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1692" HREF="node109.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1690" HREF="node99.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1684" HREF="node107.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1694" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1693" HREF="node109.html">Discussion of cache coherence </A>
+<B>Up:</B> <A NAME="tex2html1691" HREF="node99.html">Cache Hierarchy</A>
+<B> Previous:</B> <A NAME="tex2html1685" HREF="node107.html">Processing L2 data array </A>
+<BR> <P>
+<H1><A NAME="SECTION03760000000000000000">Cache initialization and statistics</A></H1>
+<P>
+<A NAME="rsimmemsys_cachestat">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/cache.c</TT>, <TT>src/MemSys/cache2.c</TT>, 
+<TT>src/Processor/capconf.cc</TT>, <TT>src/MemSys/mshr.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/cache.h</TT>, <TT>incl/MemSys/stats.h</TT>,
+<TT>incl/Processor/capconf.h</TT>
+<P>
+<P>
+<P>
+The functions <TT>NewCache</TT> and <TT>init_cache</TT> initialize the data
+structures used by the cache, including the the cache-line state
+structures,  the MSHR array, the write-back buffer, the cache pipelines,
+and the statistics structures.
+<P>
+Each data access to the cache calls <TT>StatSet</TT> to specify whether
+the access hit or missed, and the type of miss in the case of misses. 
+Each cache module classifies misses into cold, conflict, capacity, and 
+coherence misses.  Capacity and conflict misses are distinguished using
+a structure called the <TT>CapConfDetector</TT>. The detector consists of a
+hash table combined with a fixed-size circular queue, both of which
+start empty.
+<P>
+Conceptually, new lines brought into the cache are put into the
+circular queue, which has a size equal to the number of cache
+lines. When the circular queue has filled up, new insertions replace
+the oldest element in the queue. However, before inserting a new line
+into the detector, the detector must first be checked to make sure
+that the line is not already in the queue. If it is, then a line has
+been brought back into the cache after being replaced in less time
+than its taken to refill the entire cache; consequently, it is a
+conflict miss. We consider a miss a capacity miss if it is not already
+in the queue when it is brought into the cache, as this indicates that at least as
+many lines as are in the cache have been brought into the cache since
+the last time this line was present. The hash table is used to provide
+a fast check of the entries available; the entries in the hash table
+are always the same as those in the circular queue.
+<P>
+The caches also keep track of the MSHR occupancy, determining the
+percentage of time any given number of MSHRs is in use. This statistic
+is calculated through an <EM>interval statistics record</EM>,  described
+in Chapter&nbsp;<A HREF="node127.html#rsim_stats">16.1</A>.
+<P>
+<HR><A NAME="tex2html1692" HREF="node109.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1690" HREF="node99.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1684" HREF="node107.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1694" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1693" HREF="node109.html">Discussion of cache coherence </A>
+<B>Up:</B> <A NAME="tex2html1691" HREF="node99.html">Cache Hierarchy</A>
+<B> Previous:</B> <A NAME="tex2html1685" HREF="node107.html">Processing L2 data array </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

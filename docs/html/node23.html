@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Pipeline stage details</TITLE>
+<META NAME="description" CONTENT="Pipeline stage details">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html625" HREF="node24.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html623" HREF="node22.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html617" HREF="node22.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html627" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html626" HREF="node24.html">Branch prediction</A>
+<B>Up:</B> <A NAME="tex2html624" HREF="node22.html">Processor microarchitecture</A>
+<B> Previous:</B> <A NAME="tex2html618" HREF="node22.html">Processor microarchitecture</A>
+<BR> <P>
+<H2><A NAME="SECTION02221000000000000000">Pipeline stage details</A></H2>
+<P>
+The <B>instruction fetch stage</B> reads instructions from the
+predecoded input file.  RSIM currently does not model an instruction
+cache.  The maximum number of instructions brought into the processor
+per cycle is a configurable parameter.
+<P>
+The <B>instruction decode stage</B> handles register renaming and inserts
+the decoded instruction into the active list.
+The key data
+structures used in this stage are the register map table, the
+free list, the active list, and the shadow mappers. These data
+strucutres closely follow the
+corresponding microarchitectural features of the MIPS R10000. The RSIM
+processor follows the MIPS R10000 convention for maintaining registers,
+in which both architectural register state and speculative register state
+are kept in a unified physical register file&nbsp;[<A HREF="node132.html#MIPSR10KMICRO">28</A>].
+The register map
+table keeps track of the logical to physical register mapping, and the
+free list indicates the physical registers available for use.  
+A
+logical register is mapped to a new physical register whenever the
+logical register is the destination of an instruction being
+decoded. 
+The new physical register (taken from the free list) is marked <EM>busy</EM> until the
+instruction completes. The previous value of the logical register
+remains in the physical register to which it was formerly
+mapped. This physical register is not returned to the free list until the
+instruction with the new mapping has graduated. Integer and floating point registers are mapped independently.
+Currently, RSIM assumes that the processor will always have
+sufficient renaming registers for its specified active list 
+size<A NAME="tex2html4" HREF="footnode.html#445"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.
+<P>
+An instruction is entered into the active list when it is
+decoded, and it remains in the active list until it graduates.
+This stage also dispatches memory instructions to the memory
+unit, which is used to insure that memory operations occur in the
+appropriate order, as detailed in Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A><A NAME="tex2html5" HREF="footnode.html#446"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.
+The size of the active list and memory unit are configurable.
+<P>
+For
+branch instructions, the decode stage allocates a shadow mapper
+to allow a fast recovery on a misprediction, as discussed in
+Section&nbsp;<A HREF="node24.html#rpipes_branch">3.2.2</A>.  The prediction of a branch
+as taken stops the RSIM processor from decoding any further
+instructions in this cycle,
+as many current processors do
+not allow the instruction fetch or decode stage to access two
+different regions of the instruction address space
+in the same
+cycle. The number of shadow mappers is configurable.
+<P>
+The <B>instruction issue stage</B> issues ready instructions.
+For an instruction to issue, it must have no outstanding data dependences or
+structural hazards. With one exception, the only register data dependences
+that affect the issue of an instruction in RSIM are RAW
+(true) dependences; other register dependences are eliminated by register
+renaming<A NAME="tex2html6" HREF="footnode.html#447"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.  RAW
+dependences are detected by observing the ``busy bit'' of a physical
+register in the register file.
+<P>
+Structural hazards in the issue stage relate
+to the availability of functional units. There are 3 basic types of
+functional units supported in RSIM: ALU (arithmetic/logical unit), FPU
+(floating point unit), and ADDR (address generation unit). If no
+functional unit is available, the processor simulator notes a
+structural dependence and refrains from issuing the instruction.
+The number of each type of functional unit is configurable.
+A memory instruction issues to the cache only if a cache port is available
+and if the address of the instruction has already been generated.
+Additional constraints for memory issue are described in
+Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>.
+<P>
+The <B>instruction execute stage</B> calculates the results of
+the instruction as it would be generated by its functional unit.
+These results include the addresses of loads and stores at the address
+generation unit.
+The latencies and repeat rates of the ALU and FPU instructions for this
+stage are configurable.
+<P>
+The <B>instruction complete stage</B> stores the computed results
+of an instruction into its physical
+register. This stage also clears that physical register's busy bit
+in the register file, thus indicating to the issue stage that
+instructions stalled for data dependences on this register may
+progress. This stage does not affect memory store operations, which
+have no destination register.
+<P>
+The completion stage also resolves the proper outcome of predicted
+branches. If a misprediction is detected, later instructions in the 
+active list are flushed and the processor program counter is set to the proper
+target of the branch. The shadow mapper for a branch is freed
+in this stage.
+<P>
+The <B>instruction graduate stage</B> ensures that the instructions
+graduate and commit their values into architectural state in-order,
+thereby allowing the processor to maintain precise exceptions.
+When an instruction is graduated, the processor frees the physical
+register formerly associated with its destination register (before
+this instruction was decoded). With the exception of stores, the
+graduation of an instruction marks the end of its life in the system;
+stores are discussed separately in Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>.
+After graduation, the instruction leaves
+the active list. The number of instructions that can graduate in
+a single cycle is configurable.
+<P>
+The RSIM processor also detects exceptions at the point of
+graduation. Section&nbsp;<A HREF="node26.html#rpipes_except">3.2.4</A> describes how
+the processor simulator handles exceptions.
+<P>
+<HR><A NAME="tex2html625" HREF="node24.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html623" HREF="node22.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html617" HREF="node22.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html627" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html626" HREF="node24.html">Branch prediction</A>
+<B>Up:</B> <A NAME="tex2html624" HREF="node22.html">Processor microarchitecture</A>
+<B> Previous:</B> <A NAME="tex2html618" HREF="node22.html">Processor microarchitecture</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

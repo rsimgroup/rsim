@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Overview of RSIM_EVENT</TITLE>
+<META NAME="description" CONTENT="Overview of RSIM_EVENT">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1319" HREF="node77.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1317" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1311" HREF="node75.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1321" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1320" HREF="node77.html">Instruction fetch and decode</A>
+<B>Up:</B> <A NAME="tex2html1318" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1312" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<BR> <P>
+<H1><A NAME="SECTION03410000000000000000">Overview of <TT>RSIM_EVENT</TT></A></H1>
+<P>
+<A NAME="rsimevent_cycle">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/state.cc</TT>, <TT>src/Processor/pipestages.cc</TT>
+<P>
+<P>
+<P>
+<TT>RSIM_EVENT</TT> simulates the processors and cache hierarchies of
+the simulated system.  It is scheduled every cycle as described in
+Chapter&nbsp;<A HREF="node69.html#intover">7</A>. On every invocation, <TT>RSIM_EVENT</TT> loops
+through all the processors and caches in the system, calling the
+functions described in this section.
+<P>
+Note that  <TT>RSIM_EVENT</TT> should seek to process messages from
+other portions of the system without any unexpected or unnecessary
+delays. Suppose, for example, that the bus unit provided a reply to the
+L2 cache at time <I>X</I>. However, if the <TT>RSIM_EVENT</TT> planned
+for time <I>X</I> had already occurred, the <TT>RSIM_EVENT</TT> function
+would not be able to pick up the reply until time <I>X</I>+1. On the other
+hand, if the  <TT>RSIM_EVENT</TT> function had not already been processed for the
+cycle, <TT>RSIM_EVENT</TT> would pick up the reply at time <I>X</I>. Thus,
+the timing behavior of the would be non-deterministic and could include
+unexpected delays.
+To avoid this sort of problem, <TT>RSIM_EVENT</TT> is actually scheduled
+to occur at an offset of 0.5 cycles from the processor cycle. 
+<TT>RSIM_EVENT</TT> starts by
+completing operations that finished during the previous cycle, and then
+initiates new operations based on the current cycle.
+<P>
+For each processor, <TT>RSIM_EVENT</TT> first calls <TT>L1CacheOutSim</TT>
+and <TT>L2CacheOutSim</TT> (described in Section&nbsp;<A HREF="node99.html#rsimmemsys_cache">13</A>),
+which are used to process cache accesses. Then, <TT>CompleteMemQueue</TT>
+is called to inform the memory unit of any operations that have
+completed at the caches. <TT>CompleteQueues</TT> is used
+to process other instructions that have completed at their functional
+units.
+<P>
+Then, <TT>RSIM_EVENT</TT> calls <TT>maindecode</TT>. This function starts
+out by using <TT>update_cycle</TT> to update the register file and handle
+other issues involved with the completion stage of the pipeline. Next,
+<TT>graduate_cycle</TT> is called to remove previously completed
+instructions in-order from the active list and to commit their architectural
+state. Then, <TT>maindecode</TT> calls <TT>decode_cycle</TT> to bring new
+instructions into the active list. After this, <TT>maindecode</TT>
+returns control to <TT>RSIM_EVENT</TT>.
+<P>
+<TT>RSIM_EVENT</TT> then calls <TT>IssueQueues</TT>, which sends ready
+instructions to their functional units. After this, the functions <TT>
+L1CacheInSim</TT> and <TT>L2CacheInSim</TT> are called for the caches to
+bring in new operations that have been sent to them. After this,
+<TT>RSIM_EVENT</TT> loops on to the next processor.
+<P>
+Each of the functions mentioned above is more thoroughly discussed in
+the chapter related to its phase of execution. In particular,
+<TT>CompleteQueues</TT>, <TT>update_cycle</TT>, <TT>graduate_cycle</TT>, <TT>maindecode</TT>,
+<TT>decode_cycle</TT>, and <TT>IssueQueues</TT> are part of the out-of-order
+execution engine, which is discussed in the next several sections.
+<P>
+<HR><A NAME="tex2html1319" HREF="node77.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1317" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1311" HREF="node75.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1321" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1320" HREF="node77.html">Instruction fetch and decode</A>
+<B>Up:</B> <A NAME="tex2html1318" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1312" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

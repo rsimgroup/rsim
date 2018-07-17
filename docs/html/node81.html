@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Completion</TITLE>
+<META NAME="description" CONTENT="Completion">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1374" HREF="node82.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1372" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1366" HREF="node80.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1376" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1375" HREF="node82.html">Graduation</A>
+<B>Up:</B> <A NAME="tex2html1373" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1367" HREF="node80.html">Instruction execution</A>
+<BR> <P>
+<H1><A NAME="SECTION03460000000000000000">Completion</A></H1>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/exec.cc</TT>, <TT>src/Processor/pipestages.cc</TT>,
+<TT>src/Processor/branchresolve.cc</TT>, <TT>src/Processor/branchq.cc</TT>,
+<TT>src/Processor/stallq.cc</TT>, <TT>src/Processor/active.cc</TT>,
+<P>
+<P>
+<P>
+Header files: <TT>incl/Processor/units.h</TT>, <TT>incl/Processor/state.h</TT>
+<P>
+<P>
+<P>
+The <TT>CompleteQueues</TT> function processes
+instructions from the <TT>Running</TT> heap that have completed in a
+given cycle. For all non-memory instructions, this function calls
+the appropriate emulation function from <TT>src/Processor/funcs.cc</TT>
+and then inserts the <TT>instance</TT> onto the processor's <TT>DoneHeap</TT>.
+For memory instructions, this function marks the completion of address
+generation, and thus calls the <TT>Disambiguate</TT> function (described
+in Section&nbsp;<A HREF="node85.html#rsimproc_memunit">11</A>). This function is also responsible for
+freeing functional units that have completed their functional unit
+delay, as determined from the <TT>FreeingUnits</TT> data structure. As
+each functional unit is freed, the processor checks to see if a queue
+of ready instructions has built up waiting for that unit. If so, one
+instruction is revived, and the <TT>issue</TT> function is invoked.
+<P>
+The function <TT>update_cycle</TT> processes instructions from the
+<TT>DoneHeap</TT> data structure. For each instruction removed from
+the <TT>DoneHeap</TT> in a cycle, <TT>update_cycle</TT> first sees if the
+completion of this instruction will allow a stalled processor to continue
+decoding instructions.
+<P>
+Next, <TT>update_cycle</TT> resolves completed branches.  If the branch
+was unpredicted, <TT>update_cycle</TT> sets the processor PC and NPC
+appropriately and allows execution to continue.  On a correct
+prediction, the <TT>GoodPrediction</TT> function is called. If
+this branch had already allocated a shadow mapper, this
+function calls <TT>RemoveFromBranchQ</TT> to free the shadow mapper, possibly
+yielding that shadow mapper to a later stalled branch. If the branch
+had not yet received a shadow mapper, it is no longer considered to
+be stalled for a mapper.
+<P>
+On the other hand, the <TT>BadPrediction</TT> function is called to
+resolve a mispredicted branch. If the branch (or its delay slot, as
+approriate) had allocated a shadow mapper, <TT>CopyBranchQ</TT> is used
+to revive the correct register mapping table. After that, <TT>
+FlushBranchQ</TT> is used to remove the shadow mapper associated with the
+current branch and all later branches. Then, <TT>FlushMems</TT> is
+invoked to remove all instructions from the memory unit after the
+branch or delay slot in question.  <TT>FlushStallQ</TT> removes any
+possible item in the processor stall queue, and is followed by <TT>
+FlushActiveList</TT>, which removes all instructions after the branch or
+delay slot from the active list. <TT>FlushActiveList</TT> also removes
+entries from the tag-converter data structure, frees the
+registers renamed as destinations for the instructions being flushed, and negates the
+effects of any register windowing operations being flushed. After <TT>
+BadPrediction</TT> returns control to <TT>update_cycle</TT>, the processor
+sets its PC and NPC appropriately.
+<P>
+<TT>update_cycle</TT> then updates the physical register file with the
+results of the completed instruction and marks the instruction in the
+active list as having completed. The busy-bits of the destination
+registers are cleared, and the instructions in the distributed stall
+queue for these registers are checked. If a waiting instruction now
+has no more true dependencies, the function <TT>SendToFU</TT> is called
+to provide the register values to that instruction and possibly allow
+it to issue.  If a memory instruction in the memory unit had been
+waiting on a destination register for an address dependence which is
+now cleared, the <TT>CalculateAddress</TT> function (described in
+Section&nbsp;<A HREF="node85.html#rsimproc_memunit">11</A>) is used to send the instruction to the
+address generation unit.
+<P>
+<HR><A NAME="tex2html1374" HREF="node82.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1372" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1366" HREF="node80.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1376" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1375" HREF="node82.html">Graduation</A>
+<B>Up:</B> <A NAME="tex2html1373" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1367" HREF="node80.html">Instruction execution</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

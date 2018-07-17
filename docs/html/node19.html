@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Statistics processing utilities</TITLE>
+<META NAME="description" CONTENT="Statistics processing utilities">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html570" HREF="node20.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html568" HREF="node12.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html564" HREF="node18.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html572" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html571" HREF="node20.html">Architectural Model</A>
+<B>Up:</B> <A NAME="tex2html569" HREF="node12.html">Installing RSIM</A>
+<B> Previous:</B> <A NAME="tex2html565" HREF="node18.html">Using ordinary UNIX command </A>
+<BR> <P>
+<H1><A NAME="SECTION02150000000000000000">Statistics processing utilities</A></H1>
+<P>
+<A NAME="installing_stats">&#160;</A>
+<P>
+The <TT>bin</TT> directory in <TT>rsim-1.0</TT> includes shell-scripts
+and <TT>awk</TT>-scripts for processing statistics files output by RSIM. This directory
+should be added to the <TT>PATH</TT> environment variable of each RSIM
+user. For <TT>csh</TT> and <TT>tcsh</TT> users, the following can be typed
+at the shell-prompt or added to the user's <TT>.cshrc</TT> or <TT>.tcshrc</TT>
+files (substitute the actual fully-specified path of the RSIM
+distribution for <TT>/path_to_rsim/rsim-1.0/</TT> below).
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  setenv PATH /path_to_rsim/rsim-1.0/bin:${PATH}</TT>
+<P>
+<P>
+<P>
+For <TT>sh</TT>, <TT>ksh</TT>, and <TT>bash</TT> users, the following command
+sequence is appropriate:
+<P>
+<P>
+<P>
+<TT><B>prompt$</B>  export PATH=/path_to_rsim/rsim-1.0/bin:$PATH</TT>
+<P>
+<P>
+<P>
+Three of the shell scripts included in this directory must be modified
+according to the directory in which the RSIM distribution is
+download. Namely, the scripts <TT>analyze_misses</TT>, <TT>
+rsim_analyze</TT>, and <TT>p_rsim_analyze</TT> currently include a
+reference to the directory <TT>/home/rsim/rsim-1.0/bin</TT>. This
+reference should be changed to point to the actual fully-specified
+path of the RSIM distribution. For example, the file <TT>
+p_rsim_analyze</TT> contains the line:
+<P>
+<P>
+<P>
+<TT>nawk -f /home/rsim/rsim-1.0/bin/p_rsim_analyze.awk</TT>
+<P>
+<P>
+<P>
+This line must be changed to:
+<P>
+<P>
+<P>
+<TT>nawk -f /path_to_rsim/rsim-1.0/bin/p_rsim_analyze.awk</TT>
+<P>
+<P>
+<P>
+where <TT>/path_to_rsim/rsim-1.0/</TT> is replaced by the actual
+fully-specified path of the RSIM distribution.
+<P>
+The usage of the statistics-processing utilities is explained in
+Chapter&nbsp;<A HREF="node55.html#stats">6</A>. These utilities do not require compilation.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

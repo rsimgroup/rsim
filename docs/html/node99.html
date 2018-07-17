@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Cache Hierarchy</TITLE>
+<META NAME="description" CONTENT="Cache Hierarchy">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1580" HREF="node100.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1578" HREF="node68.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1572" HREF="node98.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1582" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1581" HREF="node100.html">Bringing in messages</A>
+<B>Up:</B> <A NAME="tex2html1579" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<B> Previous:</B> <A NAME="tex2html1573" HREF="node98.html">Deadlock avoidance</A>
+<BR> <P>
+<H1><A NAME="SECTION03700000000000000000">Cache Hierarchy</A></H1>
+<P>
+<A NAME="rsimmemsys_cache">&#160;</A>
+<P>
+RSIM simulates two levels of data cache. The first-level of cache can
+be either write-through with no-write-allocate or write-back with
+write-allocate.  The second-level cache is write-back with
+write-allocate and maintains inclusion of the first-level cache.  Each
+cache supports multiple outstanding misses and is pipelined. The
+first-level cache may also be multiported.  If the configuration uses
+a write-through L1 cache, a write-buffer is also included between the
+two levels of cache. The L1 cache tag and data access is modeled as a single
+access to a unified SRAM array,
+while an L2 cache access is modeled as an SRAM tag array access followed by an SRAM
+data array access. These arrays themselves are modeled as pipelines,
+processed by the functions in <TT>src/MemSys/pipeline.c</TT>
+<P>
+Like the processor, the cache hierarchy is activated by
+<TT>RSIM_EVENT</TT> function, which is scheduled to occur every cycle.
+<TT>RSIM_EVENT</TT>
+calls the functions <TT>L1CacheInSim</TT>,
+<TT>L2CacheInSim</TT>, <TT>L1CacheOutSim</TT>, and <TT>L2CacheOutSim</TT> for each
+cache,
+as mentioned in Section&nbsp;<A HREF="node76.html#rsimevent_cycle">10.1</A>. Each of these functions,
+as well as the functions called by those functions, are described in this
+chapter.
+<P>
+<BR> <HR>
+<UL> 
+<LI> <A NAME="tex2html1583" HREF="node100.html#SECTION03710000000000000000">Bringing in messages</A>
+<LI> <A NAME="tex2html1584" HREF="node101.html#SECTION03720000000000000000">Processing the cache pipelines</A>
+<LI> <A NAME="tex2html1585" HREF="node102.html#SECTION03730000000000000000">Processing L1 cache actions</A>
+<UL> 
+<LI> <A NAME="tex2html1586" HREF="node103.html#SECTION03731000000000000000">Handling <TT>REQUEST</TT> type</A>
+<LI> <A NAME="tex2html1587" HREF="node104.html#SECTION03732000000000000000">Handling <TT>REPLY</TT> type</A>
+<LI> <A NAME="tex2html1588" HREF="node105.html#SECTION03733000000000000000">Handling <TT>COHE</TT> type</A>
+</UL> 
+<LI> <A NAME="tex2html1589" HREF="node106.html#SECTION03740000000000000000">Processing L2 tag array accesses</A>
+<LI> <A NAME="tex2html1590" HREF="node107.html#SECTION03750000000000000000">Processing L2 data array accesses</A>
+<LI> <A NAME="tex2html1591" HREF="node108.html#SECTION03760000000000000000">Cache initialization and statistics</A>
+<LI> <A NAME="tex2html1592" HREF="node109.html#SECTION03770000000000000000">Discussion of cache coherence protocol implementation</A>
+<LI> <A NAME="tex2html1593" HREF="node110.html#SECTION03780000000000000000">Coalescing write buffer</A>
+<LI> <A NAME="tex2html1594" HREF="node111.html#SECTION03790000000000000000">Deadlock avoidance</A>
+</UL>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

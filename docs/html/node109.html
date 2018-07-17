@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Discussion of cache coherence protocol implementation</TITLE>
+<META NAME="description" CONTENT="Discussion of cache coherence protocol implementation">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1703" HREF="node110.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1701" HREF="node99.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1695" HREF="node108.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1705" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1704" HREF="node110.html">Coalescing write buffer</A>
+<B>Up:</B> <A NAME="tex2html1702" HREF="node99.html">Cache Hierarchy</A>
+<B> Previous:</B> <A NAME="tex2html1696" HREF="node108.html">Cache initialization and statistics</A>
+<BR> <P>
+<H1><A NAME="SECTION03770000000000000000">Discussion of cache coherence protocol implementation</A></H1>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/setup_cohe.c</TT>
+<P>
+<P>
+<P>
+RSIM supports two
+coherence protocols - MSI and MESI. Both of these protocol
+implementations are depicted in Figure&nbsp;<A HREF="node27.html#coherencepic">3.3</A>.
+In the MSI system, an
+explicit upgrade message is required for a read followed by a write,
+even if there are no other sharers.
+The MESI system overcomes this disadvantage. However, our MESI implementation
+requires a message to be sent to the directory on elimination 
+of an exclusive line from the L2 cache. 
+Some
+available MESI implementations avoid this replacement message; however,
+in such systems, the write-back of a modified line requires an acknowledgment from
+the memory controller and
+holds an entry in the write-back buffer until the reply
+arrives&nbsp;[<A HREF="node132.html#LaudonLenoski1997">12</A>]. In our system, on the other hand, a
+write-back does not cause a reply, and the write-back buffer entry is
+freed as soon as the write-back issues to the ports below the cache.
+The bandwidth tradeoff between these two choices is application-dependent.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Processor Memory Unit</TITLE>
+<META NAME="description" CONTENT="Processor Memory Unit">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1416" HREF="node86.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1414" HREF="node68.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1408" HREF="node84.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1418" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1417" HREF="node86.html">Adding new instructions to </A>
+<B>Up:</B> <A NAME="tex2html1415" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<B> Previous:</B> <A NAME="tex2html1409" HREF="node84.html">Principal data structures</A>
+<BR> <P>
+<H1><A NAME="SECTION03500000000000000000">Processor Memory Unit</A></H1>
+<P>
+<A NAME="rsimproc_memunit">&#160;</A>
+<P>
+The processor memory unit includes nearly as much complexity as the
+rest of
+the processor, which was discussed in Chapter&nbsp;<A HREF="node75.html#rsimproc_ooo">10</A>. 
+The functions provided include adding new memory instructions
+to the memory unit, generating addresses, issuing memory instructions
+to the memory hierarchy, and
+completing memory instructions in the memory hierarchy<A NAME="tex2html18" HREF="footnode.html#1572"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>. Throughout this entire process, the
+memory unit must consider the 
+ordering constraints described in Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>: constraints
+for precise exceptions, constraints for uniprocessor data dependences,
+and constraints for multprocessor memory consistency models.
+<P>
+The remainder of this section discusses the various tasks of the
+memory unit in the context of the above requirements. Note that the
+code for implementing sequential consistency (SC) or processor
+consistency (PC) is chosen by defining the preprocessor macro <TT>
+STORE_ORDERING</TT>, whereas the code for release consistency (RC) is
+selected by leaving that macro undefined.
+<P>
+<BR> <HR>
+<UL> 
+<LI> <A NAME="tex2html1419" HREF="node86.html#SECTION03510000000000000000">Adding new instructions to the memory unit</A>
+<LI> <A NAME="tex2html1420" HREF="node87.html#SECTION03520000000000000000">Address generation</A>
+<LI> <A NAME="tex2html1421" HREF="node88.html#SECTION03530000000000000000">Issuing instructions to the memory hierarchy</A>
+<LI> <A NAME="tex2html1422" HREF="node89.html#SECTION03540000000000000000">Completing memory instructions in the memory hierarchy</A>
+</UL>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

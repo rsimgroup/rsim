@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Deadlock avoidance</TITLE>
+<META NAME="description" CONTENT="Deadlock avoidance">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1723" HREF="node112.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1721" HREF="node99.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1717" HREF="node110.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1725" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1724" HREF="node112.html">Directory and Memory Simulation</A>
+<B>Up:</B> <A NAME="tex2html1722" HREF="node99.html">Cache Hierarchy</A>
+<B> Previous:</B> <A NAME="tex2html1718" HREF="node110.html">Coalescing write buffer</A>
+<BR> <P>
+<H1><A NAME="SECTION03790000000000000000">Deadlock avoidance</A></H1>
+<P>
+<A NAME="rsimmemsys_cache_deadlock">&#160;</A>
+<P>
+The caches guarantee that all incoming replies (<TT>REPLY</TT>s and <TT>
+COHE_REPLY</TT>s) are accepted even if they require further messages to
+be sent out. If a <TT>REPLY</TT> leads to a retry (either because of an <TT>RAR</TT>
+or a <TT>NackUpgradeConflictReply</TT>), the MSHR originally allocated
+by the <TT>REQUEST</TT> will be used as a resource from which to send
+the message to the cache ports. If a <TT>REPLY</TT> leads to a writeback
+or replacement message, its
+write-back buffer entry or MSHR can be used as a resource from which to send
+the message. In all cases, the resources needed to send any possible
+messages on <TT>REPLY</TT> are reserved at the time of the <TT>REQUEST</TT>.
+<P>
+Additionally, the tag arrays of the caches have a special port reserved
+for <TT>COHE</TT> messages to insure that these messages do not interact
+with <TT>REQUEST</TT>s or <TT>REPLY</TT>s to cause a deadlock. Such a port
+would likely be considered excessive in a real system; an alternative
+is to have the caches break deadlocks caused by <TT>COHE</TT>s by sending
+these messages back to the directory marked with <TT>s.reply</TT> fields
+set to <TT>RAR</TT> (request a retry).
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

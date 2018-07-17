@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Address generation</TITLE>
+<META NAME="description" CONTENT="Address generation">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1442" HREF="node88.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1440" HREF="node85.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1434" HREF="node86.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1444" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1443" HREF="node88.html">Issuing instructions to the </A>
+<B>Up:</B> <A NAME="tex2html1441" HREF="node85.html">Processor Memory Unit</A>
+<B> Previous:</B> <A NAME="tex2html1435" HREF="node86.html">Adding new instructions to </A>
+<BR> <P>
+<H1><A NAME="SECTION03520000000000000000">Address generation</A></H1>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/memunit.cc</TT>, <TT>src/Processor/pipestages.cc</TT>,
+<TT>src/Processor/exec.cc</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/Processor/memory.h</TT>
+<P>
+<P>
+<P>
+The <TT>CalculateAddress</TT> function is the
+first function called when an instruction in the memory unit no longer
+has address dependences. In this function, the <TT>addr</TT> and <TT>
+finish_addr</TT> fields of the <TT>instance</TT> are filled in using the
+<TT>GetAddr</TT> function. Additionally, the <TT>instance</TT> will be
+marked with a bus error (misalignment exception) if it is not aligned
+to an address boundary corresponding with its length<A NAME="tex2html19" HREF="footnode.html#1465"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>. <TT>GetAddr</TT> also marks serialization exceptions for stores
+of the floating-point status register (<TT>STFSR</TT>, <TT>STXFSR</TT>).
+<P>
+Next, the <TT>GenerateAddress</TT> function is called. If an
+address generation unit is free, the <TT>issue</TT> function sends this
+instruction to an address generation unit. Otherwise, the instruction
+is added to a queue of instructions stalling on an address generation
+unit. The instruction will be revived when a unit frees up, just as
+described in Section&nbsp;<A HREF="node75.html#rsimproc_ooo">10</A>.
+<P>
+After the instruction has passed through the address generation unit,
+the <TT>Disambiguate</TT> function is called. In this function, the <TT>
+addr_ready</TT> field of the instance is set, indicating to the memory
+issue stage that this instruction may be ready to issue. No additional
+processing occurs for loads. However, address generation for a store
+may allow the processor to detect violations of the uniprocessor
+constraints discussed above.  In particular, the processor can
+determine if a load that occurred later in program order than the
+given store was allowed to issue to the memory system and thereby
+obtain an incorrect value. This situation can arise based on the
+policy chosen with the ``-L'' command-line option (described in
+Chapter&nbsp;<A HREF="node28.html#cmd_line">4</A>).  Loads that have obtained values in this
+fashion are marked with the <TT>limbo</TT> field. If this store has an
+address that conflicts with any of the later <TT>limbo</TT> loads, the
+load is either forced to reissue (if ``-L1'' was used) or is marked
+with an exception (if ``-L2'' or the default policy was specified). On
+the other hand, if this store is the last prior store with an ambiguous
+address and does not conflict with a given load, that load is allowed
+to have its <TT>limbo</TT> field cleared and possibly leave the memory
+unit as a result. The memory unit must also check all loads that have
+issued to the memory hierarchy but not yet completed; if any of these loads has an address
+that conflicts with the newly disambiguated store, it must be forced
+to reissue.
+<P>
+<HR><A NAME="tex2html1442" HREF="node88.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1440" HREF="node85.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1434" HREF="node86.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1444" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1443" HREF="node88.html">Issuing instructions to the </A>
+<B>Up:</B> <A NAME="tex2html1441" HREF="node85.html">Processor Memory Unit</A>
+<B> Previous:</B> <A NAME="tex2html1435" HREF="node86.html">Adding new instructions to </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

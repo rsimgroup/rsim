@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Statistics collection</TITLE>
+<META NAME="description" CONTENT="Statistics collection">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1025" HREF="node57.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1023" HREF="node55.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1017" HREF="node55.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1027" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1026" HREF="node57.html">Overall performance statistics</A>
+<B>Up:</B> <A NAME="tex2html1024" HREF="node55.html">Statistics Collection and Debugging</A>
+<B> Previous:</B> <A NAME="tex2html1018" HREF="node55.html">Statistics Collection and Debugging</A>
+<BR> <P>
+<H1><A NAME="SECTION02510000000000000000">Statistics collection</A></H1>
+<P>
+RSIM provides a wide variety of statistics related to the processors,
+the caches, the network, and the memory system. RSIM prints a concise
+summary of the most important statistics on the standard error file
+and a detailed set of statistics on the simulation output file; both
+can be redirected through command line options. An application can use
+the phase-related functions and statistics-reporting functions described
+in Chapter&nbsp;<A HREF="node46.html#apps">5</A> to print statistics for relevant portions of the
+application separately, rather than for the entire application at once.
+<P>
+Additionally, RSIM provides partial statistics periodically (with a period
+set by the ``-A'' option), in which
+each processor specifies the amount of simulated time it has been
+executing, and the number of cycles since the last graduation (for
+this statistic, an aggregate class is not considered to provide any
+graduations until all instructions in the set have graduated). This
+information can be useful for detecting application deadlocks (if each
+synchronization is made into an aggregate class), or for detecting
+deadlocks caused by simulator changes. RSIM can be forced to print partial
+statistics immediately if the user sends an alarm signal to the
+RSIM process by invoking a <TT>kill -ALRM &lt;pid&gt;</TT> at the shell prompt,
+where <TT>&lt;pid&gt;</TT> is the UNIX process ID of the simulator.
+<P>
+<BR> <HR>
+<UL> 
+<LI> <A NAME="tex2html1028" HREF="node57.html#SECTION02511000000000000000">Overall performance statistics</A>
+<LI> <A NAME="tex2html1029" HREF="node58.html#SECTION02512000000000000000">Processor statistics</A>
+<LI> <A NAME="tex2html1030" HREF="node59.html#SECTION02513000000000000000">Cache, network, and memory statistics</A>
+</UL>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

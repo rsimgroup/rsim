@@ -1,0 +1,823 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Footnotes</TITLE>
+<META NAME="description" CONTENT="Footnotes">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+<DL> <DT><A NAME="162">...functions</A><DD>Currently, the only tested platform that does not
+use ELF is the Convex Exemplar with HP-UX.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="443">...scheduling</A><DD>An option for in-order scheduling is provided as a straightforward modification to the out-of-order scheduling pipeline, but is not well tested. Details of the implementation of this
+feature are provided in Section&nbsp;<A HREF="node77.html#rsimproc_decode">10.2</A>.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="445">...size</A><DD>Code for fewer renaming registers
+and consequent register stalls is included but has
+not been tested and is not exposed to the user. 
+Chapter&nbsp;<A HREF="node75.html#rsimproc_ooo">10</A> gives a more detailed explanation.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="446">...HREF="node25.html#rpipes_mem">3.2.3</A></A><DD>A
+command-line option is also provided to specify that non-memory instructions
+should also be dispatched to an issue window; by default, these instructions
+are issued directly from the active list. More details about this option
+are provided in Section&nbsp;<A HREF="node30.html#cmd_line_procparams">4.1.1</A>.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="447">...renaming</A><DD>Single-precision floating-point operations experience
+WAW (output) dependences because floating-point registers are mapped and
+renamed on double-precision boundaries. This is further discussed in Chapter&nbsp;<A HREF="node75.html#rsimproc_ooo">10</A>
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="336">...memory</A><DD>RSIM also does not include the ability to mark certain
+regions of memory uncached, a feature commonly associated with
+virtual memory
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="448">...below</A><DD>We do not expect applications to use this type of <TT>MEMBAR</TT>.
+It is currently used in RSIM only in the RSIM system trap library.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="377">...performed</A><DD>A
+store is globally performed when its value is visible to all processors; i.e.
+all other caches with a copy of the line have been invalidated. In RSIM, this is indicated when an acknowledgment for the store is received by the processor.
+A load is globally performed when its return value is bound and when the store whose value it returns is globally performed. In RSIM, this is detected when the load returns its value to the processor.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="449">...exceptions</A><DD>We use the terms
+<EM>exception</EM> and <EM>trap</EM> interchangably
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="395">...boundary</A><DD>The SPARC architecture also allows word-alignment for
+quadruple-precision floating-point loads and stores, but RSIM does
+not support such instructions.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="450">...subtraction)</A><DD>RSIM
+does not yet raise any exception on some unsupported instructions, such as
+64-bit integer operations or quadruple-precision
+floating-point accesses. It is the user's responsibility to insure that
+such instructions are not used. The compiler options we provide in
+Section&nbsp;<A HREF="node16.html#installing_apps">2.4</A> inform the compiler not to generate these
+instructions.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="452">...network</A><DD>The potential
+for supporting other network models is discussed in Section&nbsp;<A HREF="node124.html#rsimmemsys_net">15.3</A>.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="762">...<TT>filename</TT></A><DD><TT>SpecialInitOutput</TT>
+is simply an <TT>fopen</TT> followed by an <TT>fwrite</TT>.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="1572">...hierarchy</A><DD>Note that in this chapter, the terms <EM>issue</EM> and <EM>complete</EM> usually refer to issuing to the memory hierarchy and completion at the memory hierarchy. These are different from the issue and completion stages of the processor pipeline.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="1465">...length</A><DD>For some
+operations, the minimum alignment requirement specified in the ISA is
+smaller than the actual length of data transferred. However, we
+simulate a processor that traps and emulates instructions that are not
+aligned on a boundary equal to their length, as these seem more
+appropriate for high-performance implementation. That is, the
+possibility of having multiple cache line accesses and multiple page
+faults for a single instruction seems to be an undesirably difficult
+problem.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="1573">...barriers</A><DD>Because of the
+single-precision floating point problems discussed in
+Chapter&nbsp;<A HREF="node75.html#rsimproc_ooo">10</A>, single-precision loads do not issue until
+their output dependences are resolved. With static scheduling, subsequent
+loads will also be prevented from issuing.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="1804">...message</A><DD>In the code, the data structure allocated for
+such a message is called the <TT>REQ</TT> data structure. This data
+structure is used for requests and reply messages, for both data and
+coherence transactions.  We avoid using the term <TT>REQ</TT> in this
+manual to avoid any possible confusion with the <TT>REQUEST</TT> message
+type.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="1677">...<TT>READ_SH</TT></A><DD>If no other processors
+sharing
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="1810">...<TT>UPGRADE</TT></A><DD>In certain
+race conditions, <TT>UPGRADE</TT> is converted to <TT>READ_OWN</TT>, as described in Section&nbsp;<A HREF="node112.html#rsimmemsys_dir">14</A>.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="1811">...<TT>UPGRADE</TT></A><DD>In certain
+race conditions, <TT>UPGRADE</TT> is converted to <TT>READ_OWN</TT>, as described in Section&nbsp;<A HREF="node112.html#rsimmemsys_dir">14</A>.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="2212">...request</A><DD>In the L2 cache, this
+will return <TT>NOMSHR_STALL_COHE</TT> if there is currently a <TT>
+COHE</TT> request pending on the line. This indicates that no MSHR has
+been consumed, but this <TT>REQUEST</TT> must wait for the pending <TT>
+COHE</TT> first.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="1915">...stall</EM></A><DD>WAR stalls
+are not usually seen with straightforward implementations of
+consistency models, as stores following loads to the same line
+generally depend on the values of those loads. Consequently, such
+stores cannot issue in straightforward implementations until the loads
+complete.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="2219">...used</A><DD>Recall that the simulator code refers
+to the MESI states as <TT>PR_DY</TT>, <TT>PR_CL</TT>, <TT>SH_CL</TT>, and
+<TT>INVALID</TT>, respectively.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE><DT><A NAME="2184">...studies&nbsp;[<A HREF="node132.html#SkadronClark1997">21</A>]</A><DD>Note that our architecture does permit
+``forwarding'' of values in the processor memory unit.
+<PRE>.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</PRE> </DL>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

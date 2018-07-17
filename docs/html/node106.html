@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Processing L2 tag array accesses</TITLE>
+<META NAME="description" CONTENT="Processing L2 tag array accesses">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1670" HREF="node107.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1668" HREF="node99.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1662" HREF="node105.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1672" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1671" HREF="node107.html">Processing L2 data array </A>
+<B>Up:</B> <A NAME="tex2html1669" HREF="node99.html">Cache Hierarchy</A>
+<B> Previous:</B> <A NAME="tex2html1663" HREF="node105.html">Handling COHE type</A>
+<BR> <P>
+<H1><A NAME="SECTION03740000000000000000">Processing L2 tag array accesses</A></H1>
+<P>
+<A NAME="rsimmemsys_cache_l2tag">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/l2cache.c</TT>, <TT>src/MemSys/mshr.c</TT>, <TT>src/MemSys/cachehelp.c</TT>, <TT>src/MemSys/setup_cohe.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/cache.h</TT>, <TT>incl/MemSys/mshr.h</TT>
+<P>
+<P>
+<P>
+The function <TT>L2ProcessTagReq</TT> is called for accesses that have
+reached the head of an L2 tag array pipeline. <TT>L2ProcessTagReq</TT> is
+largely similar to <TT>L1ProcessTagReq</TT> but has some key
+differences, described below.
+<P>
+<P>
+<P>
+<B>Difference 1: Presence of a data array</B>
+<P>
+<P>
+<P>
+The first difference between <TT>L1ProcessTagReq</TT> and <TT>L2ProcessTagReq</TT> deals with the data array. <TT>
+REQUEST</TT>s that hit, the data response for <TT>REPLY</TT>s, as well as the
+copyback portions of <TT>COHE</TT> messages and write-backs (whether
+replacements at the L2 or unsolicited fills from the L1) all require
+data array accesses.
+<P>
+<P>
+<P>
+<B>Difference 2: Servicing <TT>COHE</TT> messages</B>
+<P>
+<P>
+<P>
+For <TT>COHE</TT> messages, the L2 cache marks the line in question with
+a ``pending-coherence'' bit and then forwards possible actions to the
+L1 cache first.
+<P>
+The actual actions for the message are processed at
+the time of the <TT>COHE_REPLY</TT>; however, <TT>NACK_PEND</TT> responses
+from the L1 cache are forwarded to the directory immediately for
+non-<TT>WRB</TT> messages. The pending-coherence bit is also cleared
+upon receiving the <TT>COHE_REPLY</TT>.
+<P>
+Additionally, the L2 cache is responsible for
+resolving cache-to-cache transfer requests.  On a successful
+cache-to-cache transfer, the L2 cache not only sends a <TT>
+COHE_REPLY</TT> acknowledgment or copyback to the directory, but also
+sends a <TT>REPLY</TT> to the requesting processor with the desired
+data. The cache-to-cache transfer policy follows that depicted in
+Figure&nbsp;<A HREF="node27.html#coherencepic">3.3</A>.
+<P>
+<P>
+<P>
+<B>Difference 3: Additional conditions for stalling <TT>REQUEST</TT> messages</B>
+<P>
+<P>
+<P>
+The <TT>notpres_mshr</TT> function adds two further conditions for
+stalling <TT>REQUEST</TT> messages in the case of the L2 cache.
+<P>
+<TT>REQUEST</TT>s that hit a line with its pending-coherence bit set
+receive a return value of <TT>NOMSHR_STALL_COHE</TT> from <TT>
+notpres_mshr</TT>. This indicates that no MSHR has been consumed, but
+that this <TT>REQUEST</TT> must wait for the pending <TT>COHE</TT>
+first. This case does not appear in the L1 cache because that cache
+does not have pending-coherence bits for lines.
+<P>
+If the <TT>REQUEST</TT> is not able to reserve a space in the write-back
+buffer for its expected <TT>REPLY</TT>, the <TT>notpres_mshr</TT> function
+returns <TT>NOMSHR_STALL_WRBBUF_FULL</TT>. This indicates to the
+function <TT>L2ProcessTagReq</TT> that no MSHR will be allocated for this
+<TT>REQUEST</TT> until space in the write-back buffer becomes available.
+<P>
+<P>
+<P>
+<B>Difference 4: Handling retries</B>
+<P>
+<P>
+<P>
+The L2 cache accepts <TT>REPLY</TT>s from the directory with the <TT>s.reply</TT>
+field set to <TT>RAR</TT> (request a retry). This indicates that the directory
+could not process the <TT>REQUEST</TT> and is returning it to avoid
+deadlock. In this case, the cache must reissue the original <TT>REQUEST</TT>.
+The cache uses the MSHR originally allocated by the <TT>REQUEST</TT> as
+a resource from which to reissue the <TT>REQUEST</TT>, thus allowing the
+retry message to be accepted even if the outbound <TT>REQUEST</TT> port
+is blocked.
+<P>
+<P>
+<P>
+<B>Difference 5: Handling replacements caused by replies</B>
+<P>
+<P>
+<P>
+The most significant differences between <TT>L1ProcessTagReq</TT> and <TT>L2ProcessTagReq</TT> deal with the handling of
+replacements. The L2 cache has a write-back buffer for victimization
+messages to the directory.
+Before a <TT>REQUEST</TT> can be sent out,
+the <TT>notpres_mshr</TT> function must ensure that there will be a
+write-back buffer space available for the reply.
+<P>
+When the <TT>REPLY</TT>
+returns to the cache, a write-back buffer is tentatively booked.
+<P>
+<P>
+<P>
+<B>Difference 5a: Replies that replace no line or a shared line</B>
+<P>
+<P>
+<P>
+If the <TT>REPLY</TT> causes no replacement, the write-back buffer space is
+freed. If the <TT>REPLY</TT> replaces a shared line, the cache sends
+a subset enforcement invalidation to the L1 cache, possibly using the
+write-back buffer entry as a resource from which to send the invalidation.
+This resource is added to the smart MSHR list simulator abstraction.
+<P>
+<P>
+<P>
+<B>Difference 5b: Replies that replace an exclusive line</B>
+<P>
+<P>
+<P>
+However, if the <TT>REPLY</TT> causes a replacement of
+an exclusive line, the write-back buffer space may actually be used for
+data as well.
+<P>
+If the L1
+cache above is write-through, an invalidation message is sent up
+to the L1 cache. If it cannot be sent immediately, the cache
+uses the write-back buffer entry as a resource from
+which to send the message. After the invalidation message is
+sent up, the write-back or replacement message tries to
+issue from the write-back buffer entry to the port below it.
+Again, if this message cannot be sent immediately, the write-back
+buffer entry will be used as a resource to hold the message until
+it can be sent. In both cases, the write-back buffer entry
+is added to the smart MSHR list simulator abstraction.
+<P>
+If the L1 cache is write-back, the <TT>WRB</TT>
+first passes through the L2 data array if the line in L2
+is held in dirty state, then to the L1 cache as a subset-enforcement <TT>COHE</TT>
+message.
+The next <TT>WRB</TT> coherence reply from the L1 is used to
+either replace the data currently held for the line in the write-back
+buffer (on a positive acknowledgment) or to inform the cache that the
+L1 cache did not have the desired data (on a <TT>NACK</TT>).  A variety
+of races are handled in these cases, as the L1 may send an
+unsolicited write-back at nearly the same time as the L2 sends a
+request for a write-back. The details of these races are explained
+in the inline documentation with the code.
+<P>
+If neither the L2 nor the L1 had the line in
+dirty state, a <TT>REPL</TT> message, rather than a <TT>WRB</TT> is sent to
+the directory.  The directory-bound write-back or replacement message uses
+its write-back buffer entry as a resource from which to send the
+message to insure that an inability to
+send out a <TT>WRB</TT> does not stall the <TT>REPLY</TT> that
+caused the replacement or the <TT>COHE_REPLY</TT> from the subset-enforcement
+<TT>WRB</TT>. Once the write-back or replacement message issues to
+the port below it, its space in the write-back buffer is cleared.
+<P>
+<HR><A NAME="tex2html1670" HREF="node107.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1668" HREF="node99.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1662" HREF="node105.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1672" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1671" HREF="node107.html">Processing L2 data array </A>
+<B>Up:</B> <A NAME="tex2html1669" HREF="node99.html">Cache Hierarchy</A>
+<B> Previous:</B> <A NAME="tex2html1663" HREF="node105.html">Handling COHE type</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

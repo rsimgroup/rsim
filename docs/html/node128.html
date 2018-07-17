@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Debugging Support</TITLE>
+<META NAME="description" CONTENT="Debugging Support">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1918" HREF="node129.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1916" HREF="node126.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1912" HREF="node127.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1920" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1919" HREF="node129.html">Implementation of predecode and </A>
+<B>Up:</B> <A NAME="tex2html1917" HREF="node126.html">Statistics and Debugging Support</A>
+<B> Previous:</B> <A NAME="tex2html1913" HREF="node127.html">Statistics</A>
+<BR> <P>
+<H1><A NAME="SECTION031020000000000000000">Debugging Support</A></H1>
+<P>
+<A NAME="rsim_debug">&#160;</A>
+<P>
+RSIM provides a variety of debugging information for the developer
+looking to make changes to the system. Currently, the caches, bus,
+network interfaces, and directory have corresponding <TT>#define</TT>s
+which, when set at compile time, cause these modules to trace each of
+their important actions on the simulation output, along with
+information related to the specific access being considered. Any or
+all of these debugging options can be used at any time to trace the
+behavior of these modules.  Additionally, the processor provides a
+variety of tracing information for each pipeline stage and each
+instruction execution if the <TT>COREFILE</TT> option is defined at
+compile-time. Each processor produces a trace file
+called <TT>corefile.<EM>i</EM></TT>, where <EM>i</EM> is the unique identifier for
+the processor.
+The <TT>Makefile</TT> provided in the <TT>obj/dbg</TT> directory has
+all the common debugging options set so as to produce the maximum
+possible tracing output. Generally speaking, this is the desired level
+of tracing for most significant simulator changes.
+<P>
+In addition to this tracing provided by RSIM, RSIM can be run through
+any standard debugger. However, applications being simulated under
+RSIM cannot be debugged using a standard debugger from within the RSIM
+environment, as RSIM does not expose information about the
+application being simulated to the debugger.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

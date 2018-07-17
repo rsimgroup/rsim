@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Configuration file</TITLE>
+<META NAME="description" CONTENT="Configuration file">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html797" HREF="node38.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html795" HREF="node28.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html789" HREF="node36.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html799" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html798" HREF="node38.html">Overall system parameters</A>
+<B>Up:</B> <A NAME="tex2html796" HREF="node28.html">Configuring RSIM</A>
+<B> Previous:</B> <A NAME="tex2html790" HREF="node36.html">Simulator control and debugging</A>
+<BR> <P>
+<H1><A NAME="SECTION02320000000000000000">Configuration file</A></H1>
+<P>
+Several configuration inputs can be passed to
+RSIM through the configuration file on the simulation input
+(which can be redirected using ``-0'' or ``-z'' above). 
+Sample configuration files are provided in the <TT>inputs</TT>
+directory of the distribution. Additional files 
+can be generated with the aid of the Javascript utility <TT>
+rsimconfig.html</TT> in the <TT>inputs</TT> directory of the
+distribution. This utility can be used with any WWW-browser that
+supports Javascript (e.g.  Netscape 2.0 or higher): the utility produces a list
+of configuration parameters for RSIM in the browser window.
+The configuration parameters
+produced should be copied from the browser window 
+(using cut, copy, and paste) into a file that can
+be used as the RSIM configuration file.
+<P>
+The parameters that can be specified in the configuration file are given below. Each parameter in the input
+file will be followed by either a non-negative integer or a string, 
+as specified
+below. The parameters are not case sensitive. If any one of these is
+not included, RSIM will use the default value specified in the list
+below (thus, if only default configuration is desired, the simulation
+input should be redirected to <TT>/dev/null</TT>). If any parameter is listed
+multiple times in the configuration file, the last one specifies the actual
+value used.
+<P>
+If the same input file will be used for both the simulator input and
+the application input, the configuration parameters should be given
+first, and the pseudo-parameter <B>STOPCONFIG</B> should be used to
+separate the simulator input from the application input. As with all
+other parameters, <B>STOPCONFIG</B> must be followed by an argument;
+however, this argument is ignored in this case.
+<P>
+<BR> <HR>
+<UL> 
+<LI> <A NAME="tex2html800" HREF="node38.html#SECTION02321000000000000000">Overall system parameters</A>
+<LI> <A NAME="tex2html801" HREF="node39.html#SECTION02322000000000000000">Processor parameters</A>
+<LI> <A NAME="tex2html802" HREF="node40.html#SECTION02323000000000000000">Cache hierarchy parameters</A>
+<LI> <A NAME="tex2html803" HREF="node41.html#SECTION02324000000000000000">Bus parameters</A>
+<LI> <A NAME="tex2html804" HREF="node42.html#SECTION02325000000000000000">Directory and memory parameters</A>
+<LI> <A NAME="tex2html805" HREF="node43.html#SECTION02326000000000000000">Interconnection network parameters</A>
+<LI> <A NAME="tex2html806" HREF="node44.html#SECTION02327000000000000000">Queue sizes connecting memory and network modules</A>
+</UL>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

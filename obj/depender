@@ -1,0 +1,12 @@
+#!/bin/csh -f
+
+# Transforms dependfile
+onintr cleanup
+
+grep 'c$' $1 | awk '{z=split($1,file,":"); n=split($NF,ext,"."); if (ext[n] == "c") {flags="$(C";comp="$(CC";} else flags=comp="$(C++"; printf("%s:\n\t%s) $(CPPFLAGS) %sFLAGS) -c %s\n",file[1],comp,flags,$NF)}' >/tmp/DEPENDFILE.$$
+
+cat /tmp/DEPENDFILE.$$ >> $1
+
+cleanup:
+rm /tmp/DEPENDFILE.$$
+exit 0

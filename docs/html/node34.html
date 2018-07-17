@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Other architectural configuration parameters</TITLE>
+<META NAME="description" CONTENT="Other architectural configuration parameters">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html766" HREF="node35.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html764" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html758" HREF="node33.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html768" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html767" HREF="node35.html">Parameters related to simulation </A>
+<B>Up:</B> <A NAME="tex2html765" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html759" HREF="node33.html">Approximate simulation models</A>
+<BR> <P>
+<H2><A NAME="SECTION02315000000000000000">Other architectural configuration parameters</A></H2>
+<P>
+<DL ><DT><STRONG>-n</STRONG>
+<DD> Turn on simulation of private accesses. Currently supported only
+in single processor mode. It is highly recommended that this option be
+used if RSIM is used in uniprocessor studies.
+<DT><STRONG>-W</STRONG>
+<DD> Addresses in the shared region of the RSIM application address space are
+normally associated with a specific home node, which provides the
+directory services for those addresses. If an address being accessed
+has not been associated with a specific home node using <TT>AssociateAddrNode</TT>
+(described in Chapter&nbsp;<A HREF="node46.html#apps">5</A>), the default action for RSIM
+is to print a warning message and associate the cache line using
+a first-touch policy. If the ``-W'' option is used, no warning message
+is printed.
+<P>
+ </DL><BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

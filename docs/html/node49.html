@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Synchronization support for multiprocessor applications</TITLE>
+<META NAME="description" CONTENT="Synchronization support for multiprocessor applications">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html940" HREF="node50.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html938" HREF="node46.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html932" HREF="node48.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html942" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html941" HREF="node50.html">Statistics collection</A>
+<B>Up:</B> <A NAME="tex2html939" HREF="node46.html">Porting Applications to RSIM</A>
+<B> Previous:</B> <A NAME="tex2html933" HREF="node48.html">RSIM applications library</A>
+<BR> <P>
+<H1><A NAME="SECTION02430000000000000000">Synchronization support for multiprocessor applications</A></H1>
+<P>
+<A NAME="apps_syncsupport">&#160;</A>
+<P>
+The RSIM applications library
+supports three types of multiprocessor
+synchronization primitives - locks, flags (or pauses), and barriers.  To
+use the lock and flag synchronization functions, the application must
+include the header file <TT>&lt;locks.h&gt;</TT>; for barriers, the application
+must include <TT>&lt;treebar.h&gt;</TT>.
+<P>
+Locks are supported through a test-and-test-and-set mechanism. The
+lock functions act on a single integer in a
+shared region (one allocated with <TT>shmalloc</TT>). These locks should be declared volatile in order to prevent the
+compiler from optimizing accesses to them. The macro <TT>
+GETLOCK(int *lock)</TT> takes a pointer to the lock as an argument and
+spins with a test-and-test-and-set loop until the lock is available.
+The macro <TT>FREELOCK(int *lock)</TT> takes a pointer to the lock
+as an argument and frees the lock. Both of these macros invoke
+functions which perform the necessary operations. These macros
+also include the
+<TT>MEMBAR</TT> instructions required for release consistency. All instructions
+within a lock acquire form an aggregate class of type <TT>ACQ</TT> for
+statistics purposes, while
+instructions within a lock release are aggregated as <TT>REL</TT>.
+<P>
+Flags are supported through an ordinary spinning mechanism. The macro
+<TT>WAITFLAG(int *flag, int val)</TT> spins on the flag pointed to
+by <TT>flag</TT> until the integer value held in that address reaches
+the value of <TT>val</TT>. Similarly, the macro <TT>WRITEFLAG(int
+*flag, int val)</TT> sets the value addressed by <TT>flag</TT> to <TT>val</TT>.
+The functions associated with both of these macros include the
+necessary <TT>MEMBAR</TT> instructions for RC. Flag instructions are not
+aggregated by default, as these are often used in code to form novel
+synchronization types (such as prefix-summing trees). If the user
+desires to have flags counted as an aggregate class, he or she
+must explicitly place a <TT>START_&lt;agg&gt;</TT> and <TT>END_&lt;agg&gt;</TT> around
+flag macros, where <TT>&lt;agg&gt;</TT> represents one of the aggregate classes
+discussed in Section&nbsp;<A HREF="node50.html#apps_stats">5.4</A>. The aggregate class <TT>SPIN</TT> is provided specifically
+for this purpose; alternatively, the <TT>USR&lt;num&gt;</TT> aggregates can be
+used to isolate several independent flags.
+<P>
+The only type of barrier supported is a simple binary tree barrier.  A
+tree barrier is a structure of type <TT>TreeBar</TT> and can be declared
+as an ordinary global variable. The function <TT>TreeBarInit(TreeBar
+*bar, int numprocs)</TT> is used to initialize the tree barrier to a
+barrier that requires the specified number of processors. This
+function should
+be
+called before the <TT>fork()</TT> system call is invoked. When
+synchronizing, each processor should call the macro <TT>
+TREEBAR(TreeBar *bar, int pid)</TT>, where <TT>pid</TT> is the processor's
+unique ID number (initially determined through <TT>getpid()</TT>).
+The function called by this macro includes
+the necessary <TT>MEMBAR</TT> instructions. All instructions
+within a barrier are aggregated as  type <TT>BAR</TT>.
+<P>
+The set of PARMACS macros provided with the RSIM distribution (described
+in Section&nbsp;<A HREF="node16.html#installing_apps">2.4</A>) defines all the synchronization
+macros used in SPLASH and SPLASH-2 applications.
+<P>
+The user will need to provide any other synchronization desired (such
+as more advanced mutual exclusion mechanisms or barriers). The user
+should be careful to place the appropriate <TT>MEMBAR</TT>s in any such
+synchronizing libraries. The macros <TT>ACQ_MEMBAR</TT> and <TT>REL_MEMBAR</TT>
+are provided in the header file <TT>&lt;traps.h&gt;</TT> for the user's
+convenience: <TT>ACQ_MEMBAR</TT> should be inserted after an acquire,
+while <TT>REL_MEMBAR</TT> should be placed before a release operation to ensure
+that the appropriate fence operations are used with the RC model.
+<P>
+<HR><A NAME="tex2html940" HREF="node50.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html938" HREF="node46.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html932" HREF="node48.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html942" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html941" HREF="node50.html">Statistics collection</A>
+<B>Up:</B> <A NAME="tex2html939" HREF="node46.html">Porting Applications to RSIM</A>
+<B> Previous:</B> <A NAME="tex2html933" HREF="node48.html">RSIM applications library</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

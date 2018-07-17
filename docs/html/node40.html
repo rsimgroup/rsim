@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Cache hierarchy parameters</TITLE>
+<META NAME="description" CONTENT="Cache hierarchy parameters">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html837" HREF="node41.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html835" HREF="node37.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html829" HREF="node39.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html839" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html838" HREF="node41.html">Bus parameters</A>
+<B>Up:</B> <A NAME="tex2html836" HREF="node37.html">Configuration file</A>
+<B> Previous:</B> <A NAME="tex2html830" HREF="node39.html">Processor parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION02323000000000000000">Cache hierarchy parameters</A></H2>
+<P>
+<DL ><DT><STRONG>l1type</STRONG>
+<DD> This parameter specifies the L1 cache type. If ``WT'' is
+chosen, a write-through cache with no-write-allocate is used. If ``WB''
+is chosen, a write-back cache with write-allocate is used. With a write-through
+cache, the system will also have a coalescing write-buffer. (In either case, the secondary
+cache is write-back with write-allocate. ) The default is ``WT''.
+<DT><STRONG>linesize</STRONG>
+<DD> The number given here specifies the cache-line size in bytes. Defaults to 64.
+<DT><STRONG>l1size</STRONG>
+<DD> This number specifies the size of the L1 cache in kilobytes. Defaults to 16.
+<DT><STRONG>l1assoc</STRONG>
+<DD> This number specifies the set associativity of the L1 cache. The cache uses an LRU-like replacement policy within each set (the policy uses LRU ages, but prefers
+		to evict lines held in shared state rather than lines held in exclusive state, and unmodified lines
+		rather than modified lines). Defaults to 1.
+<DT><STRONG>l1ports</STRONG>
+<DD> Specifies the number of cache request ports at the
+L1 cache. Defaults to 2.
+<DT><STRONG>l1taglatency</STRONG>
+<DD> Specifies the cache access latency at the L1 cache (for both tag and data access).
+Defaults to 1. (With the assumption of a 300 MHz processor, this
+represents a 3 ns on-chip SRAM.) 
+<DT><STRONG>l2size</STRONG>
+<DD> This number specifies the size of the L2 cache in kilobytes. Defaults to 64.
+<DT><STRONG>l2assoc</STRONG>
+<DD> This number specifies the set associativty of the L2 cache.  The cache uses an LRU-like replacement policy within each set. Defaults to 4.
+<DT><STRONG>l2taglatency</STRONG>
+<DD> Specifies the access latency of the L2 cache tag array.
+Defaults to 3.
+<DT><STRONG>l2datalatency</STRONG>
+<DD> Specifies the access latency of the L2 cache data array.
+Defaults to 5.
+<P>
+<DT><STRONG>wrbbufextra</STRONG>
+<DD> The L2 cache includes a buffer for
+sending subset enforcement messages to the L1 cache and write-backs
+to memory. Write-backs remain in the buffer only until issuing to the
+bus, and subset enforcement messages remain only until issuing to the
+level 1 cache. This buffer must contain at least one entry for each L2 MSHR,
+since each outbound request may result in a replacement upon reply. The
+number specified with <B>wrbbufextra</B> indicates the number of additional
+entries to provide for the write-back buffer in order to allow more
+outgoing requests while other write-backs still have not issued. Defaults
+to 0. (More details about the write-back buffer are given in Chapter&nbsp;<A HREF="node99.html#rsimmemsys_cache">13</A>.)
+<P>
+<DT><STRONG>ccprot</STRONG>
+<DD> The string given here specifies the cache-coherence protocol
+of the system; <TT>mesi</TT> and <TT>msi</TT> are acceptable values. Defaults to
+<TT>mesi</TT>.
+<P>
+<DT><STRONG>wbufsize</STRONG>
+<DD> If a write-through L1 cache is used, this parameter 
+specifies the number of cache lines in the coalescing write-buffer. With 
+a write-back L1 cache, this parameter is ignored. Defaults to 8.
+<P>
+<DT><STRONG>mshrcoal</STRONG>
+<DD> This number specifies the maximum number of requests
+that can coalesce into a cache MSHR or a write buffer line. Defaults to 16
+(64 is the maximum allowable).
+<P>
+ </DL><HR><A NAME="tex2html837" HREF="node41.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html835" HREF="node37.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html829" HREF="node39.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html839" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html838" HREF="node41.html">Bus parameters</A>
+<B>Up:</B> <A NAME="tex2html836" HREF="node37.html">Configuration file</A>
+<B> Previous:</B> <A NAME="tex2html830" HREF="node39.html">Processor parameters</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

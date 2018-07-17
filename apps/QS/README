@@ -1,0 +1,130 @@
+README file in /home/rsim/rsim-1.0/apps/QS/
+-------------------------------------------
+
+Overview of this directory
+--------------------------
+
+This directory contains the code for the "Quicksort" application. This
+program implements the quicksort algorithm on a specified array of
+integers. The directory is organized as follows:
+
+src:
+	contains the source and header files
+obj:
+	contains the object files (not provided)
+execs:
+	contains the executable and the predecoded executable
+		(used by RSIM)
+testoutputs:
+	some sample output files
+
+makefile:
+	the makefile to produce the executable in the execs directory.
+
+Making the executable
+---------------------
+An executable with the default compilation options is already provided.
+If you desire to make another one, then type
+"make execs/quicksort.out.dec" in this directory
+(/path_to_rsim/rsim-1.0/apps/QS).
+
+
+Running the executable with RSIM
+--------------------------------
+
+The command line parameters for Quicksort are as follows:
+
+  QS - OPTIONS
+      -p - Number of processors
+      -s - Size of array
+      -b - Bubble threshold
+      -B - Bubble
+      -d - Display output
+      -v - Verify results
+      -H - Help
+
+Following are example command lines to run quicksort with RSIM (the outputs
+of these runs are found in the testoutputs directory).
+
+These examples run quicksort on the default architecture for 1,2,4,
+and 8 processor systems. More examples on how to change the
+configuration can be found in the RSIM manual (refer to the docs
+directory). Replace "/home/rsim/rsim-1.0" with the actual directory of
+the RSIM distribution.
+
+cd /home/rsim/rsim-1.0/apps/QS/execs; /home/rsim/rsim-1.0/obj/ultra140/rsim -f
+quicksort -S quicksortp1_1x4d -D../testoutputs -0 /dev/null -z /dev/null -W --
+-p1 -s16384 -v
+
+cd /home/rsim/rsim-1.0/apps/QS/execs; /home/rsim/rsim-1.0/obj/ultra140/rsim -f
+quicksort -S quicksortp2_1x4d -D../testoutputs -0 /dev/null -z /dev/null -W --
+-p2 -s16384 -v
+
+cd /home/rsim/rsim-1.0/apps/QS/execs;/home/rsim/rsim-1.0/obj/ultra140/rsim -f
+quicksort -S quicksortp4_1x4d -D../testoutputs -0 /dev/null -z /dev/null -W --
+-p4 -s16384 -v 
+
+cd /home/rsim/rsim-1.0/apps/QS/execs; /home/rsim/rsim-1.0/obj/ultra140/rsim -f
+quicksort -S quicksortp8_1x4d -D../testoutputs -0 /dev/null -z /dev/null -W --
+-p8 -s16384 -v 
+
+NOTE: The problem sizes in these examples are too small to make any
+meaningful evaluation of the results from these runs. These examples are
+only meant to be representative examples to indicate how to run
+applications with RSIM. Also, please verify that the program gives correct
+results by testing for the "correct sort" message:
+
+~rsim/rsim-1.0/apps/QS/testoutputs> grep Congrats *out
+quicksortp1_1x4d_out:Congrats!! Program successful!! :-)
+quicksortp2_1x4d_out:Congrats!! Program successful!! :-)
+quicksortp4_1x4d_out:Congrats!! Program successful!! :-)
+quicksortp8_1x4d_out:Congrats!! Program successful!! :-)
+
+Utilities to process statistics
+-------------------------------
+
+Ensure that your PATH variable is set to include the bin directory of
+the RSIM distribution.
+
+########################### PSTATS UTILITY ###########################
+
+To run the pstats utility described in Chapter 6 of the RSIM manual,
+type the following in the testoutputs directory:
+
+% pstats quicksortp1_1x4d_err quicksortp2_1x4d_err 1
+
+A sample output of this utility is available in the file
+"quicksortpstats" in the testoutputs directory.
+
+######################### STATS_MISS UTILITY #########################
+
+To run the stats_miss utility described in Chapter 6 of the RSIM
+manual, type the following in the testoutputs directory:
+
+% stats_miss -cache 1 quicksortp1_1x4d quicksortp2_1x4d 1
+
+A sample output of this utility is available in the file
+"quicksortstats_miss" in the testoutputs directory.
+
+########################### PLOTALL UTILITY ##########################
+
+To run the plotall utility described in Chapter 6 of the RSIM manual,
+type the following in the testoutputs directory:
+
+% plotall quicksort speedup quicksortp1_1x4d_err quicksortp2_1x4d_err
+quicksortp4_1x4d_err quicksortp8_1x4d_err 1
+
+This command produces the files quicksortspeedup_exec.cmd,
+quicksortspeedup_exec.ps, quicksortspeedup_wt.cmd, and
+quicksortspeedup_wt.ps, where the .cmd files are splot command files,
+and the .ps files are postscript files. These files are located in the
+testoutputs directory.
+
+############################ MSHR UTILITY ############################
+
+% MSHR quicksort p1 quicksortp1_1x4d_stat 1 p2 quicksortp2_1x4d_stat 1
+
+This command produces MSHR_quicksortL1.cmd , MSHR_quicksortL1.ps ,
+MSHR_quicksortL2.cmd, and MSHR_quicksortL2.ps files where the .cmd
+files are splot command files and the .ps files are postscript
+files. These files are located in the testoutputs directory.

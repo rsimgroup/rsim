@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>RSIM memory and network systems</TITLE>
+<META NAME="description" CONTENT="RSIM memory and network systems">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html665" HREF="node28.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html663" HREF="node20.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html659" HREF="node26.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html667" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html666" HREF="node28.html">Configuring RSIM</A>
+<B>Up:</B> <A NAME="tex2html664" HREF="node20.html">Architectural Model</A>
+<B> Previous:</B> <A NAME="tex2html660" HREF="node26.html">Exception handling</A>
+<BR> <P>
+<H1><A NAME="SECTION02230000000000000000">RSIM memory and network systems</A></H1>
+<P>
+Figure&nbsp;<A HREF="node27.html#RPPTPIC">3.2</A> shows the memory and network system organization in
+RSIM. RSIM simulates a
+hardware
+cache-coherent distributed shared memory system (a CC-NUMA), with variations of a full-mapped invalidation-based
+directory coherence protocol.  Each processing node
+consists of a processor, a two level cache
+hierarchy (with a coalescing write buffer if the first-level cache
+is write-through), a portion of the system's distributed physical memory
+and its associated directory, and a network interface. A pipelined
+split-transaction bus connects the secondary cache, the memory and directory
+modules, and the network interface. Local communication within the node
+takes place on the bus. The network interface connects the node to
+a multiprocessor interconnection network for remote communication.
+<P>
+<P><A NAME="425">&#160;</A><A NAME="RPPTPIC">&#160;</A> <IMG WIDTH=572 HEIGHT=454 ALIGN=BOTTOM ALT="figure423" SRC="img4.gif"  > <BR>
+<STRONG>Figure 3.2:</STRONG> The RSIM memory system<BR>
+<P>
+<P>
+Both cache levels are
+lockup-free and store the state of outstanding requests using miss
+status holding registers (MSHRs)[<A HREF="node132.html#Kroft1981">10</A>].
+<P>
+The first-level cache can either be a write-through cache with a
+no-allocate policy on writes, or a write-back cache with a
+write-allocate policy. RSIM allows for a multiported and pipelined
+first level cache. Lines are replaced only on incoming replies.
+The size, line size, set associativity, cache
+latency, number of ports, and number of MSHRs can be varied.
+<P>
+The coalescing write buffer is implemented as a buffer with cache-line-sized
+entries. All writes are buffered here and sent to the second level cache
+as soon as the second level cache is free to accept a new request. The
+number of entries in the write buffer is configurable.
+<P>
+The second-level cache is a write back cache with write-allocate. RSIM
+allows for a pipelined secondary cache. Lines are replaced only on incoming replies; more details of the protocol implementation are given in Chapter&nbsp;<A HREF="node99.html#rsimmemsys_cache">13</A>. The secondary cache maintains
+inclusion with respect to the first-level cache. The size, line size,
+set associativity, cache latency, and number of MSHRs
+can be varied.
+<P>
+The memory is interleaved, with multiple modules available on each
+node. The memory is accessed in parallel with an interleaved
+directory, which implements a full-mapped cache coherence protocol.
+The memory access time, the memory interleaving factor, the
+minimum directory access time, and the time to
+create coherence packets at the directory are all configurable parameters.
+<P>
+The directory
+can support either a MESI protocol with Modified, Exclusive, Shared,
+and Invalid states, or a three-state MSI protocol.
+The RSIM directory protocol and cache controllers support cache to
+cache transfers (shown in Figure&nbsp;<A HREF="node27.html#coherencepic">3.3</A> as ``$ to $'').
+Figure&nbsp;<A HREF="node27.html#coherencepic">3.3</A> gives simplified state diagrams for both
+protocols, showing the key states and transitions at the caches due to
+processor requests and external coherence actions. Internally, the
+protocols also include transient states at the directory and caches;
+these conditions are handled according to mechanisms specified in
+Chapters&nbsp;<A HREF="node99.html#rsimmemsys_cache">13</A>&nbsp;and&nbsp;<A HREF="node112.html#rsimmemsys_dir">14</A>.
+<P>
+For local communication within a node, RSIM models a pipelined
+split-transaction bus connecting the L2 cache, the local memory,
+and the local network interface. The bus speed, bus width, and
+bus arbitration delay are all configurable.
+<P>
+For remote communication, RSIM currently supports a two-dimensional mesh network<A NAME="tex2html15" HREF="footnode.html#452"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.
+RSIM models a pipelined wormhole-routed network with contention at the
+various switches. For deadlock avoidance, the system includes separate
+request and reply networks. The flit delay per network hop, the width of the
+network, the buffer size at each switch, and the length of each
+packet's control header are user-configurable parameters.
+<P>
+<P><A NAME="440">&#160;</A><A NAME="coherencepic">&#160;</A> <IMG WIDTH=607 HEIGHT=867 ALIGN=BOTTOM ALT="figure435" SRC="img5.gif"  > <BR>
+<STRONG>Figure 3.3:</STRONG> Coherence protocols in RSIM<BR>
+<P><HR><A NAME="tex2html665" HREF="node28.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html663" HREF="node20.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html659" HREF="node26.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html667" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html666" HREF="node28.html">Configuring RSIM</A>
+<B>Up:</B> <A NAME="tex2html664" HREF="node20.html">Architectural Model</A>
+<B> Previous:</B> <A NAME="tex2html660" HREF="node26.html">Exception handling</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Moving data initialization offline</TITLE>
+<META NAME="description" CONTENT="Moving data initialization offline">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html984" HREF="node54.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html982" HREF="node52.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html976" HREF="node52.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html986" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html985" HREF="node54.html">Avoiding memory system simulation</A>
+<B>Up:</B> <A NAME="tex2html983" HREF="node52.html">Options to improve simulation </A>
+<B> Previous:</B> <A NAME="tex2html977" HREF="node52.html">Options to improve simulation </A>
+<BR> <P>
+<H2><A NAME="SECTION02461000000000000000">Moving data initialization offline</A></H2>
+<P>
+The RSIM applications library provides two special-purpose functions, <TT>
+SpecialInitInput</TT> and <TT>SpecialInitOutput</TT>, that can be used in
+some cases to bypass the initialization phase of an application.
+In applications that
+spend a large amount of time in initialization, the
+initialization phase can be run through RSIM or natively on the host
+machine once. After the initialization phase, a ``snapshot'' of the
+state of the memory can be taken, such that later simulation runs can
+load this snapshot into their memory space in lieu of actually simulating
+the initialization phase.
+<P>
+The <TT>SpecialInitOutput</TT> function allows the memory values of a
+program variable to be stored to a file specified in the
+arguments. For example,
+<P>
+<P>
+<P>
+<TT>SpecialInitOutput(char *array, int size, char *filename);</TT>
+<P>
+allows the contents of the program variable specified by <TT>
+bigarray</TT> of size (in bytes) specified by <TT>size</TT> to be stored in
+the file specified by <TT>filename</TT><A NAME="tex2html17" HREF="footnode.html#762"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.
+<P>
+The <TT>SpecialInitInput</TT> function can then be used in the actual
+simulated run of the application to load the contents of this file
+into the data array and quickly initialize the data structures. <TT>
+SpecialInitInput</TT> can be invoked as follows,
+<P>
+<P>
+<TT>SpecialInitInput(char *array, int size, char *filename);</TT>
+<P>
+The <TT>SpecialInitInput</TT> and <TT>SpecialInitOutput</TT> functions thus provide
+a
+simple way to facilitate offline (faster) initialization to be interfaced with
+a more detailed simulation methodology.
+<P>
+Note that the values held in these data arrays should not include
+pointers, as the pointers used in the native or simulated run which
+invoked <TT>SpecialInitOutput</TT> may not correspond to the pointers
+needed by the simulated runs which will call <TT>SpecialInitInput</TT>.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

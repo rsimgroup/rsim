@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Instruction fetch and decode</TITLE>
+<META NAME="description" CONTENT="Instruction fetch and decode">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1330" HREF="node78.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1328" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1322" HREF="node76.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1332" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1331" HREF="node78.html">Branch prediction</A>
+<B>Up:</B> <A NAME="tex2html1329" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1323" HREF="node76.html">Overview of RSIM_EVENT</A>
+<BR> <P>
+<H1><A NAME="SECTION03420000000000000000">Instruction fetch and decode</A></H1>
+<P>
+<A NAME="rsimproc_decode">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/pipestages.cc</TT>, <TT>src/Processor/tagcvt.cc</TT>,
+<TT>src/Processor/active.cc</TT>, <TT>src/Processor/stallq.cc</TT>
+<P>
+<P>
+<P>
+Headers: <TT>incl/Processor/state.h</TT>, <TT>incl/Processor/instance.h</TT>, <TT>
+incl/Processor/instruction.h</TT>, <TT>incl/Processor/mainsim.h</TT>, <TT>
+incl/Processor/decode.h</TT>, <TT>incl/Processor/tagcvt.h</TT>, <TT>
+incl/Processor/active.h</TT>, <TT>incl/Processor/stallq.h</TT>
+<P>
+<P>
+<P>
+Since RSIM currently does not model an instruction cache, the
+instruction fetch and decode peline stages are merged. This stage
+starts with the function <TT>decode_cycle</TT>, called from <TT>
+maindecode</TT>.
+<P>
+The function <TT>decode_cycle</TT> starts out by looking in the
+processor stall queue, which consists of instructions that were
+decoded in a previous cycle but could not be added to the processor
+active list, either because of insufficient renaming registers or
+insufficient active list size. The processor will stop decoding new
+instructions by setting the processor field <TT>stall_the_rest</TT>
+after the first stall of this sort, so the stall queue should have at
+most one element. If there is an instruction in the stall queue, <TT>
+check_dependencies</TT> is called for it (described below). If this
+function succeeds, the instruction is removed from the processor stall
+queue. Otherwise, the processor continues to stall instruction
+decoding.
+<P>
+After processing the stall queue, the processor will decode the
+instructions for the current cycle. If the program counter is valid
+for the application instruction region, the processor will read the
+instruction at that program counter, and convert the static <TT>
+instr</TT> data strucutre to a dynamic <TT>instance</TT> data structure
+through the function <TT>decode_instruction</TT>. The <TT>instance</TT> is
+the fundamental dynamic form of the instruction that is passed among
+the various functions in RSIM. If the program counter is not valid for
+the application, the processor checks to see if the processor is in
+privileged mode. If so, and if the program counter points to a valid
+instruction in the trap-table, the
+processor reads an instruction from the trap-table instead. If the
+processor is not in privileged mode, or the PC is not valid in the
+trap-table, the processor generates a single invalid instruction that
+will cause an illegal PC exception. Such a PC can arise through either an
+illegal branch or jump, or through speculation (in which case the
+invalid instruction will be flushed before it causes a trap).
+<P>
+The <TT>decode_instruction</TT> function sets a variety of fields in the
+<TT>instance</TT> data structure. First, the various fields associated
+with the memory unit are cleared, and some fields associated with
+instruction registers and results are cleared. The relevant statistics
+fields are also initialized.
+<P>
+Then, the <TT>tag</TT> field of the <TT>instance</TT> is set to hold
+the value of the processor instruction counter. The <TT>tag</TT> field is
+the unique instruction id of the <TT>instance</TT>; currently, this field
+is set to be unique for each processor throughout the course of a
+simulation. Then, the <TT>win_num</TT> field of the instance is
+set. This represents the processor's register window pointer (<TT>
+cwp</TT> or current window pointer) at the time of decoding this
+instruction.
+<P>
+<TT>decode_instruction</TT> then sets the functional unit type and
+initializes dependence fields for this <TT>instance</TT>.  Additionally,
+the <TT>stall_the_rest</TT> field of the processor is cleared; since a
+new instruction is being decoded, it is now up to the progress of this
+instruction to determine whether or not the processor will stall.
+<P>
+At this point, the <TT>instance</TT> must determine its logical source
+registers and the physical registers to which they are mapped. In the
+case of integer registers (which may be windowed), the function <TT>
+convert_to_logical</TT> is called to convert from a window number and
+architectural register number to an integer register identifier that
+identifies the logical register number used to index into the register map table
+(which does not account for register windows).
+If an invalid source register number is specified, the
+instruction will be marked with an illegal instruction trap.
+<P>
+At this point, the <TT>instance</TT> must handle the case where it is an
+instruction that will change the processor's register window pointer
+(such as <TT>SAVE</TT> or <TT>RESTORE</TT>).  The processor provides two
+fields (<TT>CANSAVE</TT> and <TT>CANRESTORE</TT>) that identify the number
+of windowing operations that can be allowed to
+proceed&nbsp;[<A HREF="node132.html#Sun1993">23</A>]. If the processor can not handle the current
+windowing operation, this instance must be marked with a register
+window trap, which will later be processed by the appropriate trap
+handler.  Otherwise, the <TT>instance</TT> will change its <TT>win_num</TT>
+to reflect the new register window number.
+<P>
+In a release consistent system, the processor will now detect <TT>
+MEMBAR</TT> operations and note the imposed ordering constraints.  These
+constraints will be used by the memory unit.
+<P>
+The <TT>instance</TT> will now determine its logical destination register
+numbers, which will later be used in the renaming stage.  If the
+previous instruction was a delayed branch, it would have set the processor's
+<TT>copymappernext</TT> field (as described below). If the <TT>copymappernext</TT> field is set,
+then this instruction
+is the delay slot of the previous delayed branch and must try to allocate a shadow
+mapper. The <TT>branchdep</TT> field of the <TT>instance</TT> is set to
+indicate this.
+<P>
+Now the processor PC and NPC are stored with each created <TT>
+instance</TT>.  We store program counters with each instruction not to
+imitate the actual behavior of a system, but rather as a simulator
+abstraction.  If the <TT>instance</TT> is a branch instruction, the
+function <TT>decode_branch_instruction</TT> is called to predict or set
+the new program counter values; otherwise, the PC is updated to the
+NPC, and the NPC is incremented. <TT>decode_branch_instruction</TT> may
+also set the <TT>branchdep</TT> field of the <TT>instance</TT> (for
+predicted branches that may annul the delay slot), the <TT>
+copymappernext</TT> field of the processor (for predicted, delayed
+branches), or the <TT>unpredbranch</TT> field of the processor (for
+unpredicted branches).
+<P>
+If the <TT>instance</TT> is predicted as a taken branch, then the
+processor will temporarily set the <TT>stall_the_rest</TT> field to
+prevent any further instructions from being decoded this cycle, as we
+currently assume that the processor cannot decode instructions from
+different regions of the address space in the same cycle.
+<P>
+After this point, control returns to <TT>decode_cycle</TT>. This
+function now adds the decoded instruction to the tag converter, a
+structure used to convert from the <TT>tag</TT> of the <TT>instance</TT>
+into an <TT>instance</TT> data structure pointers. This structure is
+used internally for communication among the modules of the simulator.
+<P>
+Now the <TT>check_dependencies</TT> function is called for the dynamic
+instruction. If RSIM was invoked with the ``-q'' option and there are
+too many unissued instructions to allow this one into the issue
+window, this function will stall further decoding and return.  If RSIM
+was invoked with the ``-X'' option for static scheduling and even one
+prior instruction is still waiting to issue (to the ALU, FPU, 
+or address generation unit), further decoding is stopped and
+this function returns.
+Otherwise,
+this function will attempt to provide renaming registers for each of
+the destination registers of this instruction, stalling if there are
+none available. As each register is remapped in this fashion, the old
+mapping is added to the active list (so that the appropriate register
+will be freed when this instruction graduates), again stalling if
+the active list
+has filled up. It is only after this point that a windowing
+instruction actually changes the register window pointer of the
+processor, updating the <TT>CANSAVE</TT> and <TT>CANRESTORE</TT> fields
+appropriately. Note that single-precision floating point registers
+(referred to as <TT>REG_FPHALF</TT>) are mapped and renamed according to
+double-precision boundaries to account for the register-pairing
+present in the SPARC architecutre&nbsp;[<A HREF="node132.html#Sun1993">23</A>]. As a result,
+single-precision floating point codes are likely to experience
+significantly poorer performance than double-precision codes, actually
+experiencing the negative effects of anti-dependences and
+output-dependences which are otherwise resolved by register renaming.
+<P>
+If a resource was not available at any point above, <TT>
+check_dependencies</TT> will set <TT>stall_the_rest</TT> and return an
+error code, allowing the <TT>instance</TT> to be added to the stall
+queue. Although the simulator assumes that there are enough renaming
+registers for the specified active-list size by default, <TT>
+check_dependences</TT> also includes code to stall if the instruction
+could not obtain its desired renaming registers.
+<P>
+After the <TT>instance</TT> has received its renaming registers and
+active list space, <TT>check_dependences</TT> continues with further
+processing.
+If the instruction requires a shadow mapper (has <TT>branchdep</TT> set to
+2, as described above), the processor tries to allocate a shadow mapper by calling <TT>
+AddBranchQ</TT>. If a shadow mapper is available, the <TT>branchdep</TT>
+field is cleared.  Otherwise, the <TT>stall_the_rest</TT> field of the
+processor is set and the <TT>instance</TT> is added to the queue of
+instructions waiting for shadow mappers. If the processor had its <TT>
+unpredbranch</TT> field set, the <TT>stall_the_rest</TT> field is set,
+either at the branch itself (on an annulling branch), or at the delay
+slot (for a non-annulling delayed branch).
+<P>
+The <TT>instance</TT> now checks for outstanding register dependences.
+The <TT>instance</TT> checks the busy bit of each source register (for
+single-precision floating-point operations, this includes the
+destination register as well). For each busy bit that is set, the
+instruction is put on a <EM>distributed stall queue</EM> for the
+appropriate register. If any busy bit is set, the <TT>truedep</TT> field
+is set to 1. If the busy bits of <TT>rs2</TT> or <TT>rscc</TT> are set, the
+<TT>addrdep</TT> field is set to 1 (this field is used to allow memory
+operations to generate their addresses while the source registers for
+their value might still be outstanding).
+<P>
+If the instruction is a memory operation, it is now dispatched to the
+memory unit, if there is space for it. If there is no space, either
+the operation is attached to a queue of instructions waiting for the
+memory unit (if the processor has dynamic scheduling and ``-q'' was not used to invoke RSIM), or the processor
+is stalled until space is available (if the processor has
+static scheduling, or has dynamic scheduling with the ``-q'' option to
+RSIM).
+<P>
+If the instruction has no true dependences, the <TT>SendToFU</TT>
+function is called to allow this function to issue in the next stage.
+<P>
+<TT>decode_cycle</TT> continues looping until it decodes all the
+instructions it can (and is allowed to by the architectural specifications)
+in a given cycle.
+<P>
+<HR><A NAME="tex2html1330" HREF="node78.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1328" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1322" HREF="node76.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1332" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1331" HREF="node78.html">Branch prediction</A>
+<B>Up:</B> <A NAME="tex2html1329" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1323" HREF="node76.html">Overview of RSIM_EVENT</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

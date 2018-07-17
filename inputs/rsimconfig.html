@@ -1,0 +1,216 @@
+<HTML>
+<HEAD>
+<TITLE>RSIM configuration form</TITLE>
+<LINK REV="MADE" HREF="mailto:rsim@ece.rice.edu">
+<META name="resource-type" content="document">
+<META name="distribution" content="global">
+<script language="JavaScript">
+<!--- hide script from old browsers
+
+function myisNaN(val)
+{
+  // Windows doesn't have isNaN, so parseInt returns 0 there. In those
+  // cases, we're in trouble
+  if (navigator.userAgent.indexOf("Win",0) != -1)
+    return false;
+  return isNaN(val);  
+}
+
+function ispowof2(name,val)
+{
+  val2 = parseInt(val);
+  if (!myisNaN(val2))
+    {
+      while (val2 > 1)
+        val2 /= 2;
+      if (val2 == 1)
+        return true;
+    }
+  alert("The " +name+ " must be a power of 2.\nThe value " +val + " is unacceptable\n");
+  return false;
+}
+
+function localprocess(form1,tarea,printall)
+{
+  if (!ispowof2("number of memory banks", form1.meminterleaving.value)
+      
+      || !ispowof2("branch table size",form1.bpbsize.value)
+      || !ispowof2("return address stack size",form1.rassize.value)
+      || !ispowof2("line size",form1.linesize.value)
+      || !ispowof2("number of L1 cache sets",form1.l1size.value*1024/(form1.linesize.value*form1.l1assoc.value))
+      || !ispowof2("number of L2 cache sets",form1.l2size.value*1024/(form1.linesize.value*form1.l2assoc.value))
+      )
+    {
+      return false;
+    }
+
+  tarea.value="";
+
+  for (i=0; i<form1.elements.length-1; i++)
+    {
+      // we currently use only text items that are non-negative integers
+      // and radio items.
+      
+      if (form1.elements[i].type == "text" && (form1.elements[i].value != form1.elements[i].defaultValue || printall))
+	{
+	  if (!myisNaN(parseInt(form1.elements[i].value)) && (form1.elements[i].value >= 0))
+	    tarea.value += form1.elements[i].name + "\t" + form1.elements[i].value + "\n";
+	  else
+	    {
+	      alert("Field " + form1.elements[i].name + " must have non-negative integer value. " + form1.elements[i].value + " is not acceptable");
+	    }
+	}
+      else if (form1.elements[i].type == "radio" && form1.elements[i].checked && (!form1.elements[i].defaultChecked || printall))
+	tarea.value += form1.elements[i].name + "\t" + form1.elements[i].value + "\n";
+    }
+
+  tarea.value+="STOPCONFIG 1\n";
+  return false;
+}
+
+// end hiding from old browsers -->
+</script>
+</HEAD>
+
+
+<BODY>
+<FORM NAME="form1" METHOD="GET" ACTION="nojavascript.html" onSubmit="return localprocess(this,this.tarea,this.printall.checked)">
+
+
+<H2>Overall system parameters</H2>
+
+Number of nodes in system: <INPUT TYPE="TEXT" NAME="numnodes" VALUE="16" SIZE="3" MAXLENGTH="3"> <P>
+Request header size (in bytes): <INPUT TYPE="TEXT" NAME="reqsz" VALUE="16" SIZE="3" MAXLENGTH="3"> <BR>(includes address, destination ID, source ID, command type, etc.)<P>
+
+
+<H2>Processor parameters</H2>
+
+Branch predictor type: <BR>
+<INPUT TYPE="RADIO" NAME="bpbtype" VALUE="2bit" CHECKED>2-bit history<BR>
+<INPUT TYPE="RADIO" NAME="bpbtype" VALUE="2bitagree">2-bit agree<BR>
+<INPUT TYPE="RADIO" NAME="bpbtype" VALUE="static">static<P>
+
+Size of branch prediction table (unused if static): <INPUT TYPE="TEXT" NAME="bpbsize" VALUE="512" SIZE="5" MAXLENGTH="5"><BR>
+Number of shadow mappers: <INPUT TYPE="TEXT" NAME="shadowmappers" VALUE="8" SIZE="3" MAXLENGTH="3"><BR>
+Return address stack size: <INPUT TYPE="TEXT" NAME="rassize" VALUE="4" SIZE="3" MAXLENGTH="3"><P>
+
+Number of functional units:
+ALU: <INPUT TYPE="TEXT" NAME="numalus" VALUE="2" SIZE="2" MAXLENGTH="2">
+FPU: <INPUT TYPE="TEXT" NAME="numfpus" VALUE="2" SIZE="2" MAXLENGTH="2">
+Addr. gen.: <INPUT TYPE="TEXT" NAME="numaddrs" VALUE="2" SIZE="2" MAXLENGTH="2"> <P>
+
+Number of register windows (including 1 reserved for system): <INPUT TYPE="TEXT" NAME="regwindows" VALUE="8" SIZE="2" MAXLENGTH="2" onChange="if (!ispowof2('number of register windows',this.value)) this.value = this.defaultValue; if (this.value < 4 || this.value > 32) {alert('Number of register windows must be between 4 and 32, inclusive');this.value=this.defaultValue;}"> <P>
+Functional unit latencies and repeat rates:<BR>
+The repeat delay if the number of cycles before a functional unit is
+ready to start processing a new input (the inverse of the repeat rate).<BR>
+<TABLE BORDER=8>
+<TR><TD>Description</TD><TD>Latency</TD><TD>Repeat delay</TD></TR>
+<TR><TH>Common ALU operations</TH><TH><INPUT TYPE="TEXT" NAME="latint" VALUE="1" SIZE="3" MAXLENGTH="3"></TH><TH><INPUT TYPE="TEXT" NAME="repint" VALUE="1" SIZE="3" MAXLENGTH="3"></TH></TR>
+<TR><TH>Integer multiply</TH><TH><INPUT TYPE="TEXT" NAME="latmul" VALUE="3" SIZE="3" MAXLENGTH="3"></TH><TH><INPUT TYPE="TEXT" NAME="repmul" VALUE="1" SIZE="3" MAXLENGTH="3"></TH></TR>
+<TR><TH>Integer divide</TH><TH><INPUT TYPE="TEXT" NAME="latdiv" VALUE="9" SIZE="3" MAXLENGTH="3"></TH><TH><INPUT TYPE="TEXT" NAME="repdiv" VALUE="1" SIZE="3" MAXLENGTH="3"></TH></TR>
+<TR><TH>Integer shift</TH><TH><INPUT TYPE="TEXT" NAME="latshift" VALUE="1" SIZE="3" MAXLENGTH="3"></TH><TH><INPUT TYPE="TEXT" NAME="repshift" VALUE="1" SIZE="3" MAXLENGTH="3"></TH></TR>
+<TR><TH>Common FPU operations</TH><TH><INPUT TYPE="TEXT" NAME="latflt" VALUE="3" SIZE="3" MAXLENGTH="3"></TH><TH><INPUT TYPE="TEXT" NAME="repflt" VALUE="1" SIZE="3" MAXLENGTH="3"></TH></TR>
+<TR><TH>FPU move/abs/neg</TH><TH><INPUT TYPE="TEXT" NAME="latfmov" VALUE="1" SIZE="3" MAXLENGTH="3"></TH><TH><INPUT TYPE="TEXT" NAME="repfmov" VALUE="1" SIZE="3" MAXLENGTH="3"></TH></TR>
+<TR><TH>FPU conversions</TH><TH><INPUT TYPE="TEXT" NAME="latfconv" VALUE="4" SIZE="3" MAXLENGTH="3"></TH><TH><INPUT TYPE="TEXT" NAME="repfconv" VALUE="2" SIZE="3" MAXLENGTH="3"></TH></TR>
+<TR><TH>FPU divide</TH><TH><INPUT TYPE="TEXT" NAME="latfdiv" VALUE="10" SIZE="3" MAXLENGTH="3"></TH><TH><INPUT TYPE="TEXT" NAME="repfdiv" VALUE="6" SIZE="3" MAXLENGTH="3"></TH></TR>
+<TR><TH>FPU square root</TH><TH><INPUT TYPE="TEXT" NAME="latfsqrt" VALUE="10" SIZE="3" MAXLENGTH="3"></TH><TH><INPUT TYPE="TEXT" NAME="repfsqrt" VALUE="6" SIZE="3" MAXLENGTH="3"></TH></TR>
+</TABLE>
+
+Maximum stack size per process (in KB): <INPUT TYPE="TEXT" NAME="maxstack" VALUE="1024" SIZE="5" MAXLENGTH="5"> <P>
+
+
+<H2>Cache hierarchy parameters</H2>
+
+L1 cache type: <BR>
+<INPUT TYPE="RADIO" NAME="l1type" VALUE="WT" CHECKED>write-through, no-write-allocate <BR><INPUT TYPE="RADIO" NAME="l1type" VALUE="WB">write-back, write-allocate<P>
+
+Cache line size: <INPUT TYPE="TEXT" NAME="linesize" VALUE="64" SIZE="3" MAXLENGTH="3"> <P>
+
+L1 cache size (in KB): <INPUT TYPE="TEXT" NAME="l1size" VALUE="16" SIZE="5" MAXLENGTH="5"> <BR> 
+L1 set associativity: <INPUT TYPE="TEXT" NAME="l1assoc" VALUE="1" SIZE="3" MAXLENGTH="3"> <BR> 
+Number of L1 cache request ports: <INPUT TYPE="TEXT" NAME="l1ports" VALUE="2" SIZE="2" MAXLENGTH="2" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; alert('Changing L1 to Write buffer/L2 port size below to match number of L1 ports');form1.portszl1wbreq.value=this.value;form1.portszl1l2req.value=this.value"> <BR> 
+L1 cache access latency (in processor cycles): <INPUT TYPE="TEXT" NAME="l1taglatency" VALUE="1" SIZE="2" MAXLENGTH="2"> <P>
+
+L2 cache size (in KB): <INPUT TYPE="TEXT" NAME="l2size" VALUE="64" SIZE="5" MAXLENGTH="5"> <BR> 
+L2 set associativity: <INPUT TYPE="TEXT" NAME="l2assoc" VALUE="4" SIZE="3" MAXLENGTH="3"> <BR> 
+L2 cache tag array access latency (in processor cycles): <INPUT TYPE="TEXT" NAME="l2taglatency" VALUE="3" SIZE="3" MAXLENGTH="3"> <BR> 
+L2 cache data array access latency (in processor cycles): <INPUT TYPE="TEXT" NAME="l2datalatency" VALUE="5" SIZE="3" MAXLENGTH="3"> <BR>
+Extra write-back buffer entries: <INPUT TYPE="TEXT" NAME="wrbbufextra" VALUE="0" SIZE="3" MAXLENGTH="3"><P> 
+
+Cache coherence protocol: <BR>
+<INPUT TYPE="RADIO" NAME="ccprot" VALUE="mesi" CHECKED>MESI<BR>
+<INPUT TYPE="RADIO" NAME="ccprot" VALUE="msi">MSI<P>
+
+Write buffer size (used only with write-through L1 cache): <INPUT TYPE="TEXT" NAME="wbufsize" VALUE="8" SIZE="5" MAXLENGTH="5"> <P>
+
+Limit on number of coalesced requests in an MSHR: <INPUT TYPE="TEXT" NAME="mshrcoal" VALUE="16" SIZE="2" MAXLENGTH="2"> <P>
+
+<H2>Bus parameters</H2>
+
+Bus width (in bytes): <INPUT TYPE="TEXT" NAME="buswidth" VALUE="32" SIZE="3" MAXLENGTH="3"> <BR>
+Bus cycle time (in processor cycles): <INPUT TYPE="TEXT" NAME="buscycle" VALUE="3" SIZE="2" MAXLENGTH="2"> <BR>
+Bus arbitration delay (in processor cycles): <INPUT TYPE="TEXT" NAME="busarbdelay" VALUE="1" SIZE="2" MAXLENGTH="2"> <BR>
+
+<H2>Directory and memory parameters</H2>
+
+DRAM access latency (not counting bus or cache delays; in processor cycles): <INPUT TYPE="TEXT" NAME="memorylatency" VALUE="18" SIZE="5" MAXLENGTH="5"> <BR> 
+Minimum directory access latency (for non-data responses; in processor cycles): <INPUT TYPE="TEXT" NAME="dircycle" VALUE="3" SIZE="5" MAXLENGTH="5"> <BR>
+Degree of directory/memory interleaving per node: <INPUT TYPE="TEXT" NAME="meminterleaving" VALUE="4" SIZE="3" MAXLENGTH="3"> <BR>
+Directory pending request buffer size: <INPUT TYPE="TEXT" NAME="dirbufsize" VALUE="64" SIZE="5" MAXLENGTH="5"> <BR>
+Directory coherence packet creation time, initial (in processor cycles): <INPUT TYPE="TEXT" NAME="dirpacketcreate" VALUE="12" SIZE="5" MAXLENGTH="5"> <BR>
+Directory coherence packet creation time, subsequent (in processor cycles): <INPUT TYPE="TEXT" NAME="dirpacketcreateaddtl" VALUE="6" SIZE="5" MAXLENGTH="5"> <BR>
+<P>
+
+<H2>Interconnection network parameters</H2>
+
+Network flit size (in bytes): <INPUT TYPE="TEXT" NAME="flitsize" VALUE="8" SIZE="5" MAXLENGTH="5">  <BR>
+Flit delay at network switches (in processor cycles): <INPUT TYPE="TEXT" NAME="flitdelay" VALUE="4" SIZE="5" MAXLENGTH="5">  <BR>
+Arbitration delay at network multiplexers (in processor cycles): <INPUT TYPE="TEXT" NAME="arbdelay" VALUE="4" SIZE="5" MAXLENGTH="5">  <BR>
+Granularity of switch pipelining (in processor cycles; 0 means non-pipelined): <INPUT TYPE="TEXT" NAME="pipelinedsw" VALUE="2" SIZE="5" MAXLENGTH="5">  <BR>
+Switch buffer size (in flits): <INPUT TYPE="TEXT" NAME="netbufsize" VALUE="64" SIZE="5" MAXLENGTH="5">  <BR>
+Port buffer size (in packets): <INPUT TYPE="TEXT" NAME="netportsize" VALUE="64" SIZE="5" MAXLENGTH="5">  <P>
+
+<H2>Queue sizes connecting various modules</H2>
+
+These queues are described in greater detail in the manual.
+The entries here represent the number of messages that can be held
+in each queue at a time. Note that an entry in a port queue is
+removed as soon as the appropriate module can start processing it.
+Thus, if the module can start processing new transactions every cycle
+(as the caches and write-buffer do in the absence of contention), the
+number of entries represents the maximum number of new transactions of
+that type for a given cycle (if the module itself can support that many).<P>
+
+<TABLE BORDER=8>
+<TR><TD>Description</TD><TD>Value</TD></TR>
+<TR><TH>L1 to Write buffer (<TT>REQ</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszl1wbreq" VALUE="2" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>Write buffer to L1 (<TT>REPLY</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszwbl1rep" VALUE="1" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>Write buffer to L2 (<TT>REQ</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszwbl2req" VALUE="1" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>L2 to Write buffer(<TT>REPLY</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszl2wbrep" VALUE="1" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>L1 to L2 (<TT>REQ</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszl1l2req" VALUE="2" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>L2 to L1 (<TT>REPLY</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszl2l1rep" VALUE="1" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>L2 to L1 (<TT>COHE</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszl2l1cohe" VALUE="1" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>L1 to L2 (<TT>COHE_REPLY</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszl1l2cr" VALUE="1" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>L2 to Bus (<TT>REQ</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszl2busreq" VALUE="8" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>Bus to L2 (<TT>REPLY</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszbusl2rep" VALUE="2" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>Bus to L2 (<TT>COHE</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszbusl2cohe" VALUE="2" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>L2 to Bus (<TT>COHE_REPLY/REPLY</TT>)</TH><TH><INPUT TYPE="TEXT" NAME="portszl2buscr" VALUE="8" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>Bus to other modules (per port)</TH><TH><INPUT TYPE="TEXT" NAME="portszbusother" VALUE="16" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+<TR><TH>Directory to Bus (per port)</TH><TH><INPUT TYPE="TEXT" NAME="portszdir" VALUE="64" SIZE="3" MAXLENGTH="3" onChange="if (myisNaN(parseInt(this.value))) this.value = this.defaultValue; if (this.value <=0) this.value=1"></TH></TR>
+</TABLE>
+
+
+<INPUT TYPE="checkbox" NAME="printall">Print all parameters (even unchanged ones) <P>
+
+<INPUT TYPE="SUBMIT" VALUE="Process form"><INPUT TYPE="RESET" VALUE="Reset form">
+<BR>
+After the form is processed, select the text in the buffer below, and copy
+it into a file using cut and paste. (Unless "print all parameters" is selected, the buffer will only contains fields that are set differently from the default). <P>
+ <HR>
+
+<TEXTAREA NAME="tarea" ROWS="10" COLS="60" WRAP="off">
+</TEXTAREA>
+
+</FORM>
+</BODY>
+</HTML>

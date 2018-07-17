@@ -1,0 +1,107 @@
+This is TeX, Version 3.14159 (C version 6.1) (format=latex 96.5.30)  7 AUG 1997 14:21
+**images.tex
+(images.tex
+LaTeX2e <1995/06/01> patch level 3
+Hyphenation patterns for english, german, loaded.
+
+(/usr/site/teTeX/texmf/tex/latex/base/book.cls
+Document Class: book 1995/06/26 v1.3g Standard LaTeX document class
+(/usr/site/teTeX/texmf/tex/latex/base/bk10.clo
+File: bk10.clo 1995/06/26 v1.3g Standard LaTeX file (size option)
+)
+\c@part=\count82
+\c@chapter=\count83
+\c@section=\count84
+\c@subsection=\count85
+\c@subsubsection=\count86
+\c@paragraph=\count87
+\c@subparagraph=\count88
+\c@figure=\count89
+\c@table=\count90
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (/usr/site/teTeX/texmf/tex/generic/misc/psfig.sty
+\@unused=\write3
+\ps@stream=\read1
+\p@intvaluex=\dimen103
+\p@intvaluey=\dimen104
+psfig/tex 1.10-dvips
+) (/usr/site/teTeX/texmf/tex/latex/misc/fullpage.sty
+Style Option FULLPAGE Version 2 as of 15 Dec 1988
+)
+\lthtmlwrite=\write4
+\sizebox=\box26
+(images.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 17.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 17.
+latex2htmlSize :tex2html_wrap_inline3912: 3.66875pt::0.0pt.
+[1
+
+
+]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 22.
+(/usr/site/teTeX/texmf/tex/latex/base/OMScmr.fd
+File: OMScmr.fd 1995/04/22 v2.3f Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 22.
+latex2htmlSize :tex2html_wrap_inline3914: 4.60695pt::1.94444pt.
+[2
+
+]
+psfig: searching rpipes-blocks.eps for bounding box
+psfig: including rpipes-blocks.eps 
+[3]
+psfig: searching rppt.eps for bounding box
+psfig: including rppt.eps 
+[4]
+psfig: searching coherence_mesi.eps for bounding box
+psfig: including coherence_mesi.eps 
+psfig: searching coherence_msi.eps for bounding box
+psfig: including coherence_msi.eps 
+[5]
+latex2htmlSize :tex2html_wrap_inline3926: 3.66875pt::0.0pt.
+[6
+
+
+
+
+]
+psfig: searching memmodel.eps for bounding box
+psfig: including memmodel.eps 
+[7]
+psfig: searching port_connect.eps for bounding box
+psfig: including port_connect.eps 
+[8]
+psfig: searching meshswitch.eps for bounding box
+psfig: including meshswitch.eps 
+[9] (images.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 617 strings out of 10925
+ 6724 string characters out of 72353
+ 50001 words of memory out of 262141
+ 3509 multiletter control sequences out of 9500
+ 3640 words of font info for 14 fonts, out of 150000 for 255
+ 14 hyphenation exceptions out of 607
+ 23i,8n,19p,236b,238s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on images.dvi (9 pages, 1992 bytes).

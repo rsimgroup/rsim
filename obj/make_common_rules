@@ -1,0 +1,54 @@
+
+COMMONRULE = $(C++) $(C++FLAGS) -o $@ $(OBJS) -lm -lelf
+
+all: rsim
+
+predecode: $(PD_OBJS) inames.o
+	$(C++) $(C++FLAGS) -o $@ $(PD_OBJS) inames.o -lm -lelf
+
+unelf: unelf.o
+	$(C++) $(C++FLAGS) -o $@ unelf.o -lelf
+
+rsim : $(OBJS)
+	$(COMMONRULE)
+
+rsim_dbg : $(OBJS)
+	$(COMMONRULE)
+
+rsim2 : $(OBJS)
+	$(COMMONRULE)
+
+rsim3 : $(OBJS)
+	$(COMMONRULE)
+
+rsim4 : $(OBJS)
+	$(COMMONRULE)
+
+rsim5 : $(OBJS)
+	$(COMMONRULE)
+
+rsim2_dbg : $(OBJS)
+	$(COMMONRULE)
+
+rsim3_dbg : $(OBJS)
+	$(COMMONRULE)
+
+decode_dbg : $(OBJS)
+	$(COMMONRULE)
+
+$(DEPSDIR)/Dependfile :
+	CC -xM1 $(CPPFLAGS) $(PREDECODE_SRCFILES) > $@
+	CC -xM1 $(CPPFLAGS) $(UNELF_SRCFILES) >> $@
+	CC -xM1 $(CPPFLAGS) $(PROC_SRCFILES1) >> $@
+	CC -xM1 $(CPPFLAGS) $(PROC_SRCFILES2) >> $@
+	CC -xM1 $(CPPFLAGS) $(PROC_SRCFILES3) >> $@
+	cc -xM1 $(CPPFLAGS) $(MEMSYS_SRCFILES1) >> $@
+	cc -xM1 $(CPPFLAGS) $(MEMSYS_SRCFILES2) >> $@
+	cc -xM1 $(CPPFLAGS) $(MEMSYS_SRCFILES3) >> $@
+	csh -f $(DEPSDIR)/depender $@ 
+
+clean :
+	rm -f *.o $(DEPSDIR)/Dependfile
+	ptclean
+
+include $(DEPSDIR)/Dependfile

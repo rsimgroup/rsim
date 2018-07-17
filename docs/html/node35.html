@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Parameters related to simulation input/output</TITLE>
+<META NAME="description" CONTENT="Parameters related to simulation input/output">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html777" HREF="node36.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html775" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html769" HREF="node34.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html779" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html778" HREF="node36.html">Simulator control and debugging</A>
+<B>Up:</B> <A NAME="tex2html776" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html770" HREF="node34.html">Other architectural configuration parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION02316000000000000000">Parameters related to simulation input/output</A></H2>
+<P>
+In this section, we distinguish between ``simulation'' input and output
+and ``standard'' input and output. Standard input and output refer to the
+standard input and output streams provided to the application being
+simulated. By default, these are the same as the input and output
+streams used by the simulator. However, the simulator input and output
+streams can be redirected separately from the application input and
+output, as described below.
+<P>
+<DL ><DT><STRONG>-0 file</STRONG>
+<DD> Redirects standard input to <B>file</B>. Defaults to stdin.
+<DT><STRONG>-1 file</STRONG>
+<DD> Redirects standard output to <B>file</B>.  Defaults to stdout.
+<DT><STRONG>-2 file</STRONG>
+<DD> Redirects standard error to <B>file</B>.  The simulator outputs its concise statistics to this file. Defaults to stderr.
+<DT><STRONG>-3 file</STRONG>
+<DD> Redirects simulator detailed statistics to <B>file</B>.  This
+option can be used (either alone or in conjunction with ``-1'') to
+redirect detailed statistics separately from the output produced by
+the application. (If ``-1'' is used without ``-3'', both detailed
+statistics and application output are written to the same file.)
+Defaults to stdout.
+<P>
+<DT><STRONG>-D dir</STRONG>
+<DD> Directory for output files. This option can only be used
+in conjunction with the ``-S'' option. Unused by default.
+<P>
+<DT><STRONG>-S subj</STRONG>
+<DD> Subject to use in output filenames. This option
+overrides ``-1'', ``-2'', and ``-3'', and can only be used in
+conjunction with ``-D.'' When this option is used, RSIM redirects
+application standard output to a file titled <B>dir</B>/<B>subj</B>_out,
+redirects application standard error and simulator concise statistics to
+<B>dir</B>/<B>subj</B>_err, and redirects simulator detailed statistics to
+<B>dir</B>/<B>subj</B>_stat. Unused by default.
+<P>
+<DT><STRONG>-z file</STRONG>
+<DD> Redirects simulator input (configuration file) to 
+<B>file</B>. This option can be
+used (either alone or in conjunction with ``-0'') to redirect the
+input required by the simulator (such as the configuration file)
+separately from the input required by the application. (If ``-0'' is
+used without ``-z'', both the simulator input and application input come
+from the same file.)  <B>Note:</B> to use the default values of all configuration
+file parameters,
+<B>file</B> should be set to <TT>/dev/null</TT>. Defaults to stdin.
+<P>
+<DT><STRONG>-e emailaddr</STRONG>
+<DD> Send an email notification to the specified
+address upon completion of this simulation. The notification tells the
+user the location of the various output files and is sent using the
+subject specified in ``-S''. Unused by default.
+<P>
+ </DL><HR><A NAME="tex2html777" HREF="node36.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html775" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html769" HREF="node34.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html779" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html778" HREF="node36.html">Simulator control and debugging</A>
+<B>Up:</B> <A NAME="tex2html776" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html770" HREF="node34.html">Other architectural configuration parameters</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

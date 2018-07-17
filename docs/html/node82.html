@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Graduation</TITLE>
+<META NAME="description" CONTENT="Graduation">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1385" HREF="node83.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1383" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1377" HREF="node81.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1387" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1386" HREF="node83.html">Exception handling</A>
+<B>Up:</B> <A NAME="tex2html1384" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1378" HREF="node81.html">Completion</A>
+<BR> <P>
+<H1><A NAME="SECTION03470000000000000000">Graduation</A></H1>
+<P>
+<A NAME="rsimproc_ooo_grad">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/graduate.cc</TT>
+<P>
+<P>
+<P>
+The <TT>graduate_cycle</TT> function controls the handling associated
+with graduation. First, the <TT>remove_from_active_list</TT> function
+is called. In this function, the processor looks at the head of the
+active list. If this operation completed in the previous cycle (and
+thus, has already had time to write its result into its register) and
+is not stalled for consistency constraints, the instruction is allowed
+to graduate from the active list. If an exception is detected,
+graduation is stopped and control is returned to <TT>
+graduate_cycle</TT>. If the instruction has no exception, then the old
+physical registers for its destinations are freed and the operation is
+graduated. As a simulator abstraction, RSIM also maintains a ``logical
+register file'', which stores committed values. This file is also
+updated at this time. The active list element is removed, and the <TT>
+instance</TT> is also freed for later use.  <TT>
+remove_from_active_list</TT> repeats until the first operation in the
+active list is not ready to graduate, an exception is detected, or the
+processor's maximum graduation rate is reached. At that point, control
+is returned to <TT>graduate_cycle</TT>.
+<P>
+If <TT>remove_from_active_list</TT> returned an exception, the processor
+is put into exception mode and will handle the exception as soon as
+possible, without decoding or graduating any further instructions in
+the meantime.
+<P>
+<TT>graduate_cycle</TT> also calls <TT>mark_stores_ready</TT>. In this
+function, stores are marked ready to send data to the data cache if
+they are within the next set of instructions to graduate. Namely, the
+store must be no further from the head of the active list than the
+processor graduation rate, and all previous instructions must be
+completed and guaranteed free of exceptions. The store itself must
+also have its address ready and must not cause any exceptions; the
+only exception type currently detected at the time of <TT>
+mark_stores_ready</TT> is a segmentation fault (other exceptions would
+have already been detected). Note that this function considers stores
+primarily with regard to their effect on precise exceptions; even
+after being marked ready in this fashion, a store may still have to
+wait many cycles to issue due to store ordering constraints. In any
+system with nonblocking stores (PC, RC, or SC with the ``-N'' option),
+a store is considered ready to graduate as soon as it has been marked;
+it need not wait for issue or completion in the external memory system.
+<P>
+<HR><A NAME="tex2html1385" HREF="node83.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1383" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1377" HREF="node81.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1387" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1386" HREF="node83.html">Exception handling</A>
+<B>Up:</B> <A NAME="tex2html1384" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1378" HREF="node81.html">Completion</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

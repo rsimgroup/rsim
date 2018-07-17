@@ -1,0 +1,21 @@
+include ../make_common_dirs
+
+CPPFLAGS = $(INCLUDES) -DDEBUG_SMNET -DDEBUG_PRIMARY -DDEBUG_WBUFFER -DDEBUG_SECONDARY -DDEBUG_LAT_CPU -DDEBUG_ROUTE -DDEBUG_MSHR  -DDEBUG_BUS -DDEBUG_DIRECTORY -DDEBUG_POOL -DCOREFILE -DPOOL_AS_MALLOC -DDEBUG_ASSOC # -DDEBUG_HIT -DDEBUG_PREFETCH
+
+
+CC = gcc
+C++ = g++
+CFLAGS = -g -Wall #-sb
+C++FLAGS = -g -Wall #-sb
+
+#CC = cc
+#C++ = CC
+#CFLAGS = -g +w #-sb
+#C++FLAGS = -g +w #-sb
+
+include ../make_common_vars
+
+PD_OBJS = $(PREDECODE_SRCFILES:$(PREDECODE_SRCDIR)/%.cc=%.o)
+OBJS = $(PROC_SRCFILES:$(PROC_SRCDIR)/%.cc=%.o) $(MEMSYS_SRCFILES:$(MEMSYS_SRCDIR)/%.c=%.o)
+
+include ../make_common_rules

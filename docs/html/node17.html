@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Using the generic makefile</TITLE>
+<META NAME="description" CONTENT="Using the generic makefile">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html552" HREF="node18.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html550" HREF="node16.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html544" HREF="node16.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html554" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html553" HREF="node18.html">Using ordinary UNIX command </A>
+<B>Up:</B> <A NAME="tex2html551" HREF="node16.html">Building applications ported to </A>
+<B> Previous:</B> <A NAME="tex2html545" HREF="node16.html">Building applications ported to </A>
+<BR> <P>
+<H2><A NAME="SECTION02141000000000000000">Using the generic makefile</A></H2>
+<P>
+The RSIM distribution contains a generic makefile that can be used for
+building applications. This generic makefile includes all the needed
+steps for compiling, linking, and predecoding applications to be
+simulated. If needed, the generic makefile also expands the RSIM
+PARMACS macros in source files with the suffixes <TT>.C</TT>, <TT>.U</TT>,
+and <TT>.H</TT> (as appear in the SPLASH and SPLASH-2
+applications). Invocation of the <TT>unelf</TT> command is not included
+in the generic makefile, as this command is only used on some target
+systems; thus, this command must be invoked separately if the user
+intends to run RSIM on non-ELF host platforms.
+<P>
+The generic makefile is in <TT>apps/utils/lib/makefile_generic</TT> in
+<TT>rsim-1.0</TT>. This makefile uses rules specified according to the
+rules of the Sun <TT>make</TT> utility for Solaris. At installation time,
+the fully-specified pathname of the directory in which this file is
+located should be inserted in the <TT>LIBDIR</TT> variable of the
+makefile (This field is set by default to <TT>
+/home/rsim/rsim-1.0/apps/utils/lib</TT>).
+<P>
+Makefiles for
+a specific application
+can include the generic makefile, so long as they define the <TT>
+SRC</TT>, <TT>HEADERS</TT>, and <TT>TARGET</TT> variables. The generic makefile
+assumes that the application-specific makefile is located in the top-level
+directory for a given application, that all source and header files are located in the <TT>src</TT>
+directory of the application, that the relocatable object files will be
+placed in the <TT>obj</TT> directory, and that the linked and predecoded
+executables will be in the <TT>execs</TT> directory of the application. For
+example, if an application consisted of the source files <TT>
+src/source1.c</TT> and <TT>src/source2.c</TT>, the header files <TT>
+src/header1.h</TT> and <TT>src/header2.h</TT>, and seeks to produce a
+predecoded executable named <TT>execs/app_rc.out.dec</TT>, the 
+application makefile should simply read:
+<P>
+<PRE>SRC = source1 source2
+HEADERS = header1 header2
+TARGET = app
+
+include ../../utils/lib/makefile.generic</PRE>
+<P>
+<P>
+<P>
+Then, to actually construct the desired predecoded executable,
+the user should type the following from the application directory:
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  make execs/app_rc.out.dec</TT>
+<P>
+<P>
+<P>
+Once the generic makefile is invoked, it will expand the PARMACS macros (if needed)
+in the source files, and compile, link, and predecode the target.
+<P>
+Note that with the generic makefile, all source files will be
+recompiled if any of the source or header-files changes. Thus, the
+user may wish to appropriately modify the generic makefile before
+using it for large applications that will change frequently.
+<P>
+<HR><A NAME="tex2html552" HREF="node18.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html550" HREF="node16.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html544" HREF="node16.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html554" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html553" HREF="node18.html">Using ordinary UNIX command </A>
+<B>Up:</B> <A NAME="tex2html551" HREF="node16.html">Building applications ported to </A>
+<B> Previous:</B> <A NAME="tex2html545" HREF="node16.html">Building applications ported to </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

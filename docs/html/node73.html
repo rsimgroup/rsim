@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Memory allocation functions</TITLE>
+<META NAME="description" CONTENT="Memory allocation functions">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1277" HREF="node74.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1275" HREF="node70.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1271" HREF="node72.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1279" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1278" HREF="node74.html">Initialization and Configuration Routines </A>
+<B>Up:</B> <A NAME="tex2html1276" HREF="node70.html">Event-driven Simulation Library</A>
+<B> Previous:</B> <A NAME="tex2html1272" HREF="node72.html">Semaphore functions</A>
+<BR> <P>
+<H1><A NAME="SECTION03230000000000000000">Memory allocation functions</A></H1>
+<P>
+<A NAME="rsimevent_yacsim_pool">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/pool.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/simsys.h</TT>
+<P>
+<P>
+<P>
+Many of the objects used in the event-driven simulation
+library and  memory system simulator are allocated using the
+YACSIM pool functions, which seek to minimize the number of calls
+to <TT>malloc</TT> and <TT>free</TT>. Each structure in the pool must
+begin with the following two fields:
+<P>
+<P>
+<P>
+<TT>char *pnxt</TT>
+<P>
+<TT>char *pfnxt</TT>
+<P>
+<P>
+<P>
+These fields maintain the pool and the free list for the pool. 
+The pool functions supported
+in RSIM are:
+<P>
+<UL><LI>	<TT>YS__PoolInit(POOL *pptr, char *name, int objs, int objsz)</TT>
+<P>
+This function initializes the pool pointed to by <TT>pptr</TT>, setting the
+name of the pool to <TT>name</TT> and declaring that this pool will allocate
+structures of size <TT>objsz</TT> (this size includes the <TT>pnxt</TT>
+and <TT>pfnxt</TT> fields). Whenever the pool runs out of available objects,
+it will allocate <TT>objs</TT> structures of size <TT>objsz</TT> from the
+system memory allocator.<LI>	<TT>YS__PoolGetObj(POOL *pptr)</TT>
+<P>
+This function returns an object from the given pool. If this pool
+does not have any objects, it should allocate the number of objects
+specified on the original cool to <TT>YS__PoolInit</TT>.
+<P>
+This function also performs minimal initialization when allocating
+from the pool of memory system transactions.<LI>	<TT>YS__PoolReturnObj(POOL *pptr, void *optr)</TT>
+<P>
+This function returns the object pointed to by <TT>optr</TT> back to the
+pool pointed to by <TT>pptr</TT>, from which the object was allocated.
+Indeterminate results will occur if an object is returned to a
+different pool than the one from which it was allocated.<LI>	<TT>void YS__PoolStats(POOL *pptr)</TT>
+<P>
+This function prints the number of objects allocated from and returned
+to a given pool. This function can be used to detect memory leaks in
+certain cases.
+<P>
+</UL>
+<P>
+Users further interested in the YACSIM simulation library
+should consult the YACSIM reference manual&nbsp;[<A HREF="node132.html#YACSIM">8</A>].
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

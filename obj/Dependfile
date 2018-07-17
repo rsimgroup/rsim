@@ -1,0 +1,1673 @@
+predecode.o : ../../src/predecode/predecode.cc
+predecode.o : ../../incl/Processor/instruction.h
+predecode.o : ../../incl/Processor/regtype.h
+predecode.o : /usr/site/SUNWspro/SC4.0/include/CC/strings.h
+predecode_instr.o : ../../src/predecode/predecode_instr.cc
+predecode_instr.o : ../../incl/Processor/sync_asis.h
+predecode_instr.o : ../../incl/Processor/instruction.h
+predecode_instr.o : ../../incl/Processor/regtype.h
+predecode_instr.o : ../../incl/Processor/table.h
+predecode_instr.o : ../../incl/Processor/instruction.h
+predecode_instr.o : ../../incl/Processor/archregnums.h
+predecode_table.o : ../../src/predecode/predecode_table.cc
+predecode_table.o : ../../incl/Processor/instruction.h
+predecode_table.o : ../../incl/Processor/regtype.h
+predecode_table.o : ../../incl/Processor/table.h
+predecode_table.o : ../../incl/Processor/instruction.h
+predecode_table.o : ../../incl/Processor/decoding.h
+../../src/predecode/predecode.cc:
+../../src/predecode/predecode_instr.cc:
+../../src/predecode/predecode_table.cc:
+unelf.o : ../../src/predecode/unelf.cc
+unelf.o : ../../incl/Processor/state.h
+unelf.o : ../../incl/Processor/instruction.h
+unelf.o : ../../incl/Processor/regtype.h
+unelf.o : ../../incl/Processor/instance.h
+unelf.o : ../../incl/Processor/units.h
+unelf.o : ../../incl/Processor/instruction.h
+unelf.o : ../../incl/MemSys/miss_type.h
+unelf.o : ../../incl/Processor/heap.h
+unelf.o : ../../incl/Processor/instheap.h
+unelf.o : ../../incl/Processor/alloc.h
+unelf.o : ../../incl/Processor/allocator.h
+unelf.o : ../../incl/Processor/memq.h
+unelf.o : ../../incl/Processor/units.h
+unelf.o : ../../incl/Processor/stallq.h
+unelf.o : ../../incl/Processor/tagcvt.h
+unelf.o : ../../incl/Processor/circq.h
+unelf.o : ../../incl/Processor/normalize.h
+unelf.o : ../../incl/Processor/active.h
+unelf.o : ../../incl/Processor/circq.h
+unelf.o : ../../incl/Processor/regtype.h
+unelf.o : ../../incl/Processor/branchq.h
+unelf.o : ../../incl/Processor/archregnums.h
+unelf.o : ../../incl/MemSys/typedefs.h
+unelf.o : ../../incl/MemSys/req.h
+unelf.o : ../../incl/MemSys/typedefs.h
+unelf.o : ../../incl/MemSys/miss_type.h
+unelf.o : ../../incl/Processor/hash.h
+unelf.o : ../../incl/Processor/normalize.h
+unelf.o : ../../incl/Processor/unelf.h
+active.o : ../../src/Processor/active.cc
+active.o : ../../incl/Processor/circq.h
+active.o : ../../incl/Processor/normalize.h
+active.o : ../../incl/Processor/active.h
+active.o : ../../incl/Processor/circq.h
+active.o : ../../incl/Processor/regtype.h
+active.o : ../../incl/Processor/instance.h
+active.o : ../../incl/Processor/units.h
+active.o : ../../incl/Processor/instruction.h
+active.o : ../../incl/Processor/regtype.h
+active.o : ../../incl/MemSys/miss_type.h
+active.o : ../../incl/Processor/tagcvt.h
+active.o : ../../incl/Processor/state.h
+active.o : ../../incl/Processor/instruction.h
+active.o : ../../incl/Processor/instance.h
+active.o : ../../incl/Processor/heap.h
+active.o : ../../incl/Processor/instheap.h
+active.o : ../../incl/Processor/alloc.h
+active.o : ../../incl/Processor/allocator.h
+active.o : ../../incl/Processor/memq.h
+active.o : ../../incl/Processor/units.h
+active.o : ../../incl/Processor/stallq.h
+active.o : ../../incl/Processor/tagcvt.h
+active.o : ../../incl/Processor/circq.h
+active.o : ../../incl/Processor/active.h
+active.o : ../../incl/Processor/branchq.h
+active.o : ../../incl/Processor/archregnums.h
+active.o : ../../incl/MemSys/typedefs.h
+active.o : ../../incl/MemSys/req.h
+active.o : ../../incl/MemSys/typedefs.h
+active.o : ../../incl/MemSys/miss_type.h
+active.o : ../../incl/Processor/hash.h
+active.o : ../../incl/Processor/normalize.h
+active.o : ../../incl/Processor/freelist.h
+active.o : ../../incl/Processor/allocator.h
+active.o : ../../incl/Processor/FastNews.h
+active.o : ../../incl/Processor/instance.h
+active.o : ../../incl/Processor/state.h
+active.o : ../../incl/Processor/branchq.h
+active.o : ../../incl/Processor/stallq.h
+active.o : ../../incl/Processor/active.h
+active.o : ../../incl/Processor/tagcvt.h
+active.o : ../../incl/Processor/simio.h
+active.o : ../../incl/Processor/processor_dbg.h
+active.o : ../../incl/Processor/mainsim.h
+active.o : ../../incl/Processor/simio.h
+branchpred.o : ../../src/Processor/branchpred.cc
+branchpred.o : ../../incl/Processor/instance.h
+branchpred.o : ../../incl/Processor/units.h
+branchpred.o : ../../incl/Processor/instruction.h
+branchpred.o : ../../incl/Processor/regtype.h
+branchpred.o : ../../incl/MemSys/miss_type.h
+branchpred.o : ../../incl/Processor/state.h
+branchpred.o : ../../incl/Processor/instruction.h
+branchpred.o : ../../incl/Processor/instance.h
+branchpred.o : ../../incl/Processor/heap.h
+branchpred.o : ../../incl/Processor/instheap.h
+branchpred.o : ../../incl/Processor/alloc.h
+branchpred.o : ../../incl/Processor/allocator.h
+branchpred.o : ../../incl/Processor/memq.h
+branchpred.o : ../../incl/Processor/units.h
+branchpred.o : ../../incl/Processor/stallq.h
+branchpred.o : ../../incl/Processor/tagcvt.h
+branchpred.o : ../../incl/Processor/circq.h
+branchpred.o : ../../incl/Processor/normalize.h
+branchpred.o : ../../incl/Processor/active.h
+branchpred.o : ../../incl/Processor/circq.h
+branchpred.o : ../../incl/Processor/regtype.h
+branchpred.o : ../../incl/Processor/branchq.h
+branchpred.o : ../../incl/Processor/archregnums.h
+branchpred.o : ../../incl/MemSys/typedefs.h
+branchpred.o : ../../incl/MemSys/req.h
+branchpred.o : ../../incl/MemSys/typedefs.h
+branchpred.o : ../../incl/MemSys/miss_type.h
+branchpred.o : ../../incl/Processor/hash.h
+branchpred.o : ../../incl/Processor/normalize.h
+branchpred.o : ../../incl/Processor/simio.h
+branchqelt.o : ../../src/Processor/branchqelt.cc
+branchqelt.o : ../../incl/Processor/branchq.h
+branchqelt.o : ../../incl/Processor/state.h
+branchqelt.o : ../../incl/Processor/instruction.h
+branchqelt.o : ../../incl/Processor/regtype.h
+branchqelt.o : ../../incl/Processor/instance.h
+branchqelt.o : ../../incl/Processor/units.h
+branchqelt.o : ../../incl/Processor/instruction.h
+branchqelt.o : ../../incl/MemSys/miss_type.h
+branchqelt.o : ../../incl/Processor/heap.h
+branchqelt.o : ../../incl/Processor/instheap.h
+branchqelt.o : ../../incl/Processor/alloc.h
+branchqelt.o : ../../incl/Processor/allocator.h
+branchqelt.o : ../../incl/Processor/memq.h
+branchqelt.o : ../../incl/Processor/units.h
+branchqelt.o : ../../incl/Processor/stallq.h
+branchqelt.o : ../../incl/Processor/tagcvt.h
+branchqelt.o : ../../incl/Processor/circq.h
+branchqelt.o : ../../incl/Processor/normalize.h
+branchqelt.o : ../../incl/Processor/active.h
+branchqelt.o : ../../incl/Processor/circq.h
+branchqelt.o : ../../incl/Processor/regtype.h
+branchqelt.o : ../../incl/Processor/branchq.h
+branchqelt.o : ../../incl/Processor/archregnums.h
+branchqelt.o : ../../incl/MemSys/typedefs.h
+branchqelt.o : ../../incl/MemSys/req.h
+branchqelt.o : ../../incl/MemSys/typedefs.h
+branchqelt.o : ../../incl/MemSys/miss_type.h
+branchqelt.o : ../../incl/Processor/hash.h
+branchqelt.o : ../../incl/Processor/normalize.h
+branchresolve.o : ../../src/Processor/branchresolve.cc
+branchresolve.o : ../../incl/Processor/decode.h
+branchresolve.o : ../../incl/Processor/branchq.h
+branchresolve.o : ../../incl/Processor/state.h
+branchresolve.o : ../../incl/Processor/instruction.h
+branchresolve.o : ../../incl/Processor/regtype.h
+branchresolve.o : ../../incl/Processor/instance.h
+branchresolve.o : ../../incl/Processor/units.h
+branchresolve.o : ../../incl/Processor/instruction.h
+branchresolve.o : ../../incl/MemSys/miss_type.h
+branchresolve.o : ../../incl/Processor/heap.h
+branchresolve.o : ../../incl/Processor/instheap.h
+branchresolve.o : ../../incl/Processor/alloc.h
+branchresolve.o : ../../incl/Processor/allocator.h
+branchresolve.o : ../../incl/Processor/memq.h
+branchresolve.o : ../../incl/Processor/units.h
+branchresolve.o : ../../incl/Processor/stallq.h
+branchresolve.o : ../../incl/Processor/tagcvt.h
+branchresolve.o : ../../incl/Processor/circq.h
+branchresolve.o : ../../incl/Processor/normalize.h
+branchresolve.o : ../../incl/Processor/active.h
+branchresolve.o : ../../incl/Processor/circq.h
+branchresolve.o : ../../incl/Processor/regtype.h
+branchresolve.o : ../../incl/Processor/branchq.h
+branchresolve.o : ../../incl/Processor/archregnums.h
+branchresolve.o : ../../incl/MemSys/typedefs.h
+branchresolve.o : ../../incl/MemSys/req.h
+branchresolve.o : ../../incl/MemSys/typedefs.h
+branchresolve.o : ../../incl/MemSys/miss_type.h
+branchresolve.o : ../../incl/Processor/hash.h
+branchresolve.o : ../../incl/Processor/normalize.h
+branchresolve.o : ../../incl/Processor/FastNews.h
+branchresolve.o : ../../incl/Processor/instance.h
+branchresolve.o : ../../incl/Processor/state.h
+branchresolve.o : ../../incl/Processor/branchq.h
+branchresolve.o : ../../incl/Processor/stallq.h
+branchresolve.o : ../../incl/Processor/active.h
+branchresolve.o : ../../incl/Processor/tagcvt.h
+branchresolve.o : ../../incl/Processor/simio.h
+branchresolve.o : ../../incl/Processor/memory.h
+branchresolve.o : ../../incl/Processor/exec.h
+branchresolve.o : ../../incl/Processor/simio.h
+branchresolve.o : ../../incl/MemSys/simsys.h
+branchresolve.o : ../../incl/MemSys/typedefs.h
+capconf.o : ../../src/Processor/capconf.cc
+capconf.o : ../../incl/Processor/capconf.h
+capconf.o : ../../incl/MemSys/stats.h
+capconf.o : ../../incl/MemSys/misc.h
+capconf.o : ../../incl/Processor/hash.h
+capconf.o : ../../incl/Processor/normalize.h
+capconf.o : ../../incl/Processor/circq.h
+capconf.o : ../../incl/Processor/normalize.h
+capconf.o : ../../incl/Processor/simio.h
+capconf.o : ../../incl/MemSys/simsys.h
+capconf.o : ../../incl/MemSys/typedefs.h
+config.o : ../../src/Processor/config.cc
+config.o : ../../incl/Processor/state.h
+config.o : ../../incl/Processor/instruction.h
+config.o : ../../incl/Processor/regtype.h
+config.o : ../../incl/Processor/instance.h
+config.o : ../../incl/Processor/units.h
+config.o : ../../incl/Processor/instruction.h
+config.o : ../../incl/MemSys/miss_type.h
+config.o : ../../incl/Processor/heap.h
+config.o : ../../incl/Processor/instheap.h
+config.o : ../../incl/Processor/alloc.h
+config.o : ../../incl/Processor/allocator.h
+config.o : ../../incl/Processor/memq.h
+config.o : ../../incl/Processor/units.h
+config.o : ../../incl/Processor/stallq.h
+config.o : ../../incl/Processor/tagcvt.h
+config.o : ../../incl/Processor/circq.h
+config.o : ../../incl/Processor/normalize.h
+config.o : ../../incl/Processor/active.h
+config.o : ../../incl/Processor/circq.h
+config.o : ../../incl/Processor/regtype.h
+config.o : ../../incl/Processor/branchq.h
+config.o : ../../incl/Processor/archregnums.h
+config.o : ../../incl/MemSys/typedefs.h
+config.o : ../../incl/MemSys/req.h
+config.o : ../../incl/MemSys/typedefs.h
+config.o : ../../incl/MemSys/miss_type.h
+config.o : ../../incl/Processor/hash.h
+config.o : ../../incl/Processor/normalize.h
+config.o : ../../incl/Processor/simio.h
+config.o : ../../incl/MemSys/module.h
+config.o : ../../incl/MemSys/typedefs.h
+config.o : ../../incl/MemSys/cache.h
+config.o : ../../incl/MemSys/pipeline.h
+config.o : ../../incl/MemSys/module.h
+config.o : ../../incl/MemSys/stats.h
+config.o : ../../incl/MemSys/misc.h
+config.o : ../../incl/MemSys/typedefs.h
+config.o : ../../incl/MemSys/cohe_types.h
+config.o : ../../incl/MemSys/req.h
+config.o : ../../incl/MemSys/arch.h
+config.o : ../../incl/MemSys/directory.h
+config.o : ../../incl/MemSys/typedefs.h
+config.o : ../../incl/MemSys/module.h
+config.o : ../../incl/MemSys/bus.h
+config.o : ../../incl/MemSys/req.h
+config.o : ../../incl/MemSys/net.h
+config.o : ../../incl/MemSys/typedefs.h
+config.o : ../../incl/MemSys/module.h
+except.o : ../../src/Processor/except.cc
+except.o : ../../incl/Processor/state.h
+except.o : ../../incl/Processor/instruction.h
+except.o : ../../incl/Processor/regtype.h
+except.o : ../../incl/Processor/instance.h
+except.o : ../../incl/Processor/units.h
+except.o : ../../incl/Processor/instruction.h
+except.o : ../../incl/MemSys/miss_type.h
+except.o : ../../incl/Processor/heap.h
+except.o : ../../incl/Processor/instheap.h
+except.o : ../../incl/Processor/alloc.h
+except.o : ../../incl/Processor/allocator.h
+except.o : ../../incl/Processor/memq.h
+except.o : ../../incl/Processor/units.h
+except.o : ../../incl/Processor/stallq.h
+except.o : ../../incl/Processor/tagcvt.h
+except.o : ../../incl/Processor/circq.h
+except.o : ../../incl/Processor/normalize.h
+except.o : ../../incl/Processor/active.h
+except.o : ../../incl/Processor/circq.h
+except.o : ../../incl/Processor/regtype.h
+except.o : ../../incl/Processor/branchq.h
+except.o : ../../incl/Processor/archregnums.h
+except.o : ../../incl/MemSys/typedefs.h
+except.o : ../../incl/MemSys/req.h
+except.o : ../../incl/MemSys/typedefs.h
+except.o : ../../incl/MemSys/miss_type.h
+except.o : ../../incl/Processor/hash.h
+except.o : ../../incl/Processor/normalize.h
+except.o : ../../incl/Processor/instance.h
+except.o : ../../incl/Processor/active.h
+except.o : ../../incl/Processor/tagcvt.h
+except.o : ../../incl/Processor/stallq.h
+except.o : ../../incl/Processor/memory.h
+except.o : ../../incl/Processor/branchq.h
+except.o : ../../incl/Processor/traps.h
+except.o : ../../incl/Processor/instruction.h
+except.o : ../../incl/Processor/exec.h
+except.o : ../../incl/Processor/mainsim.h
+except.o : ../../incl/Processor/simio.h
+except.o : ../../incl/MemSys/simsys.h
+except.o : ../../incl/MemSys/typedefs.h
+exec.o : ../../src/Processor/exec.cc
+exec.o : ../../incl/Processor/instruction.h
+exec.o : ../../incl/Processor/regtype.h
+exec.o : ../../incl/Processor/instance.h
+exec.o : ../../incl/Processor/units.h
+exec.o : ../../incl/Processor/instruction.h
+exec.o : ../../incl/MemSys/miss_type.h
+exec.o : ../../incl/Processor/state.h
+exec.o : ../../incl/Processor/instruction.h
+exec.o : ../../incl/Processor/instance.h
+exec.o : ../../incl/Processor/heap.h
+exec.o : ../../incl/Processor/instheap.h
+exec.o : ../../incl/Processor/alloc.h
+exec.o : ../../incl/Processor/allocator.h
+exec.o : ../../incl/Processor/memq.h
+exec.o : ../../incl/Processor/units.h
+exec.o : ../../incl/Processor/stallq.h
+exec.o : ../../incl/Processor/tagcvt.h
+exec.o : ../../incl/Processor/circq.h
+exec.o : ../../incl/Processor/normalize.h
+exec.o : ../../incl/Processor/active.h
+exec.o : ../../incl/Processor/circq.h
+exec.o : ../../incl/Processor/regtype.h
+exec.o : ../../incl/Processor/branchq.h
+exec.o : ../../incl/Processor/archregnums.h
+exec.o : ../../incl/MemSys/typedefs.h
+exec.o : ../../incl/MemSys/req.h
+exec.o : ../../incl/MemSys/typedefs.h
+exec.o : ../../incl/MemSys/miss_type.h
+exec.o : ../../incl/Processor/hash.h
+exec.o : ../../incl/Processor/normalize.h
+exec.o : ../../incl/Processor/FastNews.h
+exec.o : ../../incl/Processor/instance.h
+exec.o : ../../incl/Processor/state.h
+exec.o : ../../incl/Processor/branchq.h
+exec.o : ../../incl/Processor/stallq.h
+exec.o : ../../incl/Processor/active.h
+exec.o : ../../incl/Processor/tagcvt.h
+exec.o : ../../incl/Processor/simio.h
+exec.o : ../../incl/Processor/memory.h
+exec.o : ../../incl/Processor/exec.h
+exec.o : ../../incl/Processor/decode.h
+exec.o : ../../incl/Processor/mainsim.h
+exec.o : ../../incl/Processor/processor_dbg.h
+exec.o : ../../incl/Processor/simio.h
+freelist.o : ../../src/Processor/freelist.cc
+freelist.o : ../../incl/Processor/freelist.h
+freelist.o : ../../incl/Processor/allocator.h
+freelist.o : ../../incl/Processor/processor_dbg.h
+funcs.o : ../../src/Processor/funcs.cc
+funcs.o : ../../incl/Processor/instruction.h
+funcs.o : ../../incl/Processor/regtype.h
+funcs.o : ../../incl/Processor/instance.h
+funcs.o : ../../incl/Processor/units.h
+funcs.o : ../../incl/Processor/instruction.h
+funcs.o : ../../incl/MemSys/miss_type.h
+funcs.o : ../../incl/Processor/state.h
+funcs.o : ../../incl/Processor/instruction.h
+funcs.o : ../../incl/Processor/instance.h
+funcs.o : ../../incl/Processor/heap.h
+funcs.o : ../../incl/Processor/instheap.h
+funcs.o : ../../incl/Processor/alloc.h
+funcs.o : ../../incl/Processor/allocator.h
+funcs.o : ../../incl/Processor/memq.h
+funcs.o : ../../incl/Processor/units.h
+funcs.o : ../../incl/Processor/stallq.h
+funcs.o : ../../incl/Processor/tagcvt.h
+funcs.o : ../../incl/Processor/circq.h
+funcs.o : ../../incl/Processor/normalize.h
+funcs.o : ../../incl/Processor/active.h
+funcs.o : ../../incl/Processor/circq.h
+funcs.o : ../../incl/Processor/regtype.h
+funcs.o : ../../incl/Processor/branchq.h
+funcs.o : ../../incl/Processor/archregnums.h
+funcs.o : ../../incl/MemSys/typedefs.h
+funcs.o : ../../incl/MemSys/req.h
+funcs.o : ../../incl/MemSys/typedefs.h
+funcs.o : ../../incl/MemSys/miss_type.h
+funcs.o : ../../incl/Processor/hash.h
+funcs.o : ../../incl/Processor/normalize.h
+funcs.o : ../../incl/Processor/table.h
+funcs.o : ../../incl/Processor/instruction.h
+funcs.o : ../../incl/Processor/exec.h
+funcs.o : ../../incl/Processor/mainsim.h
+funcs.o : ../../incl/Processor/processor_dbg.h
+funcs.o : ../../incl/Processor/types.h
+funcs.o : ../../incl/Processor/memory.h
+funcs.o : ../../incl/Processor/simio.h
+funcs.o : ../../incl/MemSys/cache.h
+funcs.o : ../../incl/MemSys/pipeline.h
+funcs.o : ../../incl/MemSys/module.h
+funcs.o : ../../incl/MemSys/typedefs.h
+funcs.o : ../../incl/MemSys/stats.h
+funcs.o : ../../incl/MemSys/misc.h
+funcs.o : ../../incl/MemSys/typedefs.h
+funcs.o : ../../incl/MemSys/cohe_types.h
+funcs.o : ../../incl/MemSys/req.h
+funcs.o : ../../incl/Processor/hash.h
+graduate.o : ../../src/Processor/graduate.cc
+graduate.o : ../../incl/Processor/state.h
+graduate.o : ../../incl/Processor/instruction.h
+graduate.o : ../../incl/Processor/regtype.h
+graduate.o : ../../incl/Processor/instance.h
+graduate.o : ../../incl/Processor/units.h
+graduate.o : ../../incl/Processor/instruction.h
+graduate.o : ../../incl/MemSys/miss_type.h
+graduate.o : ../../incl/Processor/heap.h
+graduate.o : ../../incl/Processor/instheap.h
+graduate.o : ../../incl/Processor/alloc.h
+graduate.o : ../../incl/Processor/allocator.h
+graduate.o : ../../incl/Processor/memq.h
+graduate.o : ../../incl/Processor/units.h
+graduate.o : ../../incl/Processor/stallq.h
+graduate.o : ../../incl/Processor/tagcvt.h
+graduate.o : ../../incl/Processor/circq.h
+graduate.o : ../../incl/Processor/normalize.h
+graduate.o : ../../incl/Processor/active.h
+graduate.o : ../../incl/Processor/circq.h
+graduate.o : ../../incl/Processor/regtype.h
+graduate.o : ../../incl/Processor/branchq.h
+graduate.o : ../../incl/Processor/archregnums.h
+graduate.o : ../../incl/MemSys/typedefs.h
+graduate.o : ../../incl/MemSys/req.h
+graduate.o : ../../incl/MemSys/typedefs.h
+graduate.o : ../../incl/MemSys/miss_type.h
+graduate.o : ../../incl/Processor/hash.h
+graduate.o : ../../incl/Processor/normalize.h
+graduate.o : ../../incl/Processor/active.h
+graduate.o : ../../incl/Processor/instance.h
+graduate.o : ../../incl/Processor/tagcvt.h
+graduate.o : ../../incl/Processor/memory.h
+graduate.o : ../../incl/Processor/exec.h
+graduate.o : ../../incl/Processor/mainsim.h
+graduate.o : ../../incl/Processor/freelist.h
+graduate.o : ../../incl/Processor/allocator.h
+graduate.o : ../../incl/Processor/traps.h
+graduate.o : ../../incl/Processor/instruction.h
+graduate.o : ../../incl/Processor/FastNews.h
+graduate.o : ../../incl/Processor/instance.h
+graduate.o : ../../incl/Processor/state.h
+graduate.o : ../../incl/Processor/branchq.h
+graduate.o : ../../incl/Processor/stallq.h
+graduate.o : ../../incl/Processor/active.h
+graduate.o : ../../incl/Processor/tagcvt.h
+graduate.o : ../../incl/Processor/simio.h
+graduate.o : ../../incl/Processor/simio.h
+graduate.o : ../../incl/MemSys/simsys.h
+graduate.o : ../../incl/MemSys/typedefs.h
+graduate.o : ../../incl/MemSys/arch.h
+../../src/Processor/active.cc:
+../../src/Processor/branchpred.cc:
+../../src/Processor/branchqelt.cc:
+../../src/Processor/branchresolve.cc:
+../../src/Processor/capconf.cc:
+../../src/Processor/config.cc:
+../../src/Processor/except.cc:
+../../src/Processor/exec.cc:
+../../src/Processor/freelist.cc:
+../../src/Processor/funcs.cc:
+../../src/Processor/graduate.cc:
+inames.o : ../../src/Processor/inames.cc
+inames.o : ../../incl/Processor/instruction.h
+inames.o : ../../incl/Processor/regtype.h
+instheap.o : ../../src/Processor/instheap.cc
+instheap.o : ../../incl/Processor/instheap.h
+mainsim.o : ../../src/Processor/mainsim.cc
+mainsim.o : ../../incl/Processor/instruction.h
+mainsim.o : ../../incl/Processor/regtype.h
+mainsim.o : ../../incl/Processor/state.h
+mainsim.o : ../../incl/Processor/instruction.h
+mainsim.o : ../../incl/Processor/instance.h
+mainsim.o : ../../incl/Processor/units.h
+mainsim.o : ../../incl/Processor/instruction.h
+mainsim.o : ../../incl/MemSys/miss_type.h
+mainsim.o : ../../incl/Processor/heap.h
+mainsim.o : ../../incl/Processor/instheap.h
+mainsim.o : ../../incl/Processor/alloc.h
+mainsim.o : ../../incl/Processor/allocator.h
+mainsim.o : ../../incl/Processor/memq.h
+mainsim.o : ../../incl/Processor/units.h
+mainsim.o : ../../incl/Processor/stallq.h
+mainsim.o : ../../incl/Processor/tagcvt.h
+mainsim.o : ../../incl/Processor/circq.h
+mainsim.o : ../../incl/Processor/normalize.h
+mainsim.o : ../../incl/Processor/active.h
+mainsim.o : ../../incl/Processor/circq.h
+mainsim.o : ../../incl/Processor/regtype.h
+mainsim.o : ../../incl/Processor/branchq.h
+mainsim.o : ../../incl/Processor/archregnums.h
+mainsim.o : ../../incl/MemSys/typedefs.h
+mainsim.o : ../../incl/MemSys/req.h
+mainsim.o : ../../incl/MemSys/typedefs.h
+mainsim.o : ../../incl/MemSys/miss_type.h
+mainsim.o : ../../incl/Processor/hash.h
+mainsim.o : ../../incl/Processor/normalize.h
+mainsim.o : ../../incl/Processor/decode.h
+mainsim.o : ../../incl/Processor/memory.h
+mainsim.o : ../../incl/Processor/mainsim.h
+mainsim.o : ../../incl/Processor/memprocess.h
+mainsim.o : ../../incl/MemSys/miss_type.h
+mainsim.o : ../../incl/Processor/traps.h
+mainsim.o : ../../incl/Processor/instruction.h
+mainsim.o : ../../incl/Processor/simio.h
+mainsim.o : ../../incl/Processor/units.h
+mainsim.o : ../../incl/MemSys/simsys.h
+mainsim.o : ../../incl/MemSys/typedefs.h
+mainsim.o : ../../incl/MemSys/cache.h
+mainsim.o : ../../incl/MemSys/pipeline.h
+mainsim.o : ../../incl/MemSys/module.h
+mainsim.o : ../../incl/MemSys/typedefs.h
+mainsim.o : ../../incl/MemSys/stats.h
+mainsim.o : ../../incl/MemSys/misc.h
+mainsim.o : ../../incl/MemSys/typedefs.h
+mainsim.o : ../../incl/MemSys/cohe_types.h
+mainsim.o : ../../incl/MemSys/req.h
+mainsim.o : ../../incl/MemSys/arch.h
+mainsim.o : ../../incl/MemSys/mshr.h
+mainsim.o : ../../incl/MemSys/module.h
+mainsim.o : ../../incl/MemSys/miss_type.h
+mainsim.o : ../../incl/MemSys/net.h
+mainsim.o : ../../incl/MemSys/typedefs.h
+mainsim.o : ../../incl/MemSys/module.h
+mainsim.o : ../../incl/MemSys/bus.h
+mainsim.o : ../../incl/MemSys/directory.h
+mainsim.o : ../../incl/MemSys/typedefs.h
+mainsim.o : ../../incl/MemSys/module.h
+mainsim.o : ../../incl/MemSys/misc.h
+memprocess.o : ../../src/Processor/memprocess.cc
+memprocess.o : ../../incl/Processor/instance.h
+memprocess.o : ../../incl/Processor/units.h
+memprocess.o : ../../incl/Processor/instruction.h
+memprocess.o : ../../incl/Processor/regtype.h
+memprocess.o : ../../incl/MemSys/miss_type.h
+memprocess.o : ../../incl/Processor/instruction.h
+memprocess.o : ../../incl/Processor/state.h
+memprocess.o : ../../incl/Processor/instruction.h
+memprocess.o : ../../incl/Processor/instance.h
+memprocess.o : ../../incl/Processor/heap.h
+memprocess.o : ../../incl/Processor/instheap.h
+memprocess.o : ../../incl/Processor/alloc.h
+memprocess.o : ../../incl/Processor/allocator.h
+memprocess.o : ../../incl/Processor/memq.h
+memprocess.o : ../../incl/Processor/units.h
+memprocess.o : ../../incl/Processor/stallq.h
+memprocess.o : ../../incl/Processor/tagcvt.h
+memprocess.o : ../../incl/Processor/circq.h
+memprocess.o : ../../incl/Processor/normalize.h
+memprocess.o : ../../incl/Processor/active.h
+memprocess.o : ../../incl/Processor/circq.h
+memprocess.o : ../../incl/Processor/regtype.h
+memprocess.o : ../../incl/Processor/branchq.h
+memprocess.o : ../../incl/Processor/archregnums.h
+memprocess.o : ../../incl/MemSys/typedefs.h
+memprocess.o : ../../incl/MemSys/req.h
+memprocess.o : ../../incl/MemSys/typedefs.h
+memprocess.o : ../../incl/MemSys/miss_type.h
+memprocess.o : ../../incl/Processor/hash.h
+memprocess.o : ../../incl/Processor/normalize.h
+memprocess.o : ../../incl/Processor/memory.h
+memprocess.o : ../../incl/Processor/exec.h
+memprocess.o : ../../incl/Processor/memprocess.h
+memprocess.o : ../../incl/MemSys/miss_type.h
+memprocess.o : ../../incl/Processor/mainsim.h
+memprocess.o : ../../incl/Processor/processor_dbg.h
+memprocess.o : ../../incl/Processor/simio.h
+memprocess.o : ../../incl/MemSys/cpu.h
+memprocess.o : ../../incl/MemSys/module.h
+memprocess.o : ../../incl/MemSys/typedefs.h
+memprocess.o : ../../incl/MemSys/simsys.h
+memprocess.o : ../../incl/MemSys/typedefs.h
+memprocess.o : ../../incl/MemSys/simsys.h
+memprocess.o : ../../incl/MemSys/req.h
+memprocess.o : ../../incl/MemSys/cache.h
+memprocess.o : ../../incl/MemSys/pipeline.h
+memprocess.o : ../../incl/MemSys/module.h
+memprocess.o : ../../incl/MemSys/stats.h
+memprocess.o : ../../incl/MemSys/misc.h
+memprocess.o : ../../incl/MemSys/typedefs.h
+memprocess.o : ../../incl/MemSys/cohe_types.h
+memprocess.o : ../../incl/MemSys/req.h
+memprocess.o : ../../incl/MemSys/arch.h
+memprocess.o : ../../incl/MemSys/misc.h
+memunit.o : ../../src/Processor/memunit.cc
+memunit.o : ../../incl/Processor/instance.h
+memunit.o : ../../incl/Processor/units.h
+memunit.o : ../../incl/Processor/instruction.h
+memunit.o : ../../incl/Processor/regtype.h
+memunit.o : ../../incl/MemSys/miss_type.h
+memunit.o : ../../incl/Processor/state.h
+memunit.o : ../../incl/Processor/instruction.h
+memunit.o : ../../incl/Processor/instance.h
+memunit.o : ../../incl/Processor/heap.h
+memunit.o : ../../incl/Processor/instheap.h
+memunit.o : ../../incl/Processor/alloc.h
+memunit.o : ../../incl/Processor/allocator.h
+memunit.o : ../../incl/Processor/memq.h
+memunit.o : ../../incl/Processor/units.h
+memunit.o : ../../incl/Processor/stallq.h
+memunit.o : ../../incl/Processor/tagcvt.h
+memunit.o : ../../incl/Processor/circq.h
+memunit.o : ../../incl/Processor/normalize.h
+memunit.o : ../../incl/Processor/active.h
+memunit.o : ../../incl/Processor/circq.h
+memunit.o : ../../incl/Processor/regtype.h
+memunit.o : ../../incl/Processor/branchq.h
+memunit.o : ../../incl/Processor/archregnums.h
+memunit.o : ../../incl/MemSys/typedefs.h
+memunit.o : ../../incl/MemSys/req.h
+memunit.o : ../../incl/MemSys/typedefs.h
+memunit.o : ../../incl/MemSys/miss_type.h
+memunit.o : ../../incl/Processor/hash.h
+memunit.o : ../../incl/Processor/normalize.h
+memunit.o : ../../incl/Processor/units.h
+memunit.o : ../../incl/Processor/exec.h
+memunit.o : ../../incl/Processor/memory.h
+memunit.o : ../../incl/Processor/memprocess.h
+memunit.o : ../../incl/MemSys/miss_type.h
+memunit.o : ../../incl/Processor/memq.h
+memunit.o : ../../incl/Processor/decode.h
+memunit.o : ../../incl/Processor/mainsim.h
+memunit.o : ../../incl/Processor/active.h
+memunit.o : ../../incl/Processor/branchq.h
+memunit.o : ../../incl/Processor/processor_dbg.h
+memunit.o : ../../incl/Processor/simio.h
+memunit.o : ../../incl/MemSys/simsys.h
+memunit.o : ../../incl/MemSys/typedefs.h
+memunit.o : ../../incl/MemSys/cache.h
+memunit.o : ../../incl/MemSys/pipeline.h
+memunit.o : ../../incl/MemSys/module.h
+memunit.o : ../../incl/MemSys/typedefs.h
+memunit.o : ../../incl/MemSys/stats.h
+memunit.o : ../../incl/MemSys/misc.h
+memunit.o : ../../incl/MemSys/typedefs.h
+memunit.o : ../../incl/MemSys/cohe_types.h
+memunit.o : ../../incl/MemSys/req.h
+memunit.o : ../../incl/MemSys/req.h
+memunit.o : ../../incl/MemSys/arch.h
+pipestages.o : ../../src/Processor/pipestages.cc
+pipestages.o : ../../incl/Processor/decode.h
+pipestages.o : ../../incl/Processor/branchq.h
+pipestages.o : ../../incl/Processor/state.h
+pipestages.o : ../../incl/Processor/instruction.h
+pipestages.o : ../../incl/Processor/regtype.h
+pipestages.o : ../../incl/Processor/instance.h
+pipestages.o : ../../incl/Processor/units.h
+pipestages.o : ../../incl/Processor/instruction.h
+pipestages.o : ../../incl/MemSys/miss_type.h
+pipestages.o : ../../incl/Processor/heap.h
+pipestages.o : ../../incl/Processor/instheap.h
+pipestages.o : ../../incl/Processor/alloc.h
+pipestages.o : ../../incl/Processor/allocator.h
+pipestages.o : ../../incl/Processor/memq.h
+pipestages.o : ../../incl/Processor/units.h
+pipestages.o : ../../incl/Processor/stallq.h
+pipestages.o : ../../incl/Processor/tagcvt.h
+pipestages.o : ../../incl/Processor/circq.h
+pipestages.o : ../../incl/Processor/normalize.h
+pipestages.o : ../../incl/Processor/active.h
+pipestages.o : ../../incl/Processor/circq.h
+pipestages.o : ../../incl/Processor/regtype.h
+pipestages.o : ../../incl/Processor/branchq.h
+pipestages.o : ../../incl/Processor/archregnums.h
+pipestages.o : ../../incl/MemSys/typedefs.h
+pipestages.o : ../../incl/MemSys/req.h
+pipestages.o : ../../incl/MemSys/typedefs.h
+pipestages.o : ../../incl/MemSys/miss_type.h
+pipestages.o : ../../incl/Processor/hash.h
+pipestages.o : ../../incl/Processor/normalize.h
+pipestages.o : ../../incl/Processor/memory.h
+pipestages.o : ../../incl/Processor/mainsim.h
+pipestages.o : ../../incl/Processor/memprocess.h
+pipestages.o : ../../incl/MemSys/miss_type.h
+pipestages.o : ../../incl/Processor/freelist.h
+pipestages.o : ../../incl/Processor/allocator.h
+pipestages.o : ../../incl/Processor/exec.h
+pipestages.o : ../../incl/Processor/instance.h
+pipestages.o : ../../incl/Processor/FastNews.h
+pipestages.o : ../../incl/Processor/instance.h
+pipestages.o : ../../incl/Processor/state.h
+pipestages.o : ../../incl/Processor/branchq.h
+pipestages.o : ../../incl/Processor/stallq.h
+pipestages.o : ../../incl/Processor/active.h
+pipestages.o : ../../incl/Processor/tagcvt.h
+pipestages.o : ../../incl/Processor/simio.h
+pipestages.o : ../../incl/Processor/traps.h
+pipestages.o : ../../incl/Processor/instruction.h
+pipestages.o : ../../incl/Processor/simio.h
+pipestages.o : ../../incl/Processor/processor_dbg.h
+pipestages.o : ../../incl/MemSys/module.h
+pipestages.o : ../../incl/MemSys/typedefs.h
+pipestages.o : ../../incl/MemSys/simsys.h
+pipestages.o : ../../incl/MemSys/typedefs.h
+shmalloc.o : ../../src/Processor/shmalloc.cc
+shmalloc.o : ../../incl/Processor/state.h
+shmalloc.o : ../../incl/Processor/instruction.h
+shmalloc.o : ../../incl/Processor/regtype.h
+shmalloc.o : ../../incl/Processor/instance.h
+shmalloc.o : ../../incl/Processor/units.h
+shmalloc.o : ../../incl/Processor/instruction.h
+shmalloc.o : ../../incl/MemSys/miss_type.h
+shmalloc.o : ../../incl/Processor/heap.h
+shmalloc.o : ../../incl/Processor/instheap.h
+shmalloc.o : ../../incl/Processor/alloc.h
+shmalloc.o : ../../incl/Processor/allocator.h
+shmalloc.o : ../../incl/Processor/memq.h
+shmalloc.o : ../../incl/Processor/units.h
+shmalloc.o : ../../incl/Processor/stallq.h
+shmalloc.o : ../../incl/Processor/tagcvt.h
+shmalloc.o : ../../incl/Processor/circq.h
+shmalloc.o : ../../incl/Processor/normalize.h
+shmalloc.o : ../../incl/Processor/active.h
+shmalloc.o : ../../incl/Processor/circq.h
+shmalloc.o : ../../incl/Processor/regtype.h
+shmalloc.o : ../../incl/Processor/branchq.h
+shmalloc.o : ../../incl/Processor/archregnums.h
+shmalloc.o : ../../incl/MemSys/typedefs.h
+shmalloc.o : ../../incl/MemSys/req.h
+shmalloc.o : ../../incl/MemSys/typedefs.h
+shmalloc.o : ../../incl/MemSys/miss_type.h
+shmalloc.o : ../../incl/Processor/hash.h
+shmalloc.o : ../../incl/Processor/normalize.h
+shmalloc.o : ../../incl/Processor/simio.h
+shmalloc.o : ../../incl/MemSys/misc.h
+../../src/Processor/inames.cc:
+../../src/Processor/instheap.cc:
+../../src/Processor/mainsim.cc:
+../../src/Processor/memprocess.cc:
+../../src/Processor/memunit.cc:
+../../src/Processor/pipestages.cc:
+../../src/Processor/shmalloc.cc:
+simio.o : ../../src/Processor/simio.cc
+simio.o : ../../incl/Processor/simio.h
+stallq.o : ../../src/Processor/stallq.cc
+stallq.o : ../../incl/Processor/stallq.h
+stallq.o : ../../incl/Processor/units.h
+stallq.o : ../../incl/Processor/instance.h
+stallq.o : ../../incl/Processor/units.h
+stallq.o : ../../incl/Processor/instruction.h
+stallq.o : ../../incl/Processor/regtype.h
+stallq.o : ../../incl/MemSys/miss_type.h
+stallq.o : ../../incl/Processor/state.h
+stallq.o : ../../incl/Processor/instruction.h
+stallq.o : ../../incl/Processor/instance.h
+stallq.o : ../../incl/Processor/heap.h
+stallq.o : ../../incl/Processor/instheap.h
+stallq.o : ../../incl/Processor/alloc.h
+stallq.o : ../../incl/Processor/allocator.h
+stallq.o : ../../incl/Processor/memq.h
+stallq.o : ../../incl/Processor/units.h
+stallq.o : ../../incl/Processor/stallq.h
+stallq.o : ../../incl/Processor/tagcvt.h
+stallq.o : ../../incl/Processor/circq.h
+stallq.o : ../../incl/Processor/normalize.h
+stallq.o : ../../incl/Processor/active.h
+stallq.o : ../../incl/Processor/circq.h
+stallq.o : ../../incl/Processor/regtype.h
+stallq.o : ../../incl/Processor/branchq.h
+stallq.o : ../../incl/Processor/archregnums.h
+stallq.o : ../../incl/MemSys/typedefs.h
+stallq.o : ../../incl/MemSys/req.h
+stallq.o : ../../incl/MemSys/typedefs.h
+stallq.o : ../../incl/MemSys/miss_type.h
+stallq.o : ../../incl/Processor/hash.h
+stallq.o : ../../incl/Processor/normalize.h
+stallq.o : ../../incl/Processor/FastNews.h
+stallq.o : ../../incl/Processor/instance.h
+stallq.o : ../../incl/Processor/state.h
+stallq.o : ../../incl/Processor/branchq.h
+stallq.o : ../../incl/Processor/stallq.h
+stallq.o : ../../incl/Processor/active.h
+stallq.o : ../../incl/Processor/tagcvt.h
+stallq.o : ../../incl/Processor/simio.h
+stallq.o : ../../incl/Processor/memory.h
+stallq.o : ../../incl/Processor/decode.h
+stallq.o : ../../incl/Processor/simio.h
+startup.o : ../../src/Processor/startup.cc
+startup.o : ../../incl/Processor/state.h
+startup.o : ../../incl/Processor/instruction.h
+startup.o : ../../incl/Processor/regtype.h
+startup.o : ../../incl/Processor/instance.h
+startup.o : ../../incl/Processor/units.h
+startup.o : ../../incl/Processor/instruction.h
+startup.o : ../../incl/MemSys/miss_type.h
+startup.o : ../../incl/Processor/heap.h
+startup.o : ../../incl/Processor/instheap.h
+startup.o : ../../incl/Processor/alloc.h
+startup.o : ../../incl/Processor/allocator.h
+startup.o : ../../incl/Processor/memq.h
+startup.o : ../../incl/Processor/units.h
+startup.o : ../../incl/Processor/stallq.h
+startup.o : ../../incl/Processor/tagcvt.h
+startup.o : ../../incl/Processor/circq.h
+startup.o : ../../incl/Processor/normalize.h
+startup.o : ../../incl/Processor/active.h
+startup.o : ../../incl/Processor/circq.h
+startup.o : ../../incl/Processor/regtype.h
+startup.o : ../../incl/Processor/branchq.h
+startup.o : ../../incl/Processor/archregnums.h
+startup.o : ../../incl/MemSys/typedefs.h
+startup.o : ../../incl/MemSys/req.h
+startup.o : ../../incl/MemSys/typedefs.h
+startup.o : ../../incl/MemSys/miss_type.h
+startup.o : ../../incl/Processor/hash.h
+startup.o : ../../incl/Processor/normalize.h
+startup.o : ../../incl/Processor/processor_dbg.h
+startup.o : ../../incl/Processor/simio.h
+state.o : ../../src/Processor/state.cc
+state.o : ../../incl/Processor/state.h
+state.o : ../../incl/Processor/instruction.h
+state.o : ../../incl/Processor/regtype.h
+state.o : ../../incl/Processor/instance.h
+state.o : ../../incl/Processor/units.h
+state.o : ../../incl/Processor/instruction.h
+state.o : ../../incl/MemSys/miss_type.h
+state.o : ../../incl/Processor/heap.h
+state.o : ../../incl/Processor/instheap.h
+state.o : ../../incl/Processor/alloc.h
+state.o : ../../incl/Processor/allocator.h
+state.o : ../../incl/Processor/memq.h
+state.o : ../../incl/Processor/units.h
+state.o : ../../incl/Processor/stallq.h
+state.o : ../../incl/Processor/tagcvt.h
+state.o : ../../incl/Processor/circq.h
+state.o : ../../incl/Processor/normalize.h
+state.o : ../../incl/Processor/active.h
+state.o : ../../incl/Processor/circq.h
+state.o : ../../incl/Processor/regtype.h
+state.o : ../../incl/Processor/branchq.h
+state.o : ../../incl/Processor/archregnums.h
+state.o : ../../incl/MemSys/typedefs.h
+state.o : ../../incl/MemSys/req.h
+state.o : ../../incl/MemSys/typedefs.h
+state.o : ../../incl/MemSys/miss_type.h
+state.o : ../../incl/Processor/hash.h
+state.o : ../../incl/Processor/normalize.h
+state.o : ../../incl/Processor/decode.h
+state.o : ../../incl/Processor/active.h
+state.o : ../../incl/Processor/exec.h
+state.o : ../../incl/Processor/memprocess.h
+state.o : ../../incl/MemSys/miss_type.h
+state.o : ../../incl/Processor/mainsim.h
+state.o : ../../incl/Processor/freelist.h
+state.o : ../../incl/Processor/allocator.h
+state.o : ../../incl/Processor/branchq.h
+state.o : ../../incl/Processor/memory.h
+state.o : ../../incl/Processor/FastNews.h
+state.o : ../../incl/Processor/instance.h
+state.o : ../../incl/Processor/state.h
+state.o : ../../incl/Processor/branchq.h
+state.o : ../../incl/Processor/stallq.h
+state.o : ../../incl/Processor/active.h
+state.o : ../../incl/Processor/tagcvt.h
+state.o : ../../incl/Processor/simio.h
+state.o : ../../incl/Processor/simio.h
+state.o : ../../incl/Processor/units.h
+state.o : ../../incl/MemSys/simsys.h
+state.o : ../../incl/MemSys/typedefs.h
+state.o : ../../incl/MemSys/req.h
+state.o : ../../incl/MemSys/cache.h
+state.o : ../../incl/MemSys/pipeline.h
+state.o : ../../incl/MemSys/module.h
+state.o : ../../incl/MemSys/typedefs.h
+state.o : ../../incl/MemSys/stats.h
+state.o : ../../incl/MemSys/misc.h
+state.o : ../../incl/MemSys/typedefs.h
+state.o : ../../incl/MemSys/cohe_types.h
+state.o : ../../incl/MemSys/req.h
+state.o : ../../incl/MemSys/arch.h
+state.o : ../../incl/MemSys/misc.h
+tagcvt.o : ../../src/Processor/tagcvt.cc
+tagcvt.o : ../../incl/Processor/tagcvt.h
+tagcvt.o : ../../incl/Processor/instance.h
+tagcvt.o : ../../incl/Processor/units.h
+tagcvt.o : ../../incl/Processor/instruction.h
+tagcvt.o : ../../incl/Processor/regtype.h
+tagcvt.o : ../../incl/MemSys/miss_type.h
+tagcvt.o : ../../incl/Processor/state.h
+tagcvt.o : ../../incl/Processor/instruction.h
+tagcvt.o : ../../incl/Processor/instance.h
+tagcvt.o : ../../incl/Processor/heap.h
+tagcvt.o : ../../incl/Processor/instheap.h
+tagcvt.o : ../../incl/Processor/alloc.h
+tagcvt.o : ../../incl/Processor/allocator.h
+tagcvt.o : ../../incl/Processor/memq.h
+tagcvt.o : ../../incl/Processor/units.h
+tagcvt.o : ../../incl/Processor/stallq.h
+tagcvt.o : ../../incl/Processor/tagcvt.h
+tagcvt.o : ../../incl/Processor/circq.h
+tagcvt.o : ../../incl/Processor/normalize.h
+tagcvt.o : ../../incl/Processor/active.h
+tagcvt.o : ../../incl/Processor/circq.h
+tagcvt.o : ../../incl/Processor/regtype.h
+tagcvt.o : ../../incl/Processor/branchq.h
+tagcvt.o : ../../incl/Processor/archregnums.h
+tagcvt.o : ../../incl/MemSys/typedefs.h
+tagcvt.o : ../../incl/MemSys/req.h
+tagcvt.o : ../../incl/MemSys/typedefs.h
+tagcvt.o : ../../incl/MemSys/miss_type.h
+tagcvt.o : ../../incl/Processor/hash.h
+tagcvt.o : ../../incl/Processor/normalize.h
+tagcvt.o : ../../incl/Processor/FastNews.h
+tagcvt.o : ../../incl/Processor/instance.h
+tagcvt.o : ../../incl/Processor/state.h
+tagcvt.o : ../../incl/Processor/branchq.h
+tagcvt.o : ../../incl/Processor/stallq.h
+tagcvt.o : ../../incl/Processor/active.h
+tagcvt.o : ../../incl/Processor/tagcvt.h
+tagcvt.o : ../../incl/Processor/simio.h
+tagcvt.o : ../../incl/Processor/simio.h
+traps.o : ../../src/Processor/traps.cc
+traps.o : ../../incl/Processor/state.h
+traps.o : ../../incl/Processor/instruction.h
+traps.o : ../../incl/Processor/regtype.h
+traps.o : ../../incl/Processor/instance.h
+traps.o : ../../incl/Processor/units.h
+traps.o : ../../incl/Processor/instruction.h
+traps.o : ../../incl/MemSys/miss_type.h
+traps.o : ../../incl/Processor/heap.h
+traps.o : ../../incl/Processor/instheap.h
+traps.o : ../../incl/Processor/alloc.h
+traps.o : ../../incl/Processor/allocator.h
+traps.o : ../../incl/Processor/memq.h
+traps.o : ../../incl/Processor/units.h
+traps.o : ../../incl/Processor/stallq.h
+traps.o : ../../incl/Processor/tagcvt.h
+traps.o : ../../incl/Processor/circq.h
+traps.o : ../../incl/Processor/normalize.h
+traps.o : ../../incl/Processor/active.h
+traps.o : ../../incl/Processor/circq.h
+traps.o : ../../incl/Processor/regtype.h
+traps.o : ../../incl/Processor/branchq.h
+traps.o : ../../incl/Processor/archregnums.h
+traps.o : ../../incl/MemSys/typedefs.h
+traps.o : ../../incl/MemSys/req.h
+traps.o : ../../incl/MemSys/typedefs.h
+traps.o : ../../incl/MemSys/miss_type.h
+traps.o : ../../incl/Processor/hash.h
+traps.o : ../../incl/Processor/normalize.h
+traps.o : ../../incl/Processor/instance.h
+traps.o : ../../incl/Processor/alloc.h
+traps.o : ../../incl/Processor/exec.h
+traps.o : ../../incl/Processor/memprocess.h
+traps.o : ../../incl/MemSys/miss_type.h
+traps.o : ../../incl/Processor/processor_dbg.h
+traps.o : ../../incl/Processor/simio.h
+traps.o : ../../incl/MemSys/module.h
+traps.o : ../../incl/MemSys/typedefs.h
+traps.o : ../../incl/MemSys/simsys.h
+traps.o : ../../incl/MemSys/typedefs.h
+traps.o : ../../incl/MemSys/associate.h
+traps.o : ../../incl/MemSys/cohe_types.h
+traptable.o : ../../src/Processor/traptable.cc
+traptable.o : ../../incl/Processor/traps.h
+traptable.o : ../../incl/Processor/instruction.h
+traptable.o : ../../incl/Processor/regtype.h
+traptable.o : ../../incl/Processor/instance.h
+traptable.o : ../../incl/Processor/units.h
+traptable.o : ../../incl/Processor/instruction.h
+traptable.o : ../../incl/MemSys/miss_type.h
+traptable.o : ../../incl/Processor/state.h
+traptable.o : ../../incl/Processor/instruction.h
+traptable.o : ../../incl/Processor/instance.h
+traptable.o : ../../incl/Processor/heap.h
+traptable.o : ../../incl/Processor/instheap.h
+traptable.o : ../../incl/Processor/alloc.h
+traptable.o : ../../incl/Processor/allocator.h
+traptable.o : ../../incl/Processor/memq.h
+traptable.o : ../../incl/Processor/units.h
+traptable.o : ../../incl/Processor/stallq.h
+traptable.o : ../../incl/Processor/tagcvt.h
+traptable.o : ../../incl/Processor/circq.h
+traptable.o : ../../incl/Processor/normalize.h
+traptable.o : ../../incl/Processor/active.h
+traptable.o : ../../incl/Processor/circq.h
+traptable.o : ../../incl/Processor/regtype.h
+traptable.o : ../../incl/Processor/branchq.h
+traptable.o : ../../incl/Processor/archregnums.h
+traptable.o : ../../incl/MemSys/typedefs.h
+traptable.o : ../../incl/MemSys/req.h
+traptable.o : ../../incl/MemSys/typedefs.h
+traptable.o : ../../incl/MemSys/miss_type.h
+traptable.o : ../../incl/Processor/hash.h
+traptable.o : ../../incl/Processor/normalize.h
+traptable.o : ../../incl/Processor/mainsim.h
+traptable.o : ../../incl/Processor/simio.h
+traptable.o : ../../incl/Processor/processor_dbg.h
+units.o : ../../src/Processor/units.cc
+units.o : ../../incl/Processor/instruction.h
+units.o : ../../incl/Processor/regtype.h
+units.o : ../../incl/Processor/instance.h
+units.o : ../../incl/Processor/units.h
+units.o : ../../incl/Processor/instruction.h
+units.o : ../../incl/MemSys/miss_type.h
+units.o : ../../incl/Processor/state.h
+units.o : ../../incl/Processor/instruction.h
+units.o : ../../incl/Processor/instance.h
+units.o : ../../incl/Processor/heap.h
+units.o : ../../incl/Processor/instheap.h
+units.o : ../../incl/Processor/alloc.h
+units.o : ../../incl/Processor/allocator.h
+units.o : ../../incl/Processor/memq.h
+units.o : ../../incl/Processor/units.h
+units.o : ../../incl/Processor/stallq.h
+units.o : ../../incl/Processor/tagcvt.h
+units.o : ../../incl/Processor/circq.h
+units.o : ../../incl/Processor/normalize.h
+units.o : ../../incl/Processor/active.h
+units.o : ../../incl/Processor/circq.h
+units.o : ../../incl/Processor/regtype.h
+units.o : ../../incl/Processor/branchq.h
+units.o : ../../incl/Processor/archregnums.h
+units.o : ../../incl/MemSys/typedefs.h
+units.o : ../../incl/MemSys/req.h
+units.o : ../../incl/MemSys/typedefs.h
+units.o : ../../incl/MemSys/miss_type.h
+units.o : ../../incl/Processor/hash.h
+units.o : ../../incl/Processor/normalize.h
+units.o : ../../incl/Processor/memory.h
+units.o : ../../incl/MemSys/req.h
+../../src/Processor/simio.cc:
+../../src/Processor/stallq.cc:
+../../src/Processor/startup.cc:
+../../src/Processor/state.cc:
+../../src/Processor/tagcvt.cc:
+../../src/Processor/traps.cc:
+../../src/Processor/traptable.cc:
+../../src/Processor/units.cc:
+act.o: ../../src/MemSys/act.c
+act.o: ../../incl/MemSys/simsys.h
+act.o: ../../incl/MemSys/typedefs.h
+act.o: ../../incl/MemSys/cpu.h
+act.o: ../../incl/MemSys/module.h
+act.o: ../../incl/MemSys/typedefs.h
+act.o: ../../incl/MemSys/simsys.h
+act.o: ../../incl/MemSys/tr.act.h
+architecture.o: ../../src/MemSys/architecture.c
+architecture.o: ../../incl/MemSys/simsys.h
+architecture.o: ../../incl/MemSys/typedefs.h
+architecture.o: ../../incl/MemSys/arch.h
+architecture.o: ../../incl/MemSys/misc.h
+architecture.o: ../../incl/MemSys/net.h
+architecture.o: ../../incl/MemSys/typedefs.h
+architecture.o: ../../incl/MemSys/module.h
+architecture.o: ../../incl/MemSys/typedefs.h
+architecture.o: ../../incl/MemSys/cache.h
+architecture.o: ../../incl/MemSys/pipeline.h
+architecture.o: ../../incl/MemSys/module.h
+architecture.o: ../../incl/MemSys/stats.h
+architecture.o: ../../incl/MemSys/misc.h
+architecture.o: ../../incl/MemSys/typedefs.h
+architecture.o: ../../incl/MemSys/cohe_types.h
+architecture.o: ../../incl/MemSys/req.h
+architecture.o: ../../incl/MemSys/typedefs.h
+architecture.o: ../../incl/MemSys/miss_type.h
+architecture.o: ../../incl/MemSys/directory.h
+architecture.o: ../../incl/MemSys/typedefs.h
+architecture.o: ../../incl/MemSys/module.h
+architecture.o: ../../incl/MemSys/bus.h
+architecture.o: ../../incl/Processor/simio.h
+associate.o: ../../src/MemSys/associate.c
+associate.o: ../../incl/MemSys/simsys.h
+associate.o: ../../incl/MemSys/typedefs.h
+associate.o: ../../incl/MemSys/net.h
+associate.o: ../../incl/MemSys/typedefs.h
+associate.o: ../../incl/MemSys/module.h
+associate.o: ../../incl/MemSys/typedefs.h
+associate.o: ../../incl/MemSys/directory.h
+associate.o: ../../incl/MemSys/typedefs.h
+associate.o: ../../incl/MemSys/module.h
+associate.o: ../../incl/MemSys/misc.h
+associate.o: ../../incl/MemSys/associate.h
+associate.o: ../../incl/Processor/simio.h
+pool.o: ../../src/MemSys/pool.c
+pool.o: ../../incl/MemSys/simsys.h
+pool.o: ../../incl/MemSys/typedefs.h
+pool.o: ../../incl/MemSys/cpu.h
+pool.o: ../../incl/MemSys/module.h
+pool.o: ../../incl/MemSys/typedefs.h
+pool.o: ../../incl/MemSys/simsys.h
+pool.o: ../../incl/MemSys/tr.pool.h
+pool.o: ../../incl/MemSys/req.h
+pool.o: ../../incl/MemSys/typedefs.h
+pool.o: ../../incl/MemSys/miss_type.h
+pool.o: ../../incl/MemSys/net.h
+pool.o: ../../incl/MemSys/typedefs.h
+pool.o: ../../incl/MemSys/module.h
+pool.o: ../../incl/Processor/simio.h
+cache.o: ../../src/MemSys/cache.c
+cache.o: ../../incl/MemSys/simsys.h
+cache.o: ../../incl/MemSys/typedefs.h
+cache.o: ../../incl/MemSys/cache.h
+cache.o: ../../incl/MemSys/pipeline.h
+cache.o: ../../incl/MemSys/module.h
+cache.o: ../../incl/MemSys/typedefs.h
+cache.o: ../../incl/MemSys/stats.h
+cache.o: ../../incl/MemSys/misc.h
+cache.o: ../../incl/MemSys/typedefs.h
+cache.o: ../../incl/MemSys/cohe_types.h
+cache.o: ../../incl/MemSys/req.h
+cache.o: ../../incl/MemSys/typedefs.h
+cache.o: ../../incl/MemSys/miss_type.h
+cache.o: ../../incl/MemSys/pipeline.h
+cache.o: ../../incl/MemSys/mshr.h
+cache.o: ../../incl/MemSys/module.h
+cache.o: ../../incl/MemSys/miss_type.h
+cache.o: ../../incl/MemSys/req.h
+cache.o: ../../incl/MemSys/net.h
+cache.o: ../../incl/MemSys/typedefs.h
+cache.o: ../../incl/MemSys/module.h
+cache.o: ../../incl/MemSys/misc.h
+cache.o: ../../incl/Processor/capconf.h
+cache.o: ../../incl/MemSys/stats.h
+cache.o: ../../incl/Processor/simio.h
+cachehelp.o: ../../src/MemSys/cachehelp.c
+cachehelp.o: ../../incl/MemSys/net.h
+cachehelp.o: ../../incl/MemSys/typedefs.h
+cachehelp.o: ../../incl/MemSys/module.h
+cachehelp.o: ../../incl/MemSys/typedefs.h
+cachehelp.o: ../../incl/MemSys/req.h
+cachehelp.o: ../../incl/MemSys/typedefs.h
+cachehelp.o: ../../incl/MemSys/miss_type.h
+cachehelp.o: ../../incl/MemSys/cache.h
+cachehelp.o: ../../incl/MemSys/pipeline.h
+cachehelp.o: ../../incl/MemSys/module.h
+cachehelp.o: ../../incl/MemSys/stats.h
+cachehelp.o: ../../incl/MemSys/misc.h
+cachehelp.o: ../../incl/MemSys/typedefs.h
+cachehelp.o: ../../incl/MemSys/cohe_types.h
+cachehelp.o: ../../incl/MemSys/req.h
+cachehelp.o: ../../incl/MemSys/mshr.h
+cachehelp.o: ../../incl/MemSys/module.h
+cachehelp.o: ../../incl/MemSys/miss_type.h
+cachehelp.o: ../../incl/MemSys/simsys.h
+cachehelp.o: ../../incl/MemSys/typedefs.h
+cachehelp.o: ../../incl/MemSys/miss_type.h
+cachehelp.o: ../../incl/Processor/memprocess.h
+cachehelp.o: ../../incl/MemSys/miss_type.h
+cachehelp.o: ../../incl/Processor/simio.h
+cache2.o: ../../src/MemSys/cache2.c
+cache2.o: ../../incl/MemSys/simsys.h
+cache2.o: ../../incl/MemSys/typedefs.h
+cache2.o: ../../incl/MemSys/cache.h
+cache2.o: ../../incl/MemSys/pipeline.h
+cache2.o: ../../incl/MemSys/module.h
+cache2.o: ../../incl/MemSys/typedefs.h
+cache2.o: ../../incl/MemSys/stats.h
+cache2.o: ../../incl/MemSys/misc.h
+cache2.o: ../../incl/MemSys/typedefs.h
+cache2.o: ../../incl/MemSys/cohe_types.h
+cache2.o: ../../incl/MemSys/req.h
+cache2.o: ../../incl/MemSys/typedefs.h
+cache2.o: ../../incl/MemSys/miss_type.h
+cache2.o: ../../incl/MemSys/req.h
+cache2.o: ../../incl/MemSys/directory.h
+cache2.o: ../../incl/MemSys/typedefs.h
+cache2.o: ../../incl/MemSys/module.h
+cache2.o: ../../incl/MemSys/associate.h
+cache2.o: ../../incl/Processor/memprocess.h
+cache2.o: ../../incl/MemSys/miss_type.h
+cache2.o: ../../incl/MemSys/mshr.h
+cache2.o: ../../incl/MemSys/module.h
+cache2.o: ../../incl/MemSys/miss_type.h
+cache2.o: ../../incl/Processor/capconf.h
+cache2.o: ../../incl/MemSys/stats.h
+cache2.o: ../../incl/Processor/simio.h
+cpu.o: ../../src/MemSys/cpu.c
+cpu.o: ../../incl/MemSys/simsys.h
+cpu.o: ../../incl/MemSys/typedefs.h
+cpu.o: ../../incl/MemSys/tr.cpu.h
+cpu.o: ../../incl/MemSys/cpu.h
+cpu.o: ../../incl/MemSys/module.h
+cpu.o: ../../incl/MemSys/typedefs.h
+cpu.o: ../../incl/MemSys/simsys.h
+cpu.o: ../../incl/MemSys/misc.h
+cpu.o: ../../incl/MemSys/module.h
+cpu.o: ../../incl/MemSys/req.h
+cpu.o: ../../incl/MemSys/typedefs.h
+cpu.o: ../../incl/MemSys/miss_type.h
+cpu.o: ../../incl/MemSys/arch.h
+cpu.o: ../../incl/MemSys/net.h
+cpu.o: ../../incl/MemSys/typedefs.h
+cpu.o: ../../incl/MemSys/module.h
+cpu.o: ../../incl/MemSys/cache.h
+cpu.o: ../../incl/MemSys/pipeline.h
+cpu.o: ../../incl/MemSys/module.h
+cpu.o: ../../incl/MemSys/stats.h
+cpu.o: ../../incl/MemSys/misc.h
+cpu.o: ../../incl/MemSys/typedefs.h
+cpu.o: ../../incl/MemSys/cohe_types.h
+cpu.o: ../../incl/MemSys/req.h
+cpu.o: ../../incl/Processor/memprocess.h
+cpu.o: ../../incl/MemSys/miss_type.h
+cpu.o: ../../incl/Processor/simio.h
+directory.o: ../../src/MemSys/directory.c
+directory.o: ../../incl/MemSys/simsys.h
+directory.o: ../../incl/MemSys/typedefs.h
+directory.o: ../../incl/MemSys/req.h
+directory.o: ../../incl/MemSys/typedefs.h
+directory.o: ../../incl/MemSys/miss_type.h
+directory.o: ../../incl/MemSys/directory.h
+directory.o: ../../incl/MemSys/typedefs.h
+directory.o: ../../incl/MemSys/module.h
+directory.o: ../../incl/MemSys/typedefs.h
+directory.o: ../../incl/MemSys/net.h
+directory.o: ../../incl/MemSys/typedefs.h
+directory.o: ../../incl/MemSys/module.h
+directory.o: ../../incl/MemSys/module.h
+directory.o: ../../incl/MemSys/misc.h
+directory.o: ../../incl/MemSys/associate.h
+directory.o: ../../incl/MemSys/miss_type.h
+directory.o: ../../incl/Processor/memprocess.h
+directory.o: ../../incl/MemSys/miss_type.h
+directory.o: ../../incl/MemSys/cache.h
+directory.o: ../../incl/MemSys/pipeline.h
+directory.o: ../../incl/MemSys/module.h
+directory.o: ../../incl/MemSys/stats.h
+directory.o: ../../incl/MemSys/misc.h
+directory.o: ../../incl/MemSys/typedefs.h
+directory.o: ../../incl/MemSys/cohe_types.h
+directory.o: ../../incl/MemSys/req.h
+directory.o: ../../incl/MemSys/bus.h
+directory.o: ../../incl/Processor/simio.h
+driver.o: ../../src/MemSys/driver.c
+driver.o: ../../incl/MemSys/simsys.h
+driver.o: ../../incl/MemSys/typedefs.h
+driver.o: ../../incl/MemSys/cpu.h
+driver.o: ../../incl/MemSys/module.h
+driver.o: ../../incl/MemSys/typedefs.h
+driver.o: ../../incl/MemSys/simsys.h
+driver.o: ../../incl/MemSys/cache.h
+driver.o: ../../incl/MemSys/pipeline.h
+driver.o: ../../incl/MemSys/module.h
+driver.o: ../../incl/MemSys/stats.h
+driver.o: ../../incl/MemSys/misc.h
+driver.o: ../../incl/MemSys/typedefs.h
+driver.o: ../../incl/MemSys/cohe_types.h
+driver.o: ../../incl/MemSys/req.h
+driver.o: ../../incl/MemSys/typedefs.h
+driver.o: ../../incl/MemSys/miss_type.h
+driver.o: ../../incl/MemSys/directory.h
+driver.o: ../../incl/MemSys/typedefs.h
+driver.o: ../../incl/MemSys/module.h
+driver.o: ../../incl/MemSys/req.h
+driver.o: ../../incl/MemSys/module.h
+driver.o: ../../incl/MemSys/bus.h
+driver.o: ../../incl/MemSys/net.h
+driver.o: ../../incl/MemSys/typedefs.h
+driver.o: ../../incl/MemSys/module.h
+driver.o: ../../incl/MemSys/misc.h
+driver.o: ../../incl/MemSys/tr.driver.h
+driver.o: ../../incl/Processor/simio.h
+driver.o: ../../incl/MemSys/dbsim.h
+evlst.o: ../../src/MemSys/evlst.c
+evlst.o: ../../incl/MemSys/simsys.h
+evlst.o: ../../incl/MemSys/typedefs.h
+evlst.o: ../../incl/MemSys/tr.evlst.h
+evlst.o: ../../incl/MemSys/dbsim.h
+globals.o: ../../src/MemSys/globals.c
+globals.o: ../../incl/MemSys/module.h
+globals.o: ../../incl/MemSys/typedefs.h
+globals.o: ../../incl/MemSys/simsys.h
+globals.o: ../../incl/MemSys/typedefs.h
+l1cache.o: ../../src/MemSys/l1cache.c
+l1cache.o: ../../incl/MemSys/simsys.h
+l1cache.o: ../../incl/MemSys/typedefs.h
+l1cache.o: ../../incl/MemSys/cache.h
+l1cache.o: ../../incl/MemSys/pipeline.h
+l1cache.o: ../../incl/MemSys/module.h
+l1cache.o: ../../incl/MemSys/typedefs.h
+l1cache.o: ../../incl/MemSys/stats.h
+l1cache.o: ../../incl/MemSys/misc.h
+l1cache.o: ../../incl/MemSys/typedefs.h
+l1cache.o: ../../incl/MemSys/cohe_types.h
+l1cache.o: ../../incl/MemSys/req.h
+l1cache.o: ../../incl/MemSys/typedefs.h
+l1cache.o: ../../incl/MemSys/miss_type.h
+l1cache.o: ../../incl/MemSys/mshr.h
+l1cache.o: ../../incl/MemSys/module.h
+l1cache.o: ../../incl/MemSys/miss_type.h
+l1cache.o: ../../incl/MemSys/req.h
+l1cache.o: ../../incl/MemSys/net.h
+l1cache.o: ../../incl/MemSys/typedefs.h
+l1cache.o: ../../incl/MemSys/module.h
+l1cache.o: ../../incl/MemSys/stats.h
+l1cache.o: ../../incl/MemSys/misc.h
+l1cache.o: ../../incl/Processor/memprocess.h
+l1cache.o: ../../incl/MemSys/miss_type.h
+l1cache.o: ../../incl/Processor/capconf.h
+l1cache.o: ../../incl/MemSys/stats.h
+l1cache.o: ../../incl/Processor/mainsim.h
+l1cache.o: ../../incl/Processor/simio.h
+l2cache.o: ../../src/MemSys/l2cache.c
+l2cache.o: ../../incl/MemSys/simsys.h
+l2cache.o: ../../incl/MemSys/typedefs.h
+l2cache.o: ../../incl/MemSys/cache.h
+l2cache.o: ../../incl/MemSys/pipeline.h
+l2cache.o: ../../incl/MemSys/module.h
+l2cache.o: ../../incl/MemSys/typedefs.h
+l2cache.o: ../../incl/MemSys/stats.h
+l2cache.o: ../../incl/MemSys/misc.h
+l2cache.o: ../../incl/MemSys/typedefs.h
+l2cache.o: ../../incl/MemSys/cohe_types.h
+l2cache.o: ../../incl/MemSys/req.h
+l2cache.o: ../../incl/MemSys/typedefs.h
+l2cache.o: ../../incl/MemSys/miss_type.h
+l2cache.o: ../../incl/MemSys/mshr.h
+l2cache.o: ../../incl/MemSys/module.h
+l2cache.o: ../../incl/MemSys/miss_type.h
+l2cache.o: ../../incl/MemSys/req.h
+l2cache.o: ../../incl/MemSys/stats.h
+l2cache.o: ../../incl/MemSys/misc.h
+l2cache.o: ../../incl/MemSys/net.h
+l2cache.o: ../../incl/MemSys/typedefs.h
+l2cache.o: ../../incl/MemSys/module.h
+l2cache.o: ../../incl/MemSys/arch.h
+l2cache.o: ../../incl/Processor/memprocess.h
+l2cache.o: ../../incl/MemSys/miss_type.h
+l2cache.o: ../../incl/Processor/capconf.h
+l2cache.o: ../../incl/MemSys/stats.h
+l2cache.o: ../../incl/Processor/simio.h
+mesh.o: ../../src/MemSys/mesh.c
+mesh.o: ../../incl/MemSys/net.h
+mesh.o: ../../incl/MemSys/typedefs.h
+mesh.o: ../../incl/MemSys/module.h
+mesh.o: ../../incl/MemSys/typedefs.h
+mesh.o: ../../incl/Processor/simio.h
+mesh.o: ../../incl/MemSys/simsys.h
+mesh.o: ../../incl/MemSys/typedefs.h
+module.o: ../../src/MemSys/module.c
+module.o: ../../incl/MemSys/simsys.h
+module.o: ../../incl/MemSys/typedefs.h
+module.o: ../../incl/MemSys/module.h
+module.o: ../../incl/MemSys/typedefs.h
+module.o: ../../incl/MemSys/req.h
+module.o: ../../incl/MemSys/typedefs.h
+module.o: ../../incl/MemSys/miss_type.h
+module.o: ../../incl/MemSys/net.h
+module.o: ../../incl/MemSys/typedefs.h
+module.o: ../../incl/MemSys/module.h
+module.o: ../../incl/MemSys/misc.h
+module.o: ../../incl/MemSys/cpu.h
+module.o: ../../incl/MemSys/module.h
+module.o: ../../incl/MemSys/simsys.h
+module.o: ../../incl/MemSys/cache.h
+module.o: ../../incl/MemSys/pipeline.h
+module.o: ../../incl/MemSys/module.h
+module.o: ../../incl/MemSys/stats.h
+module.o: ../../incl/MemSys/misc.h
+module.o: ../../incl/MemSys/typedefs.h
+module.o: ../../incl/MemSys/cohe_types.h
+module.o: ../../incl/MemSys/req.h
+module.o: ../../incl/MemSys/directory.h
+module.o: ../../incl/MemSys/typedefs.h
+module.o: ../../incl/MemSys/module.h
+module.o: ../../incl/MemSys/bus.h
+module.o: ../../incl/MemSys/arch.h
+module.o: ../../incl/Processor/simio.h
+mshr.o: ../../src/MemSys/mshr.c
+mshr.o: ../../incl/MemSys/simsys.h
+mshr.o: ../../incl/MemSys/typedefs.h
+mshr.o: ../../incl/MemSys/cache.h
+mshr.o: ../../incl/MemSys/pipeline.h
+mshr.o: ../../incl/MemSys/module.h
+mshr.o: ../../incl/MemSys/typedefs.h
+mshr.o: ../../incl/MemSys/stats.h
+mshr.o: ../../incl/MemSys/misc.h
+mshr.o: ../../incl/MemSys/typedefs.h
+mshr.o: ../../incl/MemSys/cohe_types.h
+mshr.o: ../../incl/MemSys/req.h
+mshr.o: ../../incl/MemSys/typedefs.h
+mshr.o: ../../incl/MemSys/miss_type.h
+mshr.o: ../../incl/MemSys/mshr.h
+mshr.o: ../../incl/MemSys/module.h
+mshr.o: ../../incl/MemSys/miss_type.h
+mshr.o: ../../incl/MemSys/req.h
+mshr.o: ../../incl/MemSys/miss_type.h
+mshr.o: ../../incl/MemSys/stats.h
+mshr.o: ../../incl/MemSys/arch.h
+mshr.o: ../../incl/Processor/simio.h
+names.o: ../../src/MemSys/names.c
+names.o: ../../incl/MemSys/req.h
+names.o: ../../incl/MemSys/typedefs.h
+names.o: ../../incl/MemSys/miss_type.h
+names.o: ../../incl/MemSys/stats.h
+names.o: ../../incl/MemSys/misc.h
+names.o: ../../incl/MemSys/cache.h
+names.o: ../../incl/MemSys/pipeline.h
+names.o: ../../incl/MemSys/module.h
+names.o: ../../incl/MemSys/typedefs.h
+names.o: ../../incl/MemSys/stats.h
+names.o: ../../incl/MemSys/typedefs.h
+names.o: ../../incl/MemSys/cohe_types.h
+names.o: ../../incl/MemSys/req.h
+names.o: ../../incl/MemSys/directory.h
+names.o: ../../incl/MemSys/typedefs.h
+names.o: ../../incl/MemSys/module.h
+net.o: ../../src/MemSys/net.c
+net.o: ../../incl/MemSys/simsys.h
+net.o: ../../incl/MemSys/typedefs.h
+net.o: ../../incl/MemSys/tr.net.h
+pipeline.o: ../../src/MemSys/pipeline.c
+pipeline.o: ../../incl/MemSys/cache.h
+pipeline.o: ../../incl/MemSys/pipeline.h
+pipeline.o: ../../incl/MemSys/module.h
+pipeline.o: ../../incl/MemSys/typedefs.h
+pipeline.o: ../../incl/MemSys/stats.h
+pipeline.o: ../../incl/MemSys/misc.h
+pipeline.o: ../../incl/MemSys/typedefs.h
+pipeline.o: ../../incl/MemSys/cohe_types.h
+pipeline.o: ../../incl/MemSys/req.h
+pipeline.o: ../../incl/MemSys/typedefs.h
+pipeline.o: ../../incl/MemSys/miss_type.h
+route.o: ../../src/MemSys/route.c
+route.o: ../../incl/MemSys/simsys.h
+route.o: ../../incl/MemSys/typedefs.h
+route.o: ../../incl/MemSys/req.h
+route.o: ../../incl/MemSys/typedefs.h
+route.o: ../../incl/MemSys/miss_type.h
+route.o: ../../incl/MemSys/module.h
+route.o: ../../incl/MemSys/typedefs.h
+route.o: ../../incl/MemSys/net.h
+route.o: ../../incl/MemSys/typedefs.h
+route.o: ../../incl/MemSys/module.h
+route.o: ../../incl/MemSys/arch.h
+route.o: ../../incl/MemSys/directory.h
+route.o: ../../incl/MemSys/typedefs.h
+route.o: ../../incl/MemSys/module.h
+route.o: ../../incl/MemSys/misc.h
+route.o: ../../incl/MemSys/cache.h
+route.o: ../../incl/MemSys/pipeline.h
+route.o: ../../incl/MemSys/module.h
+route.o: ../../incl/MemSys/stats.h
+route.o: ../../incl/MemSys/misc.h
+route.o: ../../incl/MemSys/typedefs.h
+route.o: ../../incl/MemSys/cohe_types.h
+route.o: ../../incl/MemSys/req.h
+route.o: ../../incl/MemSys/bus.h
+route.o: ../../incl/Processor/simio.h
+setup_cohe.o: ../../src/MemSys/setup_cohe.c
+setup_cohe.o: ../../incl/MemSys/cache.h
+setup_cohe.o: ../../incl/MemSys/pipeline.h
+setup_cohe.o: ../../incl/MemSys/module.h
+setup_cohe.o: ../../incl/MemSys/typedefs.h
+setup_cohe.o: ../../incl/MemSys/stats.h
+setup_cohe.o: ../../incl/MemSys/misc.h
+setup_cohe.o: ../../incl/MemSys/typedefs.h
+setup_cohe.o: ../../incl/MemSys/cohe_types.h
+setup_cohe.o: ../../incl/MemSys/req.h
+setup_cohe.o: ../../incl/MemSys/typedefs.h
+setup_cohe.o: ../../incl/MemSys/miss_type.h
+setup_cohe.o: ../../incl/MemSys/req.h
+setup_cohe.o: ../../incl/MemSys/misc.h
+setup_cohe.o: ../../incl/MemSys/simsys.h
+setup_cohe.o: ../../incl/MemSys/typedefs.h
+setup_cohe.o: ../../incl/Processor/simio.h
+smnet.o: ../../src/MemSys/smnet.c
+smnet.o: ../../incl/MemSys/simsys.h
+smnet.o: ../../incl/MemSys/typedefs.h
+smnet.o: ../../incl/MemSys/req.h
+smnet.o: ../../incl/MemSys/typedefs.h
+smnet.o: ../../incl/MemSys/miss_type.h
+smnet.o: ../../incl/MemSys/module.h
+smnet.o: ../../incl/MemSys/typedefs.h
+smnet.o: ../../incl/MemSys/net.h
+smnet.o: ../../incl/MemSys/typedefs.h
+smnet.o: ../../incl/MemSys/module.h
+smnet.o: ../../incl/MemSys/misc.h
+smnet.o: ../../incl/MemSys/arch.h
+smnet.o: ../../incl/Processor/simio.h
+stat.o: ../../src/MemSys/stat.c
+stat.o: ../../incl/MemSys/simsys.h
+stat.o: ../../incl/MemSys/typedefs.h
+stat.o: ../../incl/MemSys/misc.h
+stat.o: ../../incl/MemSys/tr.stat.h
+stat.o: ../../incl/Processor/simio.h
+userq.o: ../../src/MemSys/userq.c
+userq.o: ../../incl/MemSys/simsys.h
+userq.o: ../../incl/MemSys/typedefs.h
+userq.o: ../../incl/MemSys/cpu.h
+userq.o: ../../incl/MemSys/module.h
+userq.o: ../../incl/MemSys/typedefs.h
+userq.o: ../../incl/MemSys/simsys.h
+userq.o: ../../incl/MemSys/tr.userq.h
+userq.o: ../../incl/MemSys/dbsim.h
+util.o: ../../src/MemSys/util.c
+util.o: ../../incl/MemSys/simsys.h
+util.o: ../../incl/MemSys/typedefs.h
+util.o: ../../incl/MemSys/dbsim.h
+util.o: ../../incl/Processor/simio.h
+wb.o: ../../src/MemSys/wb.c
+wb.o: ../../incl/MemSys/simsys.h
+wb.o: ../../incl/MemSys/typedefs.h
+wb.o: ../../incl/MemSys/cache.h
+wb.o: ../../incl/MemSys/pipeline.h
+wb.o: ../../incl/MemSys/module.h
+wb.o: ../../incl/MemSys/typedefs.h
+wb.o: ../../incl/MemSys/stats.h
+wb.o: ../../incl/MemSys/misc.h
+wb.o: ../../incl/MemSys/typedefs.h
+wb.o: ../../incl/MemSys/cohe_types.h
+wb.o: ../../incl/MemSys/req.h
+wb.o: ../../incl/MemSys/typedefs.h
+wb.o: ../../incl/MemSys/miss_type.h
+wb.o: ../../incl/MemSys/req.h
+wb.o: ../../incl/Processor/memprocess.h
+wb.o: ../../incl/MemSys/miss_type.h
+wb.o: ../../incl/MemSys/net.h
+wb.o: ../../incl/MemSys/typedefs.h
+wb.o: ../../incl/MemSys/module.h
+wb.o: ../../incl/MemSys/arch.h
+wb.o: ../../incl/Processor/mainsim.h
+wb.o: ../../incl/Processor/simio.h
+wbuffer.o: ../../src/MemSys/wbuffer.c
+wbuffer.o: ../../incl/MemSys/simsys.h
+wbuffer.o: ../../incl/MemSys/typedefs.h
+wbuffer.o: ../../incl/MemSys/cache.h
+wbuffer.o: ../../incl/MemSys/pipeline.h
+wbuffer.o: ../../incl/MemSys/module.h
+wbuffer.o: ../../incl/MemSys/typedefs.h
+wbuffer.o: ../../incl/MemSys/stats.h
+wbuffer.o: ../../incl/MemSys/misc.h
+wbuffer.o: ../../incl/MemSys/typedefs.h
+wbuffer.o: ../../incl/MemSys/cohe_types.h
+wbuffer.o: ../../incl/MemSys/req.h
+wbuffer.o: ../../incl/MemSys/typedefs.h
+wbuffer.o: ../../incl/MemSys/miss_type.h
+wbuffer.o: ../../incl/MemSys/module.h
+wbuffer.o: ../../incl/MemSys/net.h
+wbuffer.o: ../../incl/MemSys/typedefs.h
+wbuffer.o: ../../incl/MemSys/module.h
+wbuffer.o: ../../incl/Processor/simio.h
+bus.o: ../../src/MemSys/bus.c
+bus.o: ../../incl/MemSys/typedefs.h
+bus.o: ../../incl/MemSys/simsys.h
+bus.o: ../../incl/MemSys/typedefs.h
+bus.o: ../../incl/MemSys/cache.h
+bus.o: ../../incl/MemSys/pipeline.h
+bus.o: ../../incl/MemSys/module.h
+bus.o: ../../incl/MemSys/typedefs.h
+bus.o: ../../incl/MemSys/stats.h
+bus.o: ../../incl/MemSys/misc.h
+bus.o: ../../incl/MemSys/typedefs.h
+bus.o: ../../incl/MemSys/cohe_types.h
+bus.o: ../../incl/MemSys/req.h
+bus.o: ../../incl/MemSys/typedefs.h
+bus.o: ../../incl/MemSys/miss_type.h
+bus.o: ../../incl/MemSys/net.h
+bus.o: ../../incl/MemSys/typedefs.h
+bus.o: ../../incl/MemSys/module.h
+bus.o: ../../incl/MemSys/bus.h
+bus.o: ../../incl/MemSys/arch.h
+bus.o: ../../incl/Processor/simio.h
+predecode.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/predecode/predecode.cc
+predecode_instr.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/predecode/predecode_instr.cc
+predecode_table.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/predecode/predecode_table.cc
+unelf.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/predecode/unelf.cc
+active.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/active.cc
+branchpred.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/branchpred.cc
+branchqelt.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/branchqelt.cc
+branchresolve.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/branchresolve.cc
+capconf.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/capconf.cc
+config.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/config.cc
+except.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/except.cc
+exec.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/exec.cc
+freelist.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/freelist.cc
+funcs.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/funcs.cc
+graduate.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/graduate.cc
+inames.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/inames.cc
+instheap.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/instheap.cc
+mainsim.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/mainsim.cc
+memprocess.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/memprocess.cc
+memunit.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/memunit.cc
+pipestages.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/pipestages.cc
+shmalloc.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/shmalloc.cc
+simio.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/simio.cc
+stallq.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/stallq.cc
+startup.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/startup.cc
+state.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/state.cc
+tagcvt.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/tagcvt.cc
+traps.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/traps.cc
+traptable.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/traptable.cc
+units.o:
+	$(C++) $(CPPFLAGS) $(C++FLAGS) -c ../../src/Processor/units.cc
+act.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/act.c
+architecture.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/architecture.c
+associate.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/associate.c
+pool.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/pool.c
+cache.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/cache.c
+cachehelp.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/cachehelp.c
+cache2.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/cache2.c
+cpu.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/cpu.c
+directory.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/directory.c
+driver.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/driver.c
+evlst.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/evlst.c
+globals.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/globals.c
+l1cache.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/l1cache.c
+l2cache.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/l2cache.c
+mesh.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/mesh.c
+module.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/module.c
+mshr.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/mshr.c
+names.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/names.c
+net.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/net.c
+pipeline.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/pipeline.c
+route.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/route.c
+setup_cohe.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/setup_cohe.c
+smnet.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/smnet.c
+stat.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/stat.c
+userq.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/userq.c
+util.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/util.c
+wb.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/wb.c
+wbuffer.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/wbuffer.c
+bus.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c ../../src/MemSys/bus.c

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Compile-time parameters</TITLE>
+<META NAME="description" CONTENT="Compile-time parameters">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html888" HREF="node46.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html886" HREF="node28.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html882" HREF="node44.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html890" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html889" HREF="node46.html">Porting Applications to RSIM</A>
+<B>Up:</B> <A NAME="tex2html887" HREF="node28.html">Configuring RSIM</A>
+<B> Previous:</B> <A NAME="tex2html883" HREF="node44.html">Queue sizes connecting memory </A>
+<BR> <P>
+<H1><A NAME="SECTION02330000000000000000">Compile-time parameters</A></H1>
+<P>
+<A NAME="config_compiletime">&#160;</A>
+<P>
+Some parameters are specified at compile time only. This table
+lists the file where each of the following parameters is specified,
+as well as the variable or macro controlling the value of the parameter.
+<P>
+<TABLE COLS=4 BORDER FRAME=BOX RULES=GROUPS>
+<COLGROUP><COL ALIGN=CENTER><COLGROUP><COL ALIGN=LEFT><COLGROUP><COL ALIGN=LEFT><COLGROUP><COL ALIGN=LEFT>
+<TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP>
+Filename </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Description </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Variables </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Default </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP>Makefile </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Simulate sequential consistency or processor consistency system </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>  <TT>STORE_ORDERING</TT> </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> RC (not defined) </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP>architecture.c </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Width of  module ports </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> <TT>INTERCONNECTION_WIDTH_BYTES</TT> </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 16 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP>exec.cc </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Address generation unit latency </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> <TT>latencies[uADDR]</TT> </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 1 cycle </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP>exec.cc </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Address generation unit repeat rate </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> <TT>repeat[uADDR]</TT> </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 1 cycle </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP>state.h </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Page size (used for loading executable or increasing stack size) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> <TT>ALLOC_SIZE</TT> </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 4 KB </TD></TR>
+</TBODY>
+</TABLE>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

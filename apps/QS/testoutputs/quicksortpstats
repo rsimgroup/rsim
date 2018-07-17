@@ -1,0 +1,53 @@
+Phase 1 STATS
+FILE quicksortp1_1x4d_err
+Total elapsed time of simulation 784.000000
+Simulated time 4959834.500000
+
+Exec time IPC   Busy    Acq     Rel     Read    Write   RMW     Spin    Barrier
+4.41e+06  2.138 81.32   0.29    0.02    14.13   4.25    0.00    0.00    0.00
+
+USER:   1       2       3       4       5       6       7       8       9
+USER:   0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
+
+        Read L1 =       12.84   Write L1 =      4.25    RMW L1 =        0.00
+        Read L2 =       0.36    Write L2 =      0.00    RMW L2 =        0.00
+        Read local =    0.93    Write local =   0.00    RMW remote =    0.00
+        Read remote =   0.00    Write remote =  0.00    RMW remote =    0.00
+
+LAT   : RD      WT      RMW
+Addr  : 1.21    12.29   12.84
+
+Issue : 1.20    10.00   10.03
+
+Active: 6.58    16.88   18.77
+
+BUSY=35.94      ALU=15.26       FPU=0.00        BRU=30.12
+READ MISS=1.29  WRITE MISS=0.00 RMW MISS=0.00
+Avail=0.991     Eff=3.148       Util=0.685
+
+----------------------------------------------------------------
+FILE quicksortp2_1x4d_err
+Total elapsed time of simulation 1001.000000
+Simulated time 3166470.500000
+
+Exec time IPC   Busy    Acq     Rel     Read    Write   RMW     Spin    Barrier
+2.59e+06  1.926 68.79   2.27    0.02    22.87   3.57    0.00    2.46    0.00
+
+USER:   1       2       3       4       5       6       7       8       9
+USER:   0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
+
+        Read L1 =       10.98   Write L1 =      3.57    RMW L1 =        0.00
+        Read L2 =       0.31    Write L2 =      0.00    RMW L2 =        0.00
+        Read local =    0.40    Write local =   0.00    RMW remote =    0.00
+        Read remote =   11.17   Write remote =  0.00    RMW remote =    0.00
+
+LAT   : RD      WT      RMW
+Addr  : 3.25    23.24   84.77
+
+Issue : 3.23    16.92   79.95
+
+Active: 8.89    28.55   90.36
+
+BUSY=30.79      ALU=12.82       FPU=0.00        BRU=25.18
+READ MISS=11.88 WRITE MISS=0.00 RMW MISS=0.00
+Avail=0.894     Eff=3.089       Util=0.697

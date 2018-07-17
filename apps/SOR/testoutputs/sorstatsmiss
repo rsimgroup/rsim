@@ -1,0 +1,37 @@
+Phase 1 STATS
+FILE sorp1_1x4d
+Misses: 140
+Miss latency: 51.07
+Overlapped miss latency: 33.85
+Fraction unoverlapped: 33.06\%
+Refs: 33160
+L1refs: 33160
+L2refs: 140
+L1hits: 99.53 (33003)
+L1misses: 0.42 (140)
+L2hits: 34.29 (48)
+L2misses: 65.71 (92)
+Local mems: 100.00 (92)
+Remote mems: 0.00 (0)
+Average load queue = 4.87767
+Average L1 MSHR = 0.296
+Average L2 MSHR = 0.318
+Average network read latency = 33.315 (over 92 )
+FILE sorp2_1x4d
+Misses: 189
+Miss latency: 79.60
+Overlapped miss latency: 48.81
+Fraction unoverlapped: 38.19\%
+Refs: 34107
+L1refs: 34107
+L2refs: 189
+L1hits: 99.09 (33797)
+L1misses: 0.55 (189)
+L2hits: 25.40 (48)
+L2misses: 74.60 (141)
+Local mems: 64.54 (91)
+Remote mems: 35.46 (50)
+Average load queue = 4.95648
+Average L1 MSHR = 0.1895
+Average L2 MSHR = 0.260
+Average network read latency = 71.050 (over 141 )

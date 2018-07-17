@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>RSIM_EVENT and the Out-of-order Execution Engine</TITLE>
+<META NAME="description" CONTENT="RSIM_EVENT and the Out-of-order Execution Engine">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1299" HREF="node76.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1297" HREF="node68.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1291" HREF="node74.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1301" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1300" HREF="node76.html">Overview of RSIM_EVENT</A>
+<B>Up:</B> <A NAME="tex2html1298" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<B> Previous:</B> <A NAME="tex2html1292" HREF="node74.html">Initialization and Configuration Routines </A>
+<BR> <P>
+<H1><A NAME="SECTION03400000000000000000"><TT>RSIM_EVENT</TT> and the Out-of-order Execution Engine</A></H1>
+<P>
+<A NAME="rsimproc_ooo">&#160;</A>
+<P>
+Section&nbsp;<A HREF="node76.html#rsimevent_cycle">10.1</A> gives an overview of <TT>RSIM_EVENT</TT>, the
+event corresponding to the processors and cache hierarchies.
+The
+rest of this 
+chapter focuses on the out-of-order execution engine. The other
+subsystems handled by <TT>RSIM_EVENT</TT> are the processor memory
+unit and the cache hierarchy, and are discussed in Chapters&nbsp;<A HREF="node85.html#rsimproc_memunit">11</A>&nbsp;and&nbsp;<A HREF="node99.html#rsimmemsys_cache">13</A>.
+<P>
+The out-of-order execution engine is responsible for bringing
+instructions into the processor, decoding instructions, renaming
+registers, issuing instructions to the functional units, executing
+instructions at the functional units, updating the register file, and
+graduating instructions from the active list.
+<P>
+<BR> <HR>
+<UL> 
+<LI> <A NAME="tex2html1302" HREF="node76.html#SECTION03410000000000000000">Overview of <TT>RSIM_EVENT</TT></A>
+<LI> <A NAME="tex2html1303" HREF="node77.html#SECTION03420000000000000000">Instruction fetch and decode</A>
+<LI> <A NAME="tex2html1304" HREF="node78.html#SECTION03430000000000000000">Branch prediction</A>
+<LI> <A NAME="tex2html1305" HREF="node79.html#SECTION03440000000000000000">Instruction issue</A>
+<LI> <A NAME="tex2html1306" HREF="node80.html#SECTION03450000000000000000">Instruction execution</A>
+<LI> <A NAME="tex2html1307" HREF="node81.html#SECTION03460000000000000000">Completion</A>
+<LI> <A NAME="tex2html1308" HREF="node82.html#SECTION03470000000000000000">Graduation</A>
+<LI> <A NAME="tex2html1309" HREF="node83.html#SECTION03480000000000000000">Exception handling</A>
+<LI> <A NAME="tex2html1310" HREF="node84.html#SECTION03490000000000000000">Principal data structures</A>
+</UL>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

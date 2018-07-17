@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Handling REQUEST type</TITLE>
+<META NAME="description" CONTENT="Handling REQUEST type">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1639" HREF="node104.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1637" HREF="node102.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1631" HREF="node102.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1641" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1640" HREF="node104.html">Handling REPLY type</A>
+<B>Up:</B> <A NAME="tex2html1638" HREF="node102.html">Processing L1 cache actions</A>
+<B> Previous:</B> <A NAME="tex2html1632" HREF="node102.html">Processing L1 cache actions</A>
+<BR> <P>
+<H2><A NAME="SECTION03731000000000000000">Handling <TT>REQUEST</TT> type</A></H2>
+<P>
+For <TT>REQUEST</TT>s, <TT>L1ProcessTagReq</TT> first checks the tag in
+the tag array and in the outstanding MSHRs by calling <TT>
+notpres_mshr</TT>.
+<P>
+<P>
+<P>
+<B>Step 1: Calling <TT>notpres_mshr</TT></B>
+<P>
+<P>
+<P>
+For a <TT>REQUEST</TT>, <TT>notpres_mshr</TT> first checks to see if the
+request has a tag that matches any of the outstanding
+MSHRs. Additionally, the <TT>notpres</TT> function is called to determine
+if the desired line is available in the cache. If the line is not
+present in any MSHR, the coherence routine for the cache (<TT>
+cohe_pr</TT> for L1, <TT>cohe_sl</TT> for L2) is called to determine the
+appropriate actions for this line, based on whether or not the line is
+present, the current MESI state of the line in cache, and the type of
+cache.
+<P>
+<P>
+<P>
+<B>Step 1a: Behavior of <TT>notpres_mshr</TT> when <TT>REQUEST</TT> does not match MSHR</B>
+<P>
+<P>
+<P>
+If the <TT>REQUEST</TT> being processed does not match an outstanding MSHR,
+the operation of <TT>notpres_mshr</TT> depends on whether or not the line hits
+in the cache and the state of the line.
+<P>
+If the line being accessed hits in the cache in an acceptable state,
+this request will not require a request to a lower module. As a
+result, the cache will return <TT>NOMSHR</TT>, indicating that no MSHR
+was involved or needed in this request<A NAME="tex2html26" HREF="footnode.html#2212"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.
+<P>
+If the request goes to the next level of cache without taking an MSHR
+at this cache level (either by being a write in a write-through cache or an L2
+prefetch), the value <TT>NOMSHR_FWD</TT> is returned to indicate that no
+MSHR was required, but that the request must be sent forward.
+<P>
+If the request
+needs a new MSHR, but none are available, the value <TT>NOMSHR_STALL</TT>
+is returned. In the case of the L2 cache, a request that is not able
+to reserve a space in the write-back buffer leads to a <TT>
+NOMSHR_STALL_WRBBUF_FULL</TT> return value.
+<P>
+Otherwise, the cache books an MSHR and
+returns a response based on whether this access was a complete miss
+(<TT>MSHR_NEW</TT>) or an upgrade request (<TT>MSHR_FWD</TT>). In the case
+of upgrades, the line is locked into cache by setting <TT>mshr_out</TT>;
+this guarantees that the line is not victimized on a later <TT>REPLY</TT>
+before the upgrade reply returns. In all cases where the line is present
+in cache, the <TT>hit_update</TT> function is called to update the ages of the
+lines in the set (for LRU replacement).
+<P>
+<P>
+<P>
+<B>Step 1b: Behavior of <TT>notpres_mshr</TT> when <TT>REQUEST</TT> matches MSHR</B>
+<P>
+<P>
+<P>
+On the other hand, if the <TT>REQUEST</TT> matches a current MSHR, the
+operation of <TT>notpres_mshr</TT> depends on the type of the <TT>REQUEST</TT> and
+the previous accesses to the matching MSHR.
+<P>
+If the access is a shared prefetch or an exclusive prefetch to an MSHR
+returning in exclusive state, the prefetch is not necessary because
+a fetch is already in progress. In this case, this function returns
+<TT>MSHR_USELESS_FETCH_IN_PROGRESS</TT> to indicate that the
+<TT>REQUEST</TT> should be dropped.
+<P>
+If the access is an L2 prefetch or an exclusive prefetch in the
+case of a write-through L1 cache, the <TT>REQUEST</TT> should be forwarded
+around the cache. In this case, the function returns <TT>NOMSHR_FWD</TT>.
+If the request was an exclusive prefetch, it is converted to an L2 exclusive
+prefetch before being forwarded around the cache.
+<P>
+In certain cases, the <TT>REQUEST</TT> may need to be stalled.
+Possible scenarios that can result in stalls and the values they
+return are as follows. If the MSHR is being temporarily held for a
+write-back, <TT>notpres_mshr</TT>
+returns <TT>MSHR_STALL_WRB</TT>. If the MSHR is marked with an
+unacceptable pending coherence message, the function returns
+<TT>MSHR_STALL_COHE</TT>. If the MSHR already has the
+maximum number of coalesced <TT>REQUEST</TT>s for an MSHR, the
+return value is <TT>MSHR_STALL_COAL</TT>. The maximum number of
+coalesced accesses is a configurable parameter.
+Finally, when a write (or exclusive prefetch) <TT>REQUEST</TT> comes to
+the same line as an MSHR held for a read (or shared prefetch) <TT>
+REQUEST</TT>, the value <TT>MSHR_STALL_WAR</TT> is returned. This last case
+can significantly affect the performance of hardware
+store-prefetching, and is called a <EM>WAR stall</EM><A NAME="tex2html27" HREF="footnode.html#1915"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>. The impact of WAR stalls can be reduced through software prefetching, as
+an exclusive prefetch can be sent before either the read or write
+accesses&nbsp;[<A HREF="node132.html#PaiRanganathan1996a">15</A>, <A HREF="node132.html#RanganathanPai1997a">16</A>].
+<P>
+If the access was not dropped, forwarded, or stalled, it is a valid
+access that can be processed by merging with the current MSHR. In this
+circumstance, the cache merges the request with the current MSHR and
+returns <TT>MSHR_COAL</TT>.
+<P>
+<P>
+<P>
+<B>Step 2: Processing based on the results of <TT>notpres_mshr</TT></B>
+<P>
+<P>
+<P>
+<TT>L1ProcessTagReq</TT> continues processing the <TT>REQUEST</TT> based on
+the return value of <TT>notpres_mshr</TT>.
+<P>
+For a hit (<TT>NOMSHR</TT>), the
+request is marked as a hit and returned to the processor through the
+<TT>GlobalPerformAndHeapInsertAllCoalesced</TT> function.
+<P>
+For new misses (<TT>MSHR_NEW</TT>), upgrades (<TT>MSHR_FWD</TT>),
+or write-throughs (<TT>NOMSHR_FWD</TT>), the cache attempts to send the
+request down, returning a successful value if the request is sent
+successfully.
+<P>
+For <TT>MSHR_COAL</TT>, the element is considered to have
+been processed successfully.
+<P>
+On <TT>MSHR_USELESS_FETCH_IN_PROGRESS</TT>,
+the request is dropped.
+<P>
+For each of the stall cases, the processing is generally considered
+incomplete, and the function returns 0 to indicate this. However, if
+the stalled request is a prefetch and <TT>DISCRIMINATE_PREFETCH</TT> has
+been set with the ``-T'' option, the request is dropped and
+processing is considered successful.  Note that <TT>
+DISCRIMINATE_PREFETCH</TT> cannot be used to drop prefetches at the L2 cache,
+as these prefetches may already hold MSHRs with
+other coalesced requests at the L1 cache.
+<P>
+<HR><A NAME="tex2html1639" HREF="node104.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1637" HREF="node102.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1631" HREF="node102.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1641" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1640" HREF="node104.html">Handling REPLY type</A>
+<B>Up:</B> <A NAME="tex2html1638" HREF="node102.html">Processing L1 cache actions</A>
+<B> Previous:</B> <A NAME="tex2html1632" HREF="node102.html">Processing L1 cache actions</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

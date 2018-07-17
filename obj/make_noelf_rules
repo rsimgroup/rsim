@@ -1,0 +1,36 @@
+
+COMMONRULE = $(C++) $(C++FLAGS) -o $@ $(OBJS) -lm
+
+all: rsim
+
+rsim : $(OBJS)
+	$(COMMONRULE)
+
+rsim_dbg : $(OBJS)
+	$(COMMONRULE)
+
+rsim2 : $(OBJS)
+	$(COMMONRULE)
+
+rsim3 : $(OBJS)
+	$(COMMONRULE)
+
+rsim4 : $(OBJS)
+	$(COMMONRULE)
+
+rsim5 : $(OBJS)
+	$(COMMONRULE)
+
+rsim2_dbg : $(OBJS)
+	$(COMMONRULE)
+
+rsim3_dbg : $(OBJS)
+	$(COMMONRULE)
+
+decode_dbg : $(OBJS)
+	$(COMMONRULE)
+
+clean :
+	rm -f *.o
+
+include $(DEPSDIR)/Dependfile

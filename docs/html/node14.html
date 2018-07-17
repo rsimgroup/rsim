@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Building the RSIM simulator</TITLE>
+<META NAME="description" CONTENT="Building the RSIM simulator">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html517" HREF="node15.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html515" HREF="node12.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html509" HREF="node13.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html519" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html518" HREF="node15.html">Building the RSIM applications </A>
+<B>Up:</B> <A NAME="tex2html516" HREF="node12.html">Installing RSIM</A>
+<B> Previous:</B> <A NAME="tex2html510" HREF="node13.html">Unpacking the RSIM software </A>
+<BR> <P>
+<H1><A NAME="SECTION02120000000000000000">Building the RSIM simulator</A></H1>
+<P>
+<A NAME="installing_make">&#160;</A>
+<P>
+Each of the following directories in <TT>rsim-1.0</TT> contains a
+Makefile for a specific simulation host platform and simulation target
+store-ordering policy. RSIM versions with store-ordering support the
+memory consistency models of sequential consistency and processor
+consistency, while versions without store-ordering support release
+consistency. (See Chapter&nbsp;<A HREF="node20.html#arch_model">3</A> for more details.)
+Except where noted otherwise, the makefiles in the directories below
+compile a simulator for a release-consistency target system.
+Debugging makefiles are also provided to compile RSIM with debugging
+and tracing options. All makefiles are provided for the standard <TT>make</TT>
+utility for each system.
+<P>
+<DL ><DT><STRONG>obj/hp</STRONG>
+<DD> Convex Exemplar platform with HP PA-8000 processors and HP-UX version 10
+<P>
+		Makefile assumes GNU C and C++ compilers, version 2.5.8 or above
+<P>
+<DT><STRONG>obj/sgi</STRONG>
+<DD> SGI PowerChallenge platform with MIPS R8000 processors and IRIX 6.2
+<P>
+		Makefile assumes SGI C and C++ compilers, version 6.2 or above
+<P>
+<DT><STRONG>obj/ss10</STRONG>
+<DD> Sun SPARCstation-10 with Solaris 2.5 or above
+<P>
+		Makefile assumes SUN C and C++ compilers, version 4.0 or above
+<P>
+<DT><STRONG>obj/ultra140</STRONG>
+<DD> Sun Ultra-I/140 workstation with Solaris 2.5 or above
+<P>
+		Makefile assumes SUN C and C++ compilers, version 4.0 or above
+<P>
+<DT><STRONG>obj/ultra170</STRONG>
+<DD> Sub Ultra-I/170 workstation with Solaris 2.5 or above
+<P>
+		Makefile assumes SUN C and C++ compilers, version 4.0 or above
+<P>
+<DT><STRONG>obj/SC_hp,SC_ultra,SC_sgi</STRONG>
+<DD> As above, except compiles a simulator for 
+				    a target system with store-ordering (to simulate systems with sequential consistency or processor consistency).
+<TT>SC_ultra</TT> is optimized for Sun Ultra-I/140 workstations, but can also
+be used on Ultra-I/170 workstations.
+<P>
+<DT><STRONG>obj/dbg,obj/SC_dbg</STRONG>
+<DD> Debugging makefiles for Sun workstations with Solaris 2.5 or above
+<P>
+		Makefile assumes GNU C and C++ compilers, version 2.5.8 or above
+<P>
+ </DL>
+<P>
+These makefiles create an executable called <TT>rsim</TT>. 
+For example, to make an <TT>rsim</TT> executable that will run on a
+Convex Exemplar target to simulate a system with processor 
+consistency, the user should type the following in the <TT>rsim-1.0</TT>
+directory:
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  cd obj/SC_hp</TT>
+<P>
+<TT><B>prompt%</B>  make rsim</TT>
+<P>
+<P>
+<P>
+This sequence should cause the system to start compiling all of
+the C and C++ source files of RSIM into relocatable object files.
+After this, the make utility links these object files to form
+the <TT>rsim</TT> executable. The compile-time 
+parameters specified in the Makefile are listed
+in Section&nbsp;<A HREF="node45.html#config_compiletime">4.3</A>.
+<P>
+Additionally, the <TT>predecode</TT> executable must be created on any of the
+Sun platforms listed above by typing the commands below from the <TT>
+rsim-1.0</TT> directory (any of the Sun directories listed above may be
+used in place of <TT>ss10</TT>):
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  cd obj/ss10</TT>
+<P>
+<TT><B>prompt%</B>  make predecode</TT>
+<P>
+<P>
+<P>
+<TT>predecode</TT> 
+translates the instructions of a SPARC application executable into a form 
+that can be processed by RSIM, as explained in Section&nbsp;<A HREF="node4.html#overview">1</A>.
+<P>
+<TT>unelf</TT> must be built and run only if the user intends to run RSIM
+on platforms that do not support the ELF library 
+functions<A NAME="tex2html1" HREF="footnode.html#162"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>. <TT>unelf</TT> must be built on a
+platform that supports ELF (such as a Sun platform
+with Solaris). For example, <TT>unelf</TT> can be built on a SPARCstation
+10 by typing the following command
+sequence from the <TT>rsim-1.0</TT> directory:
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  cd obj/ss10</TT>
+<P>
+<TT><B>prompt%</B>  make unelf</TT>
+<P>
+<P>
+<P>
+It should be relatively simple to compile <TT>rsim</TT>, <TT>predecode</TT>,
+and <TT>unelf</TT> for related systems in the same processor and
+operating system families as specified above. The optimization options
+in the makefile may need to be changed to represent a processor of a
+different generation, and some C preprocessor flags may need to be
+defined or left undefined according to the characteristics of the
+specified system. Additionally, it should also be straightforward to
+change the Makefiles to run with another make utility on a supported
+platform, such as <TT>gnumake</TT>. The file <TT>obj/README</TT> documents
+the possible changes needed.
+<P>
+Porting RSIM to other
+architectures may or may not be straightforward. In particular,
+porting to 64-bit platforms or little-endian
+platforms may require additional effort.
+<P>
+<HR><A NAME="tex2html517" HREF="node15.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html515" HREF="node12.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html509" HREF="node13.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html519" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html518" HREF="node15.html">Building the RSIM applications </A>
+<B>Up:</B> <A NAME="tex2html516" HREF="node12.html">Installing RSIM</A>
+<B> Previous:</B> <A NAME="tex2html510" HREF="node13.html">Unpacking the RSIM software </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

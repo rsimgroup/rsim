@@ -1,0 +1,44 @@
+going to call Associate address node
+going to call Associate address node
+going to call Associate address node
+going to call Associate address node
+going to call Associate address node
+going to call Associate address node
+going to call Associate address node
+going to call Associate address node
+QS - OPTIONS
+	p - Number of processors 	8
+	s - Size of array		16384
+	b - Bubble threshold 		64
+	B - Bubble 			1
+	d - Display output		0
+	v - Verify results		1
+
+Initializing values
+Initializing data
+Shuffling data
+Before barrier 4
+Starting Process 4
+Coming out of worker 4
+Before barrier 1
+Starting Process 1
+Coming out of worker 1
+Before barrier 2
+Starting Process 2
+Coming out of worker 2
+Before barrier 5
+Starting Process 5
+Coming out of worker 5
+Before barrier 6
+Starting Process 6
+Coming out of worker 6
+Before barrier 3
+Starting Process 3
+Coming out of worker 3
+Before barrier 7
+Starting Process 7
+Coming out of worker 7
+Before barrier 0
+Starting Process 0
+Coming out of worker 0
+Congrats!! Program successful!! :-)

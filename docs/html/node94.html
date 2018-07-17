@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>The req_type field</TITLE>
+<META NAME="description" CONTENT="The req_type field">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1529" HREF="node95.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1527" HREF="node92.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1521" HREF="node93.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1531" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1530" HREF="node95.html">The s.reply field</A>
+<B>Up:</B> <A NAME="tex2html1528" HREF="node92.html">Memory system message data </A>
+<B> Previous:</B> <A NAME="tex2html1522" HREF="node93.html">The s.type field</A>
+<BR> <P>
+<H2><A NAME="SECTION03622000000000000000">The <TT>req_type</TT> field</A></H2>
+<P>
+The <TT>req_type</TT> field can take on several values, some of which are
+currently reserved for future expansion. The types that are actually
+supported in RSIM are split into the following categories:
+<P>
+<OL><LI>	Those seen only at the processors and caches<LI>	System transaction requests<LI>	Replies<LI>	Coherence actions<LI>	Replacement messages
+</OL>
+<P>
+The names and functions of some of these field values resemble those
+used in the UltraSPARC-II&nbsp;[<A HREF="node132.html#ULTRASPARC2">25</A>].
+<P>
+<P>
+<P>
+<EM><TT>req_type</TT> values used only at the processors and caches:</EM>
+<P>
+<P>
+<P>
+The names of the <TT>req_type</TT> values used only at the processors
+and caches are largely self-explanatory: <TT>READ</TT>, <TT>WRITE</TT>, <TT>RMW</TT>,
+<TT>L1WRITE_PREFETCH</TT>, <TT>L1READ_PREFETCH</TT>, <TT>L2WRITE_PREFETCH</TT>,
+and <TT>L2READ_PREFETCH</TT>. (The prefetch requests represent the type of
+prefetch to issue and the level of cache to which to bring the line).
+<P>
+<P>
+<P>
+<EM><TT>req_type</TT> values that specify system transaction requests:</EM>
+<P>
+<P>
+<P>
+System transaction requests are <TT>REQUEST</TT>s seen beyond the
+caches (i.e. at the busses and directory). These request have
+the following <TT>req_type</TT> values and demand the stated actions:
+<P>
+<DL ><DT><STRONG>READ_SH</STRONG>
+<DD> Reads a cache line without demanding ownership. Issued for
+read misses and shared (read) prefetches.
+<DT><STRONG>READ_OWN</STRONG>
+<DD> Reads a cache line and demands ownership. Issued for
+write misses, read-modify-write misses, and exclusive (write) prefetches.
+<DT><STRONG>UPGRADE</STRONG>
+<DD> Demands ownership for a cache line (without reading the line).
+Issued for writes, read-modify-writes, or exclusive prefetches that are to
+lines that hit in the cache, but are held in shared state.
+<P>
+ </DL>
+<P>
+<P>
+<P>
+<EM><TT>req_type</TT> values that indicate replies:</EM>
+<P>
+<P>
+<P>
+Each of the request types discussed above receives a <TT>REPLY</TT> from the
+module at which it is serviced. The following values of <TT>req_type</TT>
+indicate such replies.
+<P>
+<DL ><DT><STRONG>REPLY_SH</STRONG>
+<DD> Brings a line to cache in shared state. Valid response
+to <TT>READ_SH</TT>.
+<DT><STRONG>REPLY_EXCL</STRONG>
+<DD> Brings a line to cache in exclusive state. Valid
+response to <TT>READ_SH</TT><A NAME="tex2html23" HREF="footnode.html#1677"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>, <TT>READ_OWN</TT>, or <TT>UPGRADE</TT><A NAME="tex2html24" HREF="footnode.html#1810"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>
+<DT><STRONG>REPLY_UPGRADE</STRONG>
+<DD> Acknowledges ownership of a cache line. Valid
+response to <TT>UPGRADE</TT>.
+<DT><STRONG>REPLY_EXCLDY</STRONG>
+<DD> Brings a line to cache in modified (exclusive dirty)
+state. Valid response to <TT>READ_OWN</TT>, or <TT>UPGRADE</TT><A NAME="tex2html25" HREF="footnode.html#1811"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>
+<P>
+ </DL>
+<P>
+<P>
+<P>
+<EM><TT>req_type</TT> values that specify coherence actions:</EM>
+<P>
+<P>
+<P>
+In response to one of the system transaction requests described above and
+based on the current
+sharing status of the line,
+the directory may send coherence messages with any of the following
+<TT>req_type</TT> values to bring the line to an acceptable state: (These
+messages may have an <TT>s.type</TT> of either <TT>COHE</TT> or <TT>COHE_REPLY</TT>.)
+<P>
+<DL ><DT><STRONG>COPYBACK</STRONG>
+<DD> Transitions a line from exclusive or modified state
+to shared state. Invoked for <TT>READ_SH</TT> if held elsewhere with
+ownership. Involves a cache-to-cache transfer to the requester and either an
+acknowledgment (if exclusive state) or a copyback (if modified) to
+the directory.
+<DT><STRONG>COPYBACK_INVL</STRONG>
+<DD> Transitions a line from exclusive or modified
+state to invalid state. Invoked for <TT>READ_OWN</TT> if held elsewhere
+with ownership. Involves a cache-to-cache transfer to the requester
+and an acknowledgment to the directory.
+<DT><STRONG>INVL</STRONG>
+<DD> Transitions a line from shared to invalid state. Invoked
+for <TT>READ_OWN</TT> or <TT>UPGRADE</TT> if held elsewhere in shared
+state. Involves only acknowledgment to directory.
+<P>
+ </DL>
+<P>
+<P>
+<P>
+<EM><TT>req_type</TT> values for replacement messages:</EM>
+<P>
+<P>
+<P>
+Replacement messages are sent when a line in exclusive or modified
+state is evicted from the cache due to an incoming reply. These
+messages are sent with an <TT>s.type</TT> of <TT>COHE_REPLY</TT> and
+with one of the following <TT>req_type</TT> values:
+<P>
+<DL ><DT><STRONG>WRB</STRONG>
+<DD> Indicates a replacement from the modified state, and sends the
+updated line to the directory and memory module
+<DT><STRONG>REPL</STRONG>
+<DD> Indicates a replacement from the exclusive state, and informs
+the directory of the replacement
+<P>
+ </DL>
+<P>
+The RSIM caches do not
+inform the directory of replacements from shared state.
+<P>
+<HR><A NAME="tex2html1529" HREF="node95.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1527" HREF="node92.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1521" HREF="node93.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1531" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1530" HREF="node95.html">The s.reply field</A>
+<B>Up:</B> <A NAME="tex2html1528" HREF="node92.html">Memory system message data </A>
+<B> Previous:</B> <A NAME="tex2html1522" HREF="node93.html">The s.type field</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

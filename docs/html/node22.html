@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Processor microarchitecture</TITLE>
+<META NAME="description" CONTENT="Processor microarchitecture">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html610" HREF="node23.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html608" HREF="node20.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html602" HREF="node21.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html612" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html611" HREF="node23.html">Pipeline stage details</A>
+<B>Up:</B> <A NAME="tex2html609" HREF="node20.html">Architectural Model</A>
+<B> Previous:</B> <A NAME="tex2html603" HREF="node21.html">RSIM instruction set architecture</A>
+<BR> <P>
+<H1><A NAME="SECTION02220000000000000000">Processor microarchitecture</A></H1>
+<P>
+<A NAME="rpipes_up">&#160;</A>
+<P>
+RSIM models a processor microarchitecture that aggressively exploits
+ILP.  It incorporates features from a variety of current commercial
+processors.
+The default
+processor features include:
+<P>
+<UL><LI> Superscalar execution - multiple instructions issued per cycle.<LI> Out-of-order (dynamic) scheduling<A NAME="tex2html3" HREF="footnode.html#443"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A><LI> Register renaming<LI> Static and dynamic branch prediction<LI> Non-blocking memory load and store operations<LI> Speculative load execution before address disambiguation of
+previous stores<LI> Software-controlled non-binding prefetching<LI> Support for multiple memory consistency models and various
+implementations of these models&nbsp;[<A HREF="node132.html#PaiRanganathan1996a">15</A>]<LI> Precise exceptions<LI> Register windows
+</UL>
+<P>
+<P><A NAME="295">&#160;</A><A NAME="rpipesblocks">&#160;</A> <IMG WIDTH=572 HEIGHT=457 ALIGN=BOTTOM ALT="figure293" SRC="img3.gif"  > <BR>
+<STRONG>Figure 3.1:</STRONG> RSIM Processor Microarchitecture.<BR>
+<P>
+<P>
+The processor microarchitecture modeled by RSIM is closest to the MIPS
+R10000[<A HREF="node132.html#MIPSR10K">13</A>] and is illustrated in
+Figure&nbsp;<A HREF="node22.html#rpipesblocks">3.1</A>.  In particular, RSIM models the R10000's
+<I>active list</I> (which holds the currently active instructions,
+corresponding to the <I>reorder buffer</I> or <I>instruction window</I>
+of other processors), <I>register map table</I> (which holds the
+mapping from logical to physical registers), and <I>shadow mappers</I>
+(which store register map table information on branch prediction
+to allow single-cycle state recovery on mispredictions).  The
+pipeline parallels the <I>Fetch, Decode, Issue, Execute,</I> and <I>
+Complete</I> stages of the dynamically scheduled R10000 pipeline.
+Instructions are <EM>graduated</EM> (i.e. <EM>retired</EM>, <EM>committed</EM>, or
+<EM>removed from the active
+list</EM>) after
+passing through this pipeline.  Instructions are fetched, decoded, and
+graduated in program order; however, instructions can issue, execute,
+and complete out-of-order.  In-order graduation allows RSIM to
+implement precise interrupts.
+<P>
+Most processor parameters are configurable at runtime. These parameters
+are listed in Chapter&nbsp;<A HREF="node28.html#cmd_line">4</A>.
+<P>
+<BR> <HR>
+<UL> 
+<LI> <A NAME="tex2html613" HREF="node23.html#SECTION02221000000000000000">Pipeline stage details</A>
+<LI> <A NAME="tex2html614" HREF="node24.html#SECTION02222000000000000000">Branch prediction</A>
+<LI> <A NAME="tex2html615" HREF="node25.html#SECTION02223000000000000000">Processor memory unit</A>
+<LI> <A NAME="tex2html616" HREF="node26.html#SECTION02224000000000000000">Exception handling</A>
+</UL>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

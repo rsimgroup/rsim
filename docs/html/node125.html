@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Deadlock avoidance</TITLE>
+<META NAME="description" CONTENT="Deadlock avoidance">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1885" HREF="node126.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1883" HREF="node121.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1879" HREF="node124.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1887" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1886" HREF="node126.html">Statistics and Debugging Support</A>
+<B>Up:</B> <A NAME="tex2html1884" HREF="node121.html">System Interconnects</A>
+<B> Previous:</B> <A NAME="tex2html1880" HREF="node124.html">Multiprocessor interconnection network</A>
+<BR> <P>
+<H1><A NAME="SECTION03940000000000000000">Deadlock avoidance</A></H1>
+<P>
+<A NAME="rsimmemsys_net_deadlock">&#160;</A>
+<P>
+The node bus avoids deadlock by accessing subsequent bus agents in
+a round-robin order.
+If the desired target of a transaction is not available, the
+bus does not allow a new transaction to progress beyond
+arbitration. Thus, no access is allowed to stall the bus.
+<P>
+The interconnection network avoids deadlock through three
+design decisions. First, replies and requests are sent on
+separate networks. Since replies are guaranteed to be processed
+by the other modules in a finite amount of time, there is no
+possibility of the reply network deadlocking. Requests
+can depend on other requests or replies. If a request depends only
+on other replies, there is no chance of deadlock since no circular
+dependence exists (as replies cannot in turn depend on requests).
+However, if a request depends on other
+requests, deadlock may arise. This type of deadlock is resolved at
+the directory, as described in Section&nbsp;<A HREF="node120.html#rsimmemsys_dir_deadlock">14.6</A>.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

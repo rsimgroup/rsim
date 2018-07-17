@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Simulator control and debugging</TITLE>
+<META NAME="description" CONTENT="Simulator control and debugging">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html786" HREF="node37.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html784" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html780" HREF="node35.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html788" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html787" HREF="node37.html">Configuration file</A>
+<B>Up:</B> <A NAME="tex2html785" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html781" HREF="node35.html">Parameters related to simulation </A>
+<BR> <P>
+<H2><A NAME="SECTION02317000000000000000">Simulator control and debugging</A></H2>
+<P>
+<A NAME="cmd_line_simcontrol">&#160;</A>
+<P>
+<DL ><DT><STRONG>-f file</STRONG>
+<DD> Name of application file to interpret with RSIM, without the <TT>.out</TT> or <TT>.dec</TT>
+suffix. Defaults to ``a''.
+<DT><STRONG>-A num</STRONG>
+<DD> Every <B>num</B> minutes, the simulator will print out
+partial statistics,
+which simply provide the number of cycles since each processor last
+graduated an instruction. These are typically used to determine if
+incorrect application synchronization or simulator source code
+modification has caused a deadlock. Defaults to 60.
+<DT><STRONG>-c num</STRONG>
+<DD> Maximum number of cycles to simulate. Unused by default.
+<DT><STRONG>-t num</STRONG>
+<DD> Number of cycles to simulate before dumping detailed
+tracing information when RSIM is compiled with the debugging makefiles
+described in Section&nbsp;<A HREF="node14.html#installing_make">2.2</A>.
+Defaults to 0.
+<P>
+ </DL><BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

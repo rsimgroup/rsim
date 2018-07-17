@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Processing the cache pipelines</TITLE>
+<META NAME="description" CONTENT="Processing the cache pipelines">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1614" HREF="node102.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1612" HREF="node99.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1606" HREF="node100.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1616" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1615" HREF="node102.html">Processing L1 cache actions</A>
+<B>Up:</B> <A NAME="tex2html1613" HREF="node99.html">Cache Hierarchy</A>
+<B> Previous:</B> <A NAME="tex2html1607" HREF="node100.html">Bringing in messages</A>
+<BR> <P>
+<H1><A NAME="SECTION03720000000000000000">Processing the cache pipelines</A></H1>
+<P>
+<A NAME="rsimmemsys_cache_process">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/l1cache.c</TT>, <TT>src/MemSys/l2cache.c</TT>, <TT>src/MemSys/pipeline.c</TT>, <TT>src/MemSys/cachehelp.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/cache.h</TT>, <TT>incl/MemSys/pipeline.h</TT>
+<P>
+<P>
+<P>
+For each cycle in which there are
+accesses in the cache pipelines, the functions <TT>
+L1CacheOutSim</TT> and <TT>L2CacheOutSim</TT> are called.
+<P>
+These functions start out by checking what the system calls its <EM>
+smart MSHR list</EM>. The smart MSHR list is an abstraction used for
+simulator efficiency. In a real system, this list would correspond to
+state held at the cache resources (MSHRs or write-back buffer
+entries). Entries in the smart MSHR list correspond to messages being
+held in one of the above resources, waiting to be sent on one of the
+cache output ports. Messages can be held in their previously-allocated
+cache resources in order to prevent deadlock, as the cache must always
+accept replies in a finite amount of time.  If there are any such
+messages held in their resources, the cache attempts to send one to
+its output port. If the cache successfully sends the message, the
+corresponding resource may be freed in some cases.
+<P>
+After attempting to process the smart MSHR list, the cache considers the
+current state of its pipelines. If a message has reached the head of its
+pipeline (in other words, has experienced all its expected latency),
+the cache calls one of the functions to process messages: namely,
+<TT>L1ProcessTagReq</TT>, <TT>L2ProcessTagReq</TT>, or <TT>L2ProcessDataReq</TT>.
+If the corresponding function returns successfully, the element is 
+removed from the
+pipe. After elements have been processed from the head of their pipelines,
+the cache advances the elements by calling <TT>CyclePipe</TT>.
+The following sections describe functions <TT>L1ProcessTagReq</TT>,
+<TT>L2ProcessTagReq</TT>, and <TT>L2ProcessDataReq</TT> in detail.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>RSIM applications library</TITLE>
+<META NAME="description" CONTENT="RSIM applications library">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html929" HREF="node49.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html927" HREF="node46.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html921" HREF="node47.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html931" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html930" HREF="node49.html">Synchronization support for multiprocessor </A>
+<B>Up:</B> <A NAME="tex2html928" HREF="node46.html">Porting Applications to RSIM</A>
+<B> Previous:</B> <A NAME="tex2html922" HREF="node47.html">Process creation and shared </A>
+<BR> <P>
+<H1><A NAME="SECTION02420000000000000000">RSIM applications library</A></H1>
+<P>
+<A NAME="apps_library">&#160;</A>
+<P>
+As discussed in section&nbsp;<A HREF="node26.html#rpipes_except">3.2.4</A>, RSIM's trap convention
+differs from that of Solaris, so libraries that include Solaris system
+traps cannot be directly used with an application.  Thus, RSIM is distributed with the
+RSIM Applications Library, which provides some of the library
+functions needed for linking the applications to be simulated.
+The RSIM Applications Library includes code derived from the
+GNU C Library and is distributed under the terms of the GNU Library
+General Public
+License, described at <TT>http://www.gnu.org/copyleft/lgpl.html</TT>.
+<P>
+The RSIM applications library includes the UNIX I/O functions (<TT>close</TT>, <TT>
+dup</TT>, <TT>dup2</TT>, <TT>lseek</TT>, <TT>open</TT>, <TT>read</TT>, and <TT>
+write</TT>), the <TT>stdio</TT> library (e.g. <TT>printf</TT>, <TT>fscanf</TT>,
+<TT>fopen</TT>), the <TT>sbrk</TT> memory allocation system trap, system
+traps associated with timing (<TT>time</TT> and <TT>times</TT>), the <TT>
+exit</TT> function, the <TT>atexit</TT> function, and the <TT>getopt</TT>
+function. The semantics of these functions are almost always identical
+to those on an ordinary UNIX system; however, in the case of an error,
+these functions will not set the <TT>errno</TT> variable (set by many of
+the standard UNIX functions).
+<P>
+Additionally, the RSIM applications library provides important multiprocessor
+primitives for process management, memory allocation, memory mapping,
+and synchronization. (The synchronization primitives are described in
+Section&nbsp;<A HREF="node49.html#apps_syncsupport">5.3</A>.) Other functions, such as the math
+library, the string library, the standard memory-allocation functions
+(<TT>malloc</TT>, <TT>free</TT>, <TT>calloc</TT>, etc.), and random-number
+generators can be linked from the ordinary system libraries.
+<P>
+Besides the above system traps used for supporting UNIX functions,  a few
+additional system traps are provided with RSIM to enable ease of
+programming. The call <TT>getpid()</TT> returns the processor number
+of the calling process. The trap <TT>sys_bzero(void *addr, int
+sz)</TT> performs a fast, non-simulated clearing of a region of memory. This
+trap can be useful for speeding up initialization in some applications.
+<P>
+As described in Section&nbsp;<A HREF="node47.html#memmodel">5.1</A>, new processes are generated in
+RSIM using the <TT>fork()</TT> call, which
+spawns off a new process on a separate processor.
+RSIM also provides a new library
+function called <TT>atfork()</TT> which provides a set of optional
+cleanup functions to be called by the parent process before executing a
+<TT>fork()</TT>, just as the standard UNIX function <TT>atexit()</TT> does for
+the <TT>exit()</TT> call.
+<P>
+Shared memory can only be allocated through the use of the function
+<TT>void *shmalloc(int size)</TT>. This function returns a pointer to a
+region of shared memory with a size of <TT>size</TT>, just as <TT>
+malloc</TT> does for the private heap. Currently, this function returns
+regions starting at a cache-line boundary.
+<P>
+<TT>AssociateAddrNode(void *start, void *end, int proc, char
+*name)</TT> assigns <TT>proc</TT> as the home node for the memory range from
+<TT>start</TT> (inclusive) to <TT>end</TT> (exclusive). This assignment
+can be done at the granularity of a cache line. This function is an
+optional performance-tuning technique for applications; if a cache
+line being accessed is not associated, it will be associated using a
+first-touch policy on a cache-line granularity.  
+The <TT>name</TT> argument is required and can be
+used internally for debugging, but currently has no externally visible
+role.
+<P>
+<TT>abort(int code)</TT> forces all processors to stop immediately; this
+differs from <TT>exit(int code)</TT> in that <TT>exit</TT> only terminates
+the calling process. Further, <TT>exit</TT> calls the cleanup functions
+provided through the <TT>atexit</TT> library functions, whereas <TT>abort</TT>
+does not.
+<P>
+<TT>GET_L2CACHELINE_SIZE()</TT> returns the cache-line size of the
+secondary cache, which is the system's coherence granularity. This can
+be useful for padding out array accesses to avoid false-sharing.
+<P>
+Some system traps support timing functions. <TT>time</TT> and <TT>times</TT>
+report the simulated time of the application execution and have nearly
+the same semantics as in Unix, although <TT>time</TT> starts the clock at
+the beginning of simulation rather than the beginning of 1970.  <TT>
+sysclocks()</TT> gives a more detailed measurement, actually returning the
+number of simulated processor clock cycles since the start of the
+simulation.
+<P>
+Currently, some UNIX system traps are not supported with RSIM at all;
+consequently, functions based on these traps (such as <TT>strftime</TT>
+and <TT>signal</TT>) are not supported. Additionally, self-modifying
+code is not supported.
+<P>
+<HR><A NAME="tex2html929" HREF="node49.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html927" HREF="node46.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html921" HREF="node47.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html931" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html930" HREF="node49.html">Synchronization support for multiprocessor </A>
+<B>Up:</B> <A NAME="tex2html928" HREF="node46.html">Porting Applications to RSIM</A>
+<B> Previous:</B> <A NAME="tex2html922" HREF="node47.html">Process creation and shared </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

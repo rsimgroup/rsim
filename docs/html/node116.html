@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Processing incoming write-back and replacement messages</TITLE>
+<META NAME="description" CONTENT="Processing incoming write-back and replacement messages">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1786" HREF="node117.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1784" HREF="node112.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1778" HREF="node115.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1788" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1787" HREF="node117.html">Processing other incoming COHE_REPLYs</A>
+<B>Up:</B> <A NAME="tex2html1785" HREF="node112.html">Directory and Memory Simulation</A>
+<B> Previous:</B> <A NAME="tex2html1779" HREF="node115.html">Sending out COHE messages</A>
+<BR> <P>
+<H1><A NAME="SECTION03840000000000000000">Processing incoming write-back and replacement messages</A></H1>
+<P>
+On write-back or replacement messages, the directory transitions to
+state <TT>DIRWRB</TT>. These accesses call <TT>Dir_Cohe</TT> in order to make
+changes to the state of the line. If any pending <TT>REQUEST</TT>s are waiting on
+this write-back or replacement message, those are marked as being ready
+for processing.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

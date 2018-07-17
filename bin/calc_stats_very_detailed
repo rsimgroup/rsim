@@ -1,0 +1,93 @@
+#!/bin/csh -f
+#############################################################################
+# This file is part of RSIM Utilities                                       #
+#                                                                           #
+######################## LICENSE TERMS AND CONDITIONS #######################
+#                                                                           #
+#  Copyright Notice                                                         #
+#       1997 Rice University                                                #
+#                                                                           #
+#  1. The "Software", below, refers to RSIM (Rice Simulator for ILP         #
+#  Multiprocessors) version 1.0 and includes the RSIM Simulator, the        #
+#  RSIM Applications Library, Example Applications ported to RSIM,          #
+#  and RSIM Utilities.  Each licensee is addressed as "you" or              #
+#  "Licensee."                                                              #
+#                                                                           #
+#  2. Rice University is copyright holder for the RSIM Simulator and RSIM   #
+#  Utilities. The copyright holders reserve all rights except those         #
+#  expressly granted to the Licensee herein.                                #
+#                                                                           #
+#  3. Permission to use, copy, and modify the RSIM Simulator and RSIM       #
+#  Utilities for any non-commercial purpose and without fee is hereby       #
+#  granted provided that the above copyright notice appears in all copies   #
+#  (verbatim or modified) and that both that copyright notice and this      #
+#  permission notice appear in supporting documentation. All other uses,    #
+#  including redistribution in whole or in part, are forbidden without      #
+#  prior written permission.                                                #
+#                                                                           #
+#  4. The RSIM Applications Library is free software; you can               #
+#  redistribute it and/or modify it under the terms of the GNU Library      #
+#  General Public License as published by the Free Software Foundation;     #
+#  either version 2 of the License, or (at your option) any later           #
+#  version.                                                                 #
+#                                                                           #
+#  The Library is distributed in the hope that it will be useful, but       #
+#  WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU         #
+#  Library General Public License for more details.                         #
+#                                                                           #
+#  You should have received a copy of the GNU Library General Public        #
+#  License along with the Library; if not, write to the Free Software       #
+#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,    #
+#  USA.                                                                     #
+#                                                                           #
+#  5. LICENSEE AGREES THAT THE EXPORT OF GOODS AND/OR TECHNICAL DATA FROM   #
+#  THE UNITED STATES MAY REQUIRE SOME FORM OF EXPORT CONTROL LICENSE FROM   #
+#  THE U.S.  GOVERNMENT AND THAT FAILURE TO OBTAIN SUCH EXPORT CONTROL      #
+#  LICENSE MAY RESULT IN CRIMINAL LIABILITY UNDER U.S. LAWS.                #
+#                                                                           #
+#  6. RICE UNIVERSITY NOR ANY OF THEIR EMPLOYEES MAKE ANY WARRANTY,         #
+#  EXPRESS OR IMPLIED, OR ASSUME ANY LEGAL LIABILITY OR RESPONSIBILITY      #
+#  FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF ANY INFORMATION,        #
+#  APPARATUS, PRODUCT, OR PROCESS DISCLOSED AND COVERED BY A LICENSE        #
+#  GRANTED UNDER THIS LICENSE AGREEMENT, OR REPRESENT THAT ITS USE WOULD    #
+#  NOT INFRINGE PRIVATELY OWNED RIGHTS.                                     #
+#                                                                           #
+#  7. IN NO EVENT WILL RICE UNIVERSITY BE LIABLE FOR ANY DAMAGES,           #
+#  INCLUDING DIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES          #
+#  RESULTING FROM EXERCISE OF THIS LICENSE AGREEMENT OR THE USE OF THE      #
+#  LICENSED SOFTWARE.                                                       #
+#                                                                           #
+#############################################################################
+
+
+#This processes a results file
+# which is basically a concat of the outputs of "stats"
+# This is used for tabulating numbers for splotting
+
+onintr cleanup
+
+set noglob
+
+cat > /tmp/RSIMSTATSawk.$$ << STOP
+/^FILE/ {print \$0;} 
+/^[0-9]/{time=\$1/$2; cpu=\$3*time; spin = \$9; sync = (\$4+\$5+\$9+\$10)*time; 
+	 read = (\$6+\$8)*time; busy = \$3*time; write = \$7*time; 
+         lock = \$4*time; flag = \$9*time; barrier = \$10*time;} 
+/^USER:/ {userflag = 1-userflag; if (userflag == 0) flag = (\$2+\$3+\$4+\$5+\$6+\$7+\$8+\$9+\$10+spin)*time;} 
+/^BUSY/{realbusy = \$3*time; stallbusy = (\$6+\$9+\$12)*time;} 
+/Read L1/ {readl1= \$4 * time; writel1 = \$8*time; rmwl1 = \$12*time;} 
+/Read L2/ {readl2= \$4 * time; writel2 = \$8*time; rmwl2 = \$12*time;} 
+/Read local/ {readloc= \$4 * time; writeloc = \$8*time; rmwloc = \$12*time;} 
+/Read remote/ {readrem= \$4 * time; writerem = \$8*time; rmwrem = \$12*time;} 
+/^READ MISS/{readmiss = \$4*time; readhit = (read-readmiss); 
+      printf("\tRealBusy = %.3g  StallBusy = %.3g  RMiss = %.3g RHit = %.3g W = %.3g L = %.3g  F = %.3g  Bar = %.3g\n", realbusy, realbusy+stallbusy, realbusy+stallbusy+readmiss, realbusy+stallbusy+readmiss+readhit, realbusy+stallbusy+readmiss+readhit+write, realbusy+stallbusy+readmiss+readhit+write+lock, realbusy+stallbusy+readmiss+readhit+write+lock+flag, realbusy+stallbusy+readmiss+readhit+write+lock+flag+barrier);
+      printf("\tRL1 = %.3g  RL2 = %.3g  RLoc = %.3g RRem = %.3g\n", realbusy+stallbusy+readl1+rmwl1,realbusy+stallbusy+readl1+rmwl1+readl2+rmwl2,realbusy+stallbusy+readl1+rmwl1+readl2+rmwl2+readloc+rmwloc,realbusy+stallbusy+readl1+rmwl1+readl2+rmwl2+readloc+rmwloc+readrem+rmwrem); 
+      printf("\tWL1 = %.3g  WL2 = %.3g  WLoc = %.3g WRem = %.3g\n\n", realbusy+stallbusy+readmiss+readhit+writel1,realbusy+stallbusy+readmiss+readhit+writel1+writel2,realbusy+stallbusy+readmiss+readhit+writel1+writel2+writeloc,realbusy+stallbusy+readmiss+readhit+writel1+writel2+writeloc+writerem); }
+STOP
+
+sed 's/=/ = /g' $1 | awk -f /tmp/RSIMSTATSawk.$$
+
+cleanup:
+unset noglob
+rm /tmp/RSIMSTATS*.$$

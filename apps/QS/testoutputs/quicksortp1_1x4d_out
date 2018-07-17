@@ -1,0 +1,16 @@
+going to call Associate address node
+QS - OPTIONS
+	p - Number of processors 	1
+	s - Size of array		16384
+	b - Bubble threshold 		64
+	B - Bubble 			1
+	d - Display output		0
+	v - Verify results		1
+
+Initializing values
+Initializing data
+Shuffling data
+Before barrier 0
+Starting Process 0
+Coming out of worker 0
+Congrats!! Program successful!! :-)

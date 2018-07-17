@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Event-manipulation functions</TITLE>
+<META NAME="description" CONTENT="Event-manipulation functions">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1257" HREF="node72.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1255" HREF="node70.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1249" HREF="node70.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1259" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1258" HREF="node72.html">Semaphore functions</A>
+<B>Up:</B> <A NAME="tex2html1256" HREF="node70.html">Event-driven Simulation Library</A>
+<B> Previous:</B> <A NAME="tex2html1250" HREF="node70.html">Event-driven Simulation Library</A>
+<BR> <P>
+<H1><A NAME="SECTION03210000000000000000">Event-manipulation functions</A></H1>
+<P>
+<A NAME="rsimevent_yacsim_event">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/driver.c</TT>, <TT>src/MemSys/act.c</TT>, 
+<TT>src/MemSys/pool.c</TT>, <TT>src/MemSys/userq.c</TT>, <TT>src/MemSys/util.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/simsys.h</TT>
+<P>
+<P>
+<P>
+All actions that take place during the course of an RSIM simulation
+occur as part of YACSIM <EM>event</EM>s. Each event has a function for its
+body, an argument for use on invocation, and  a state used for 
+subsequent invocations of the same event. Each time an event is
+scheduled, the body function is invoked. The event is not deactivated
+until the body function returns control to the simulator (through a <TT>
+return</TT> statement or the end of the function). Thus, an event can be
+thought of as a function call scheduled to occur at a specific point in
+simulated time, possibly using a previously-set argument and state value
+and/or setting a state value and argument for use on a future
+invocation.
+<P>
+An
+event is a specific type of YACSIM <EM>Activity</EM>; however, it is
+the only type used in RSIM. The following functions are used for manipulating events in RSIM.
+<P>
+<UL><LI> <TT>EVENT *NewEvent(char *ename, void (*bodyname)(), int delflg, int etype)</TT>
+<P>
+This function constructs a new event and returns its pointer. The
+state of the event is initialized to 0.  The <TT>ename</TT> argument
+specifies the name of the event. <TT>bodyname</TT> is a pointer to a
+function that will be invoked on each activation of the event. The
+function must take no arguments and must have no return value; the
+argument actually used by the event is passed in through <TT>
+ActivitySetArg</TT> described below and is read with <TT>
+ActivityGetArg</TT>. <TT>delflg</TT> can be either <TT>DELETE</TT> or <TT>
+NODELETE</TT>, and specifies whether the storage for the event can be
+freed at the end of its invocation. Events specified with <TT>DELETE</TT>
+can only be scheduled once, whereas <TT>NODELETE</TT> events can
+reschedule themselves or be rescheduled multiple times.  The <TT>
+type</TT> argument is available for any use by the user of the event-driven
+simulation library. RSIM events always have this field set to 0.<LI> <TT>int EventSetState(int stval)</TT>
+<P>
+This function can only be called within the body of an event, and
+it sets the state value of the event to <TT>stval</TT>.<LI> <TT>int EventGetState()</TT>
+<P>
+This function returns the state value of the calling event, and can be used
+at the beginning of the event to determine the current state of
+the event.<LI> <TT>void ActivitySetArg(ACTIVITY *aptr, char *argptr, int argsize)</TT>
+<P>
+This function sets the argument of the event pointed to by <TT>aptr</TT>
+to the value of <TT>argptr</TT>, with <TT>argsize</TT> the size of the argument
+structure in bytes. Note that the argument is passed in by pointer; 
+consequently, the value of the argument structure at the time of
+event invocation may differ from the value of the argument strucutre
+at the time when the argument is set, if intervening operations reset
+the value of the structure.<LI> <TT>char *ActivityGetArg(ACTIVITY *aptr)</TT>
+<P>
+This function returns the argument pointer for a given event; if
+this function is called with a <TT>NULL</TT> pointer or the predefined
+value <TT>ME</TT>, the function returns the argument pointer for the
+calling event.<LI> <TT>int ActivityArgSize(ACTIVITY *aptr)</TT>
+<P>
+This function returns the size of the argument structure for a given event; if
+this function is called with a <TT>NULL</TT> pointer or the predefined
+value <TT>ME</TT>, the function returns the argument size for the
+calling event.<LI> <TT>ActivitySchedTime(ACTIVITY *aptr, double timeinc, int blkflg)</TT>
+<P>
+This operation schedules the event pointed to be <TT>aptr</TT>
+for <TT>timeinc</TT> cycles in the simulated future. The only valid
+value of <TT>blkflg</TT> for events is <TT>INDEPENDENT</TT>.<LI> <TT>EventReschedTime(double timeinc, int stval)</TT>
+<P>
+This operation schedules the next invocation of the event for
+<TT>timeinc</TT> cycles in the simulated future.
+The state of the event upon rescheduling will be <TT>stval</TT>. (This
+function must be called within the event to be rescheduled, whereas
+<TT>ActivitySchedTime</TT> can be called from another event or
+from outside an event.)<LI> <TT>ActivitySchedSema(ACTIVITY *aptr, SEMAPHORE *semptr, int blkflg)</TT>
+<P>
+This operation schedules the event pointed to be <TT>aptr</TT> for the time
+when the semaphore pointed to by <TT>semptr</TT> becomes available (described
+in Section&nbsp;<A HREF="node72.html#rsimevent_yacsim_sema">8.2</A>). The only
+valid value of <TT>blkflg</TT> for events is <TT>INDEPENDENT</TT>.<LI> <TT>EventReschedSema(SEMAPHORE *semptr, int stval)</TT>
+<P>
+This operation schedules the next invocation of the event according
+to the time when the semaphore pointed to by <TT>semptr</TT> becomes available.
+The state of the event upon rescheduling will be <TT>stval</TT>.  (This
+function must be called within the event to be rescheduled, whereas
+<TT>ActivitySchedTime</TT> can be called from another event or
+from outside an event.)
+<P>
+</UL>
+<P>
+The YACSIM event-list is implemented as a calendar queue&nbsp;[<A HREF="node132.html#Brown1988">2</A>]. 
+Event-list processing in YACSIM is controlled by the function
+<TT>DriverRun(double timeinc)</TT>, which processes the event list for
+<TT>timeinc</TT> cycles or until the event list has no more events
+scheduled (if the value of <TT>timeinc</TT> given is less than or equal to 0).
+<P>
+The function <TT>void YS__errmsg(char *s)</TT> can be used at any point in 
+the simulation to print out the error message <TT>s</TT> and terminate
+the simulation. This function is commonly used for unexpected simulation
+occurrences. The function <TT>void YS__warnmsg(char *s)</TT> prints
+out the warning message <TT>s</TT> on the simulation output file, but does
+not terminate the simulation. This function can be used to warn of
+unexpected happenings in the simulated system.
+<P>
+<HR><A NAME="tex2html1257" HREF="node72.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1255" HREF="node70.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1249" HREF="node70.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1259" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1258" HREF="node72.html">Semaphore functions</A>
+<B>Up:</B> <A NAME="tex2html1256" HREF="node70.html">Event-driven Simulation Library</A>
+<B> Previous:</B> <A NAME="tex2html1250" HREF="node70.html">Event-driven Simulation Library</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,22 @@
+rsim-1.0/inputs directory:
+
+This directory contains sample inputs for use with RSIM.
+
+
+
+The following input files are provided:
+
+default_input		Uses default parameters to RSIM
+default_input_allparams	Explicitly includes default RSIM parameters
+input_WB		Uses default parameters, except for L1 cache
+			type (changes to write-back)
+input_up		Uses default parameters, except for number of
+			nodes (changes to uniprocessor system)
+
+
+Additionally, the following tool is provided for making RSIM input files:
+
+rsimconfig.html		Javascript configuration utility. Can be
+			viewed with any WWW browser that supports
+			Javascript (e.g. Netscape 2.0 or above)
+

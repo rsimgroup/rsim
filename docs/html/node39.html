@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Processor parameters</TITLE>
+<META NAME="description" CONTENT="Processor parameters">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html826" HREF="node40.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html824" HREF="node37.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html818" HREF="node38.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html828" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html827" HREF="node40.html">Cache hierarchy parameters</A>
+<B>Up:</B> <A NAME="tex2html825" HREF="node37.html">Configuration file</A>
+<B> Previous:</B> <A NAME="tex2html819" HREF="node38.html">Overall system parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION02322000000000000000">Processor parameters</A></H2>
+<P>
+<DL ><DT><STRONG>bpbtype</STRONG>
+<DD> Type of branch predictor included in the processor. The
+argument is a string, and is specified as follows:
+<P>
+<TABLE COLS=2>
+<COL ALIGN=LEFT><COL ALIGN=LEFT>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>
+2bit </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 2-bit history predictor&nbsp;[<A HREF="node132.html#Smith1981">22</A>]. This is the default. </TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 
+2bitagree </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 2-bit agree predictor&nbsp;[<A HREF="node132.html#SprangleChappell1997">24</A>] </TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 
+static </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> static branch prediction using compiler hints
+</TD></TR>
+</TABLE>
+<P>
+<DT><STRONG>bpbsize</STRONG>
+<DD> This number specifies the number of counters in the
+branch prediction buffer (unused with static branch prediction). Defaults to 512.
+<P>
+<DT><STRONG>shadowmappers</STRONG>
+<DD> This number controls the number of shadow mappers provided for branch
+prediction. Defaults to 8.
+<P>
+<DT><STRONG>rassize</STRONG>
+<DD> The number provided here sets the number of entries in the return address stack.
+Defaults to 4.
+<P>
+<DT><STRONG>numalus</STRONG>
+<DD> This number specifies the number of ALU functional units in
+the RSIM processor. Defaults to 2.
+<P>
+<DT><STRONG>numfpus</STRONG>
+<DD> This number specifies the number of FPU functional units in
+the RSIM processor. Defaults to 2.
+<P>
+<DT><STRONG>numaddrs</STRONG>
+<DD> This number specifies the number of address generation units in
+the RSIM processor. Defaults to 2.
+<P>
+<DT><STRONG>regwindows</STRONG>
+<DD> This number gives the number of register windows in
+the RSIM processor (one of these is always reserved for the system). Must
+be a power of 2 between 4 and 32, inclusive. Defaults to 8.
+<P>
+<DT><STRONG>maxstack</STRONG>
+<DD> This number specifies the maximum size of each simulated
+process stack, in KB. Defaults to 1024.
+<P>
+ </DL>
+<P>
+<P>
+<P>
+The following pairs of parameters specify the
+latencies and repeat delays of ALU and FPU instructions.
+In each pair, the first element specifies the latency, while the second
+specifies the repeat delay. The
+latency is the number of cycles after instruction issue that the
+calculated value can be used by other instructions. The repeat
+delay is the number of cycles after the issue of an instruction
+that the functional unit type used is able to accept a new instruction
+(a value of 1 indicates fully-pipelined units). Each parameter below
+is expected to be followed by a positive integer used to specify the
+value of the corresponding parameter.
+<P>
+<DL ><DT><STRONG>latint,repint</STRONG>
+<DD> Latency and repeat delay for common ALU operations (e.g. add, subtract, move).
+		Default latency and repeat delay of 1 cycle.
+<DT><STRONG>latmul,repmul</STRONG>
+<DD> Latency and repeat delay for integer multiply operations.
+	Default latency of 3 cycles and repeat delay of 1 cycle.
+<DT><STRONG>latdiv,repdiv</STRONG>
+<DD> Latency and repeat delay for integer divide operations.
+		Default latency of 9 cycles and repeat delay of 1 cycle.
+<DT><STRONG>latshift,repshift</STRONG>
+<DD> Latency and repeat delay for integer shift operations.
+		Default latency and repeat delay of 1 cycle.
+<DT><STRONG>latflt,repflt</STRONG>
+<DD> Latency and repeat delay for common FP operations (e.g. add, subtract, multiply).
+		Default latency of 3 cycles and repeat delay of 1 cycle.
+<DT><STRONG>latfmov,repfmov</STRONG>
+<DD> Latency and repeat delay for simple FP operations (e.g. move, negate, absolute value).
+		Default latency and repeat delay of 1 cycle.
+<DT><STRONG>latfconv,repfconv</STRONG>
+<DD> Latency and repeat delay for FP conversions (e.g. int-fp, fp-int, float-double).
+		Default latency of 5 cycles and repeat delay of 2 cycle.
+<DT><STRONG>latfdiv,repfdiv</STRONG>
+<DD> Latency and repeat delay for FP divide. 
+		Default latency of 10 cycles and repeat delay of 6 cycle.
+<DT><STRONG>latfsqrt,repfsqrt</STRONG>
+<DD> Latency and repeat delay for FP square-root. 
+		Default latency of 10 cycles and repeat delay of 6 cycle.
+<P>
+ </DL>
+<P>
+Thus, to specify that common FPU operations have a latency of
+5 cycles and a repeat delay of 2 cycles, the configuration file
+should include:
+<P>
+<TABLE COLS=2>
+<COL ALIGN=LEFT><COL ALIGN=LEFT>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>
+latflt </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 5 </TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 
+repflt </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 2 </TD></TR>
+</TABLE>
+<HR><A NAME="tex2html826" HREF="node40.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html824" HREF="node37.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html818" HREF="node38.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html828" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html827" HREF="node40.html">Cache hierarchy parameters</A>
+<B>Up:</B> <A NAME="tex2html825" HREF="node37.html">Configuration file</A>
+<B> Previous:</B> <A NAME="tex2html819" HREF="node38.html">Overall system parameters</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

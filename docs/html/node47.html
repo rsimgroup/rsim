@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Process creation and shared memory model</TITLE>
+<META NAME="description" CONTENT="Process creation and shared memory model">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html918" HREF="node48.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html916" HREF="node46.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html910" HREF="node46.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html920" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html919" HREF="node48.html">RSIM applications library</A>
+<B>Up:</B> <A NAME="tex2html917" HREF="node46.html">Porting Applications to RSIM</A>
+<B> Previous:</B> <A NAME="tex2html911" HREF="node46.html">Porting Applications to RSIM</A>
+<BR> <P>
+<H1><A NAME="SECTION02410000000000000000">Process creation and shared memory model</A></H1>
+<P>
+<A NAME="apps_memmodel">&#160;</A>
+<P>
+The RSIM multiprocessor memory model is depicted in
+Figure&nbsp;<A HREF="node47.html#memmodel">5.1</A>.  The regions below the dividing line are all
+private memory, while the regions above the dividing line are shared
+memory allocated with the <TT>shmalloc</TT> function. The stack for each
+process grows automatically, while the heap and shared region grow
+only through explicit memory allocation calls.
+<P>
+At the beginning of execution, RSIM starts an application with a
+single processor in the specified architectural configuration.  The
+application must then use the <TT>fork()</TT> system call to spawn off
+new processes, each of which is run on its own processor. The
+semantics of <TT>fork()</TT> are identical to those of UNIX <TT>
+fork()</TT>. In the context of RSIM, <TT>fork()</TT> causes the new processor
+to have its own copy of the application code segment, global and
+statically allocated variables, private heap, and process stack, but the new
+processor has the same logical version of the shared portion of the
+address space. Since RSIM currently does not support multitasking,
+indeterminate results will arise if more processes are started than
+the number of processors specified in the configuration file.
+<P>
+The only way to allocate shared memory is through the <TT>shmalloc</TT>
+function (which has syntax similar to <TT>malloc</TT>). Memory allocated
+using <TT>shmalloc</TT> cannot currently be freed; code that needs a
+substantial amount of runtime dynamic shared-memory allocation and
+freeing should implement its own shared-memory allocator, using the
+<TT>shmalloc</TT> call only to allocate large regions of shared memory.
+<P>
+In multiprocessor mode, RSIM assumes a perfect hit rate for private
+accesses. Resource contention and instruction scheduling for private
+accesses is simulated, but the actual cache behavior is not. Private
+memory includes the process stack, statically allocated data
+structures, and heap space allocated by <TT>malloc</TT> and its standard
+variants. All memory to be fully simulated must be explicitly allocated using 
+<TT>shmalloc</TT>.
+Note that <TT>shmalloc</TT> can be used even in the case of uniprocessor
+simulations. However, in uniprocessor mode, all accesses (private
+and shared) can be simulated
+at the caches through the use of the ``-n'' option, discussed in
+Chapter&nbsp;<A HREF="node28.html#cmd_line">4</A>.
+<P>
+Each region of shared memory has a ``home node,'' which provides the
+directory services for the cache lines in that region. Shared-memory
+regions can be associated to specific home nodes using the <TT>
+AssociateAddrNode</TT> function.  Regions can be associated at the
+granularity of a cache line. (The semantics for <TT>
+AssociateAddrNode</TT> are specified in more detail in Section&nbsp;<A HREF="node48.html#apps_library">5.2</A>.) If
+the user does not explicitly associate a shared region with a home
+node, the home node is chosen using a first-touch policy with a cache-line
+granularity.
+<P>
+<P><A NAME="613">&#160;</A><A NAME="memmodel">&#160;</A> <IMG WIDTH=167 HEIGHT=229 ALIGN=BOTTOM ALT="figure611" SRC="img7.gif"  > <BR>
+<STRONG>Figure 5.1:</STRONG> RSIM multiprocessor memory model<BR>
+<P><HR><A NAME="tex2html918" HREF="node48.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html916" HREF="node46.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html910" HREF="node46.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html920" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html919" HREF="node48.html">RSIM applications library</A>
+<B>Up:</B> <A NAME="tex2html917" HREF="node46.html">Porting Applications to RSIM</A>
+<B> Previous:</B> <A NAME="tex2html911" HREF="node46.html">Porting Applications to RSIM</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

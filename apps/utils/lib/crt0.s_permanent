@@ -1,0 +1,306 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! This file is part of the RSIM Applications Library.                       !
+!                                                                           !
+!!!!!!!!!!!!!!!!!!!!!!!! LICENSE TERMS AND CONDITIONS !!!!!!!!!!!!!!!!!!!!!!!
+!                                                                           !
+!  Copyright Notice                                                         !
+!       1997 Rice University                                                !
+!                                                                           !
+!  1. The "Software", below, refers to RSIM (Rice Simulator for ILP         !
+!  Multiprocessors) version 1.0 and includes the RSIM Simulator, the        !
+!  RSIM Applications Library, Example Applications ported to RSIM,          !
+!  and RSIM Utilities.  Each licensee is addressed as "you" or              !
+!  "Licensee."                                                              !
+!                                                                           !
+!  2. Rice University is copyright holder for the RSIM Simulator and RSIM   !
+!  Utilities. The copyright holders reserve all rights except those         !
+!  expressly granted to the Licensee herein.                                !
+!                                                                           !
+!  3. Permission to use, copy, and modify the RSIM Simulator and RSIM       !
+!  Utilities for any non-commercial purpose and without fee is hereby       !
+!  granted provided that the above copyright notice appears in all copies   !
+!  (verbatim or modified) and that both that copyright notice and this      !
+!  permission notice appear in supporting documentation. All other uses,    !
+!  including redistribution in whole or in part, are forbidden without      !
+!  prior written permission.                                                !
+!                                                                           !
+!  4. The RSIM Applications Library is free software; you can               !
+!  redistribute it and/or modify it under the terms of the GNU Library      !
+!  General Public License as published by the Free Software Foundation;     !
+!  either version 2 of the License, or (at your option) any later           !
+!  version.                                                                 !
+!                                                                           !
+!  The Library is distributed in the hope that it will be useful, but       !
+!  WITHOUT ANY WARRANTY; without even the implied warranty of               !
+!  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU         !
+!  Library General Public License for more details.                         !
+!                                                                           !
+!  You should have received a copy of the GNU Library General Public        !
+!  License along with the Library; if not, write to the Free Software       !
+!  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,    !
+!  USA.                                                                     !
+!                                                                           !
+!  5. LICENSEE AGREES THAT THE EXPORT OF GOODS AND/OR TECHNICAL DATA FROM   !
+!  THE UNITED STATES MAY REQUIRE SOME FORM OF EXPORT CONTROL LICENSE FROM   !
+!  THE U.S.  GOVERNMENT AND THAT FAILURE TO OBTAIN SUCH EXPORT CONTROL      !
+!  LICENSE MAY RESULT IN CRIMINAL LIABILITY UNDER U.S. LAWS.                !
+!                                                                           !
+!  6. RICE UNIVERSITY NOR ANY OF THEIR EMPLOYEES MAKE ANY WARRANTY,         !
+!  EXPRESS OR IMPLIED, OR ASSUME ANY LEGAL LIABILITY OR RESPONSIBILITY      !
+!  FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF ANY INFORMATION,        !
+!  APPARATUS, PRODUCT, OR PROCESS DISCLOSED AND COVERED BY A LICENSE        !
+!  GRANTED UNDER THIS LICENSE AGREEMENT, OR REPRESENT THAT ITS USE WOULD    !
+!  NOT INFRINGE PRIVATELY OWNED RIGHTS.                                     !
+!                                                                           !
+!  7. IN NO EVENT WILL RICE UNIVERSITY BE LIABLE FOR ANY DAMAGES,           !
+!  INCLUDING DIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES          !
+!  RESULTING FROM EXERCISE OF THIS LICENSE AGREEMENT OR THE USE OF THE      !
+!  LICENSED SOFTWARE.                                                       !
+!                                                                           !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	.section	".text",#alloc,#execinstr
+	.align	4
+
+	.global	mystart
+	.global	_mystart
+	.global	__mystart
+mystart:
+_mystart:
+__mystart:
+	call	main
+	nop
+	call exit
+	nop
+	.global _exit
+	.global __exit
+_exit:
+__exit:
+	membar #MemIssue	! this trap actually kills execution, so you better not have any stores left!
+	ld [%sp],%g0	! NOTE: This is %sp rather than %fp because %fp may not be defined in this scope...
+	unimp	0x0	! Our system will trap an illegal instruction of this type and know to exit
+exitloop:
+	b exitloop
+	nop
+
+
+	.global shmalloc
+shmalloc:
+	unimp	0x5	! Trap this one, return value goes back in o0
+	retl
+	nop
+
+	.global sysclocks
+sysclocks:
+	unimp	0xb	
+	retl
+	nop
+
+	! The function called "fork" also does some cleanup before
+	! calling these traps. 
+	.global _fork
+	.global __fork
+_fork:
+__fork:
+	unimp 0xd
+	retl
+	nop
+
+
+	.global getpid
+	.global _getpid
+	.global __getpid
+getpid:
+_getpid:
+__getpid:
+	unimp 0xf
+	retl
+	nop
+
+	.global sys_bzero
+sys_bzero:
+	unimp 0x20
+	retl
+	nop
+
+	.global AssociateAddrNode
+AssociateAddrNode:
+	membar #MemIssue	! this trap actually looks into the UNIX address space, so everything better be globally performed
+	ld [%fp],%g0
+	unimp 0x30
+	retl
+	nop
+
+	.global AssociateAddrCohe
+AssociateAddrCohe:
+	membar #MemIssue	! this trap actually looks into the UNIX address space, so everything better be globally performed
+	ld [%fp],%g0
+	unimp 0x2f
+	retl
+	nop
+
+	.global getpagesize
+getpagesize:
+	set	4096, %o0
+	retl
+	nop
+
+	.global	newphase
+newphase: 			! void newphase(int>0) Takes one arg in %o0
+	unimp	0x23
+	retl
+	nop
+
+	.global endphase
+endphase:
+	unimp	0x24
+	retl
+	nop
+
+	.global HALT
+	.global abort
+	.global _abort
+	.global __abort
+HALT:
+abort:
+_abort:
+__abort:
+	unimp	0x31
+	retl
+	nop
+
+	.global GET_L2CACHELINE_SIZE
+GET_L2CACHELINE_SIZE:
+	unimp	0x34
+	retl
+	nop
+
+
+	.global StatClearAll
+StatClearAll:
+	unimp 0x50
+	retl
+	nop
+
+	.global StatReportAll
+StatReportAll:
+	unimp 0x51
+	retl
+	nop
+
+	.global time
+	.global _time
+	.global __time
+time:
+_time:
+__time:
+	unimp 0x64
+	retl
+	nop
+
+	.global times
+	.global _times
+	.global __times
+times:
+_times:
+__times:
+	unimp 0x65
+	retl
+	nop
+
+	.global sbrk
+	.global _sbrk
+	.global __sbrk
+sbrk:
+_sbrk:
+__sbrk:
+	unimp 0x66
+	retl
+	nop
+
+	.global read
+	.global _read
+	.global __read
+read:
+_read:
+__read:
+	unimp 0x67
+	retl
+	nop
+
+	.global write
+	.global _write
+	.global __write
+write:
+_write:
+__write:
+	membar #MemIssue	! this trap actually looks into the UNIX address space, so everything better be globally performed
+	ld [%fp],%g0	
+	unimp 0x68
+	retl
+	nop
+
+	.global lseek
+	.global _lseek
+	.global __lseek
+lseek:
+_lseek:
+__lseek:
+	unimp 0x69
+	retl
+	nop
+
+	.global close
+	.global _close
+	.global __close
+close:
+_close:
+__close:
+	unimp 0x6a
+	retl
+	nop
+
+	.global open
+	.global _open
+	.global __open
+open:
+_open:
+__open:
+	membar #MemIssue	! this trap actually looks into the UNIX address space, so everything better be globally performed
+	ld [%fp],%g0	
+	unimp 0x6b
+	retl
+	nop
+
+	.global dup
+	.global _dup
+	.global __dup
+dup:
+_dup:
+__dup:
+	unimp 0x6c
+	retl
+	nop
+
+	.global dup2
+	.global _dup2
+	.global __dup2
+dup2:
+_dup2:
+__dup2:
+	unimp 0x6d
+	retl
+	nop
+
+	.global ___main
+___main:
+	.global __main
+__main:
+	retl
+	nop
+
+	.section	".data",#alloc,#write
+	.align 8
+	.global errno
+errno:
+	.word 0x0

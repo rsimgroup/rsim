@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Using ordinary UNIX command sequences</TITLE>
+<META NAME="description" CONTENT="Using ordinary UNIX command sequences">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html561" HREF="node19.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html559" HREF="node16.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html555" HREF="node17.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html563" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html562" HREF="node19.html">Statistics processing utilities</A>
+<B>Up:</B> <A NAME="tex2html560" HREF="node16.html">Building applications ported to </A>
+<B> Previous:</B> <A NAME="tex2html556" HREF="node17.html">Using the generic makefile</A>
+<BR> <P>
+<H2><A NAME="SECTION02142000000000000000">Using ordinary UNIX command sequences</A></H2>
+<P>
+Some users may want to invoke the commands for building applications
+directly rather than using the generic makefile. In particular, users
+intending to run RSIM on platforms without the ELF library must
+directly run <TT>unelf</TT> on the Solaris executables of the applications to be
+simulated.
+<P>
+The first step is to generate relocatable object files (<TT>.o</TT>
+files) from the source-code files. This can be done using an ordinary
+SPARC C compiler for Solaris. The recommended options for invoking the
+Sun C compiler version 4.0 to generate object code from the source
+file <TT>src/source1.c</TT> are:
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  cc -xO4 -xtarget=ultra1/170 -xarch=v8plus -dalign -o obj/source1.o -c src/source1.c</TT>
+<P>
+<P>
+<P>
+These options generate code with all optimizations recommended
+by the compiler, with
+code scheduled for Sun Ultra-1 workstations with a 170 MHz UltraSPARC
+processor. The code uses the SPARC V8plus subset of the V9
+architecture, and assumes that double-precision accesses are properly
+aligned, allowing use of double-precision floating-point loads and
+stores.
+<P>
+Next, a SPARC application executable must be generated. Recommended
+options for invoking the Sun linker to generate the file <TT>execs/appname.out</TT> from the files <TT>obj/source1.o</TT> and <TT>obj/source2.o</TT> are (substituting
+the fully-specified pathname of the RSIM distribution for
+<TT>/path_to_rsim/rsim-1.0</TT> below):
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  /usr/ccs/bin/ld -dn -z muldefs -L /path_to_rsim/rsim-1.0/apps/utils/lib -emystart -o execs/appname.out /path_to_rsim/rsim-1.0/apps/utils/lib/crt0.obj obj/source1.o obj/source2.o -l rsim -l c -l m -l rsim</TT>
+<P>
+<P>
+<P>
+This generates a statically-linked executable that starts with the
+function <TT>mystart</TT>, linking the RSIM application startup object
+file (<TT>crt0.obj</TT>) with the application object files, and resolving
+unknown references with the RSIM library, the C library, and the
+system math library. The RSIM library is included twice so that unresolved
+references from the C and math libraries are resolved to RSIM library
+functions, when applicable.
+<P>
+If a different set of linker options is chosen, the user must
+guarantee that the linker output produced is a statically-linked
+application executable and that the entry point for the executable is
+the same as the base of the text segment, which in turn must
+correspond to the <TT>mystart</TT> function.  Additional constraints
+on the application executable are given in Chapter&nbsp;<A HREF="node46.html#apps">5</A>.
+<P>
+After generating a SPARC application executable, the file to be run through
+RSIM must be predecoded, as described in Section&nbsp;<A HREF="node4.html#overview">1</A>.
+The syntax of <TT>predecode</TT> is:
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  predecode execs/appname</TT>
+<P>
+<P>
+<P>
+where <TT>execs/appname.out</TT> is the name of the SPARC application executable
+file to be predecoded. This
+command produces a file called <TT>appname.out.dec</TT> and also produces
+output on the screen related to the file being predecoded. As this
+output is generally not needed, the user will usually want to redirect
+this to <TT>/dev/null</TT>.
+<P>
+Users intending to run RSIM on target platforms that do not support
+ELF will need to first process the application executables to be simulated
+with the <TT>unelf</TT> utility as follows:
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  unelf execs/appname.out</TT>
+<P>
+<P>
+<P>
+where <TT>appname.out</TT> is the name of the file to be expanded. This command
+produces a file called <TT>app.out_unelf</TT>. <TT>unelf</TT> itself must be
+run on an ELF platform; however, we do not expect this to add any
+difficulty, as the applications themselves are currently built using an
+ELF platform.
+<P>
+<HR><A NAME="tex2html561" HREF="node19.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html559" HREF="node16.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html555" HREF="node17.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html563" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html562" HREF="node19.html">Statistics processing utilities</A>
+<B>Up:</B> <A NAME="tex2html560" HREF="node16.html">Building applications ported to </A>
+<B> Previous:</B> <A NAME="tex2html556" HREF="node17.html">Using the generic makefile</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

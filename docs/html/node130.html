@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>The predecode utility</TITLE>
+<META NAME="description" CONTENT="The predecode utility">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1940" HREF="node131.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1938" HREF="node129.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1932" HREF="node129.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1942" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1941" HREF="node131.html">The unelf utility</A>
+<B>Up:</B> <A NAME="tex2html1939" HREF="node129.html">Implementation of predecode and </A>
+<B> Previous:</B> <A NAME="tex2html1933" HREF="node129.html">Implementation of predecode and </A>
+<BR> <P>
+<H1><A NAME="SECTION031110000000000000000">The <TT>predecode</TT> utility</A></H1>
+<P>
+<P>
+<P>
+Source files:  <TT>src/predecode/predecode.cc</TT>, <TT>src/predecode/predecode_instr.cc</TT>, <TT>src/predecode/predecode_table.cc</TT>,
+<P>
+<P>
+<P>
+Header files:  <TT>incl/Processor/instruction.h</TT>, <TT>incl/Processor/table.h</TT>, <TT>incl/Processor/decoding.h</TT>, <TT>incl/Processor/archregnums.h</TT>
+<P>
+<P>
+<P>
+This utility converts application executable files from the SPARC
+format to a format understood by RSIM. The <TT>main()</TT> function
+starts by looping through the ELF sections of the executable looking
+for instruction sections. Once a text section is found, the <TT>
+start_decode</TT> function is called on every SPARC instruction in the
+region.
+<P>
+The <TT>start_decode</TT> function begins by calling either <TT>
+branch_instr</TT>, <TT>call_instr</TT>, <TT>arith_instr</TT>, or <TT>
+mem_instr</TT>, based on the first two-bits of the instruction type. <TT>
+call_instr</TT> directly interprets the <TT>CALL</TT> instruction specified
+and returns. The other functions mentioned begin by dispatching the
+instruction to another function, based on up to 6 opcode bits. This
+dispatch is done through a table set in the function <TT>TableSetup</TT>,
+which corresponds to the instruction mapping specified in the SPARC V9
+architecture&nbsp;[<A HREF="node132.html#Sun1993">23</A>]. In some cases, multiple dispatch
+functions may need to be invoked. Finally, however, the functions
+given in <TT>predecode_instr.cc</TT> convert from the SPARC instruction
+with tightly-encoded fields to the more loosely-encoded RSIM instruction 
+format (specified in the <TT>instr</TT> data structure). The opcode and the way in which it defines its fields
+determines the final encoding used.
+<P>
+More information about the opcodes supported and their fields can
+be found in the SPARC V9 Architecture Reference Manual&nbsp;[<A HREF="node132.html#Sun1993">23</A>].
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Handling COHE type</TITLE>
+<META NAME="description" CONTENT="Handling COHE type">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1659" HREF="node106.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1657" HREF="node102.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1653" HREF="node104.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1661" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1660" HREF="node106.html">Processing L2 tag array </A>
+<B>Up:</B> <A NAME="tex2html1658" HREF="node102.html">Processing L1 cache actions</A>
+<B> Previous:</B> <A NAME="tex2html1654" HREF="node104.html">Handling REPLY type</A>
+<BR> <P>
+<H2><A NAME="SECTION03733000000000000000">Handling <TT>COHE</TT> type</A></H2>
+<P>
+<A NAME="rsimmemsys_cache_l1proctagreq_cohe">&#160;</A>
+<P>
+The types of incoming <TT>COHE</TT> transactions understood by the L1
+cache are <TT>COPYBACK</TT>, <TT>COPYBACK_INVL</TT>, <TT>INVL</TT>, and <TT>
+WRB</TT> (as indicated by the <TT>req_type</TT> field of the message). The
+first three are described as coherence transactions in
+Section&nbsp;<A HREF="node92.html#memsys_req">12.2</A>. The latter is used to enforce inclusion on
+the L2 replacement of an exclusive line. (Note that the L1 cache
+cannot receive a <TT>COHE_REPLY</TT> from any module.)
+<P>
+<P>
+<P>
+<B>Step 1: Determining if <TT>COHE</TT> hits in cache or matches an MSHR</B>
+<P>
+<P>
+<P>
+If the message being handled is an incoming <TT>COHE</TT> transaction, <TT>
+L1ProcessTagReq</TT> starts by calling <TT>notpres</TT> and <TT>
+notpres_mshr</TT> to determine the status of the line in the cache. 
+For <TT>COHE</TT> messages, <TT>notpres_mshr</TT>
+starts out by checking to see if the line is being held in any of the
+outstanding MSHRs.
+<P>
+<P>
+<P>
+<B>Step 1a: Behavior of <TT>notpres_mshr</TT> when <TT>COHE</TT> does not match MSHR</B>
+<P>
+<P>
+<P>
+If the incoming coherence message does not match any MSHR, the
+function immediately returns <TT>NOMSHR</TT> to indicate that no MSHR was
+involved in the transaction.
+<P>
+<P>
+<P>
+<B>Step 1b: Behavior of <TT>notpres_mshr</TT> when <TT>COHE</TT> matches MSHR</B>
+<P>
+<P>
+<P>
+If a <TT>COHE</TT> matches an MSHR, the response of <TT>notpres_mshr</TT>
+depends upon the type of MSHR and the type of coherence transaction.
+<P>
+<P>
+<P>
+<B>Step 1b/i: Matching MSHR is for a read miss</B>
+<P>
+<P>
+<P>
+If the MSHR is
+for a read miss, the reply may come back in either shared or exclusive
+state. Thus, the type of <TT>COHE</TT> determines whether or not
+this message can be processed.
+<P>
+If the  coherence message demands a
+copyback (<TT>COPYBACK</TT> or <TT>COPYBACK_INVL</TT>), the directory still
+considered this cache to be the owner of the line at the time of the
+message. Thus, the cache either had previously been the owner or is
+going to be the owner because of an exclusive <TT>REPLY</TT>. Because of
+the latter possibility, this response must be a <TT>NACK_PEND</TT> so that
+the sender can either retry the coherence message, reprocess the original
+<TT>REQUEST</TT> that caused the coherence message, or simply drop the <TT>COHE</TT>
+(in the case of <TT>WRB</TT> subset enforcement messages where the
+L2 cache request is already stalling at an MSHR). <TT>
+notpres_mshr</TT> returns a response of <TT>MSHR_COAL</TT>.
+<P>
+If the coherence message does not require a copyback (<TT>INVL</TT> or
+<TT>WRB</TT>), the invalidation message can be merged with the MSHR for
+later processing.  In the case of an <TT>INVL</TT>, the message can
+receive a positive acknowledgment of <TT>REPLY</TT> (indicating that the
+<TT>COHE</TT> will be acted upon). If the incoming <TT>COHE</TT>
+is a <TT>WRB</TT>, the response is sent as a
+negative acknowledgment to the L2 cache (indicating to the L2 cache
+that no data is being provided by the L1). In the <TT>INVL</TT> case,
+<TT>notpres_mshr</TT> returns <TT>MSHR_COAL</TT>, while the <TT>WRB</TT> case
+sees a return value of <TT>NOMSHR</TT>.
+<P>
+<P>
+<P>
+<B>Step 1b/ii: Matching MSHR is for a write miss or upgrade </B>
+<P>
+<P>
+<P>
+If the MSHR is for a write miss or upgrade, however, the message must
+be handled differently.
+<P>
+If the request demands a data
+copyback from a write-back cache, the request must be sent back with a
+<TT>NACK_PEND</TT>. If the request is a type that seeks a data copyback, but the
+cache is write-through, the request is handled by acknowledging the
+message and handling it later. In either case, this
+function returns <TT>MSHR_COAL</TT>.
+<P>
+On the other hand, if the
+request does not demand a data copyback, it must have originated
+before the private request was serviced. Thus, the coherence action
+can be done immediately and returned with a <TT>NACK</TT>. If the line
+was being upgraded, it can still be unlocked and invalidated here: the
+directory must convert the processor's <TT>UPGRADE</TT> request to a <TT>
+READ_OWN</TT> when it realizes that the processor doesn't actually have
+the line it wants. <TT>notpres_mshr</TT> returns <TT>MSHR_FWD</TT>.
+<P>
+<P>
+<P>
+<B>Step 2: Processing based on the results of <TT>notpres_mshr</TT></B>
+<P>
+<P>
+<P>
+If <TT>notpres_mshr</TT> returns <TT>NOMSHR</TT>, the response depends on
+whether or not the line is in cache. If the line is a cache miss,
+the <TT>COHE</TT> is <TT>NACK</TT>ed. If the line is a cache hit and the <TT>COHE</TT>
+message is of type <TT>WRB</TT>, the message is <TT>NACK</TT>ed if the line
+is held in a state other than <TT>PR_DY</TT> and positively acknowledged
+if the line is in <TT>PR_DY</TT>. Either way, the line is invalidated. If
+the access is a cache hit and not a <TT>WRB</TT>, the cache line state
+is changed according to the results of the coherence function and the
+message is positively acknowledged.
+In each of the <TT>NOMSHR</TT> cases, <TT>SpecLoadBufCohe</TT>
+is called if the coherence type indicates an invalidation, even if
+the line is not present in the L1 cache (as such a message may indicate an L2
+invalidation or replacement).
+<P>
+If <TT>notpres_mshr</TT> returns <TT>MSHR_COAL</TT>, <TT>L1ProcessTagReq</TT>
+first sends the coherence message to <TT>SpecLoadBufCohe</TT> if the
+system implements speculative load execution and the message conveys
+an invalidation. If the cache is write-through or the <TT>COHE</TT>
+does not demand a copyback, it is positively acknowledged. Otherwise, the
+<TT>COHE</TT> will receive a <TT>NACK_PEND</TT> response.
+<P>
+If <TT>notpres_mshr</TT> returns <TT>MSHR_FWD</TT>, the <TT>COHE</TT> receives
+a response of either <TT>NACK_PEND</TT> (for <TT>WRB</TT> requests) or <TT>
+NACK</TT> (for other message types). If the request indicates an
+invalidation and the system implements speculative load execution,
+<TT>L1ProcessTagReq</TT> sends the coherence message to <TT>
+SpecLoadBufCohe</TT>. Additionally, if the line is present in the cache,
+this case removes the <TT>mshr_out</TT> field from the line and
+invalidates it, thus removing the line from the cache even in a case
+formerly considered an upgrade.
+<P>
+In all of the above cases for <TT>COHE</TT> messages, <TT>
+L1ProcessTagReq</TT> returns success if the <TT>COHE_REPLY</TT> can be sent
+down immediately. If not, the cache will try to resend the <TT>
+COHE_REPLY</TT> until it is accepted by its port.
+<P>
+<HR><A NAME="tex2html1659" HREF="node106.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1657" HREF="node102.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1653" HREF="node104.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1661" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1660" HREF="node106.html">Processing L2 tag array </A>
+<B>Up:</B> <A NAME="tex2html1658" HREF="node102.html">Processing L1 cache actions</A>
+<B> Previous:</B> <A NAME="tex2html1654" HREF="node104.html">Handling REPLY type</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

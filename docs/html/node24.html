@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Branch prediction</TITLE>
+<META NAME="description" CONTENT="Branch prediction">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html636" HREF="node25.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html634" HREF="node22.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html628" HREF="node23.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html638" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html637" HREF="node25.html">Processor memory unit</A>
+<B>Up:</B> <A NAME="tex2html635" HREF="node22.html">Processor microarchitecture</A>
+<B> Previous:</B> <A NAME="tex2html629" HREF="node23.html">Pipeline stage details</A>
+<BR> <P>
+<H2><A NAME="SECTION02222000000000000000">Branch prediction</A></H2>
+<P>
+<A NAME="rpipes_branch">&#160;</A>
+<P>
+The RSIM processor includes static
+and dynamic branch prediction, as well as prediction of
+return instructions (other jumps are not currently predicted). As
+in the MIPS R10000, each predicted branch uses a shadow mapper which
+stores the state of the register renaming table at the time of branch
+prediction. The shadow mapper for an ordinary delayed branch
+is associated with its delay slot; the shadow
+mapper for an annulling branch or a non-delayed branch is associated with the branch itself.
+If a branch is later discovered to have been mispredicted,
+the shadow mapper is used to recover the state of the register map in
+a single cycle, after which the processor continues fetching
+instructions from the actual target of the branch. Shadow mappers are
+freed upon resolution of a branch instruction at the complete
+stage of the pipeline. The processor may include multiple
+predicted branches at a time, as long
+as there is at least one shadow mapper for each outstanding branch.
+These branches may also be resolved out-of-order.
+<P>
+RSIM currently supports three branch prediction schemes: dynamic
+branch predictors using either a 2-bit history scheme&nbsp;[<A HREF="node132.html#Smith1981">22</A>] or
+a 2-bit agree predictor&nbsp;[<A HREF="node132.html#SprangleChappell1997">24</A>], and a static branch
+predictor using only compiler-generated predictions.
+Return addresses are predicted using a return address
+stack&nbsp;[<A HREF="node132.html#KaeliEmma1991">9</A>]. Each of the schemes supported uses only
+a
+single level of prediction hardware.
+<P>
+The instruction fetch and decode stages initiate branch speculation;
+the instruction complete stage resolves speculated branches and initiates
+recovery from mispredictions.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

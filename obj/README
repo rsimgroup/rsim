@@ -1,0 +1,40 @@
+#############################################################################
+
+System-specific compile-time parameters
+---------------------------------------
+
+Some UNIX functions take different arguments based on
+the specific operating system implementation provided. We
+have provided the following preprocessor flags that
+can be defined according to the characteristics of the system.
+
+Flag		Description
+SIGNAL_4ARGS	Signal handler functions expect four arguments,
+		of type int, int, sigcontext *, and char *
+SIGNAL_DOTS	Signal handler functions expect a variable number of
+		arguments, with the first one being an int
+USESIGNAL	"signal" should be used to register a signal handler, rather
+		than "sigset"
+ONEXIT		The name of the function that registers cleanup
+		functions to call before exiting the simulator is "onexit"
+		(rather than "atexit") 
+
+#############################################################################
+
+
+Using other make utilities instead
+----------------------------------
+
+The main difference between the various "make" utilities is the
+syntax used for deriving the values of variables from the values of
+other variables. For example, gnumake uses the "subst" macro, while
+the Sun make utility uses macros based on the "%" symbol.
+
+The differences between the various Makefiles in the subdirectories
+is primarily in the way that the OBJS variable is specified. For the
+Sun platforms, OBJS is derived from PROC_SRCFILES and MEMSYS_SRCFILES,
+whereas OBJS is explicitly specified for the SGI and Convex
+platforms. It should be acceptable to explicitly specify the OBJS
+variable for any configuration.
+
+#############################################################################

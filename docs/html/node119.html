@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Handling negative acknowledgments</TITLE>
+<META NAME="description" CONTENT="Handling negative acknowledgments">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1819" HREF="node120.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1817" HREF="node117.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1813" HREF="node118.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1821" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1820" HREF="node120.html">Deadlock avoidance</A>
+<B>Up:</B> <A NAME="tex2html1818" HREF="node117.html">Processing other incoming COHE_REPLYs</A>
+<B> Previous:</B> <A NAME="tex2html1814" HREF="node118.html">Handling positive acknowledgments</A>
+<BR> <P>
+<H2><A NAME="SECTION03852000000000000000">Handling negative acknowledgments</A></H2>
+<P>
+If <TT>s.reply</TT> is set to <TT>NACK</TT>, the <TT>COHE_REPLY</TT> indicates that the line
+missed in the remote cache. This response type is acceptable and
+handled like a positive acknowledgment unless
+the  <TT>COHE</TT> message from the directory
+was sent with <TT>NACK_NOK</TT>. <TT>NACK_NOK</TT> indicates that
+the coherence message specifically
+expected that data would be transfered. In this case, the cache must have
+issued a write-back or replacement message just prior to receiving
+the coherence message in
+question. If this write-back or replacement has not yet been received,
+the original
+<TT>REQUEST</TT> that started the coherence transaction sequence is sent
+back to its cache with an <TT>RAR</TT> to be retried. (If the <TT>RAR</TT>
+cannot be
+sent immediately, the directory puts it in <TT>OutboundReqs</TT> to be tried
+later). If the write-back has been received at the directory, though, the
+original <TT>REQUEST</TT> can be reprocessed through the standard directory
+request-handling case.
+<P>
+On <TT>NACK_PEND</TT> coherence replies, the directory is expected to reevaluate
+its status and resend the <TT>COHE</TT> request if needed. A response of
+<TT>NACK_PEND</TT> is sent from the cache in certain cases of  a <TT>COHE</TT>
+received for a line with an outstanding MSHR.  Such a race can occur 
+either if the cache sent a write-back or replacement message before the
+directory sent out the <TT>COHE</TT> or if the <TT>COHE</TT> was received
+by the cache before the <TT>REPLY</TT>, which had been sent to the cache earlier.
+If the directory 
+has received a write-back for the line in question from the node that
+responded with a <TT>NACK_PEND</TT>,
+the original <TT>REQUEST</TT> is reprocessed by the normal request handler.
+Otherwise, the coherence message is retried again, as it may have
+been <TT>NACK_PEND</TT>ed only because it bypassed an earlier <TT>REPLY</TT>.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

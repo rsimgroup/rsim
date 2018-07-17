@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>The unelf utility</TITLE>
+<META NAME="description" CONTENT="The unelf utility">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1949" HREF="node132.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1947" HREF="node129.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1943" HREF="node130.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1951" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1950" HREF="node132.html">References</A>
+<B>Up:</B> <A NAME="tex2html1948" HREF="node129.html">Implementation of predecode and </A>
+<B> Previous:</B> <A NAME="tex2html1944" HREF="node130.html">The predecode utility</A>
+<BR> <P>
+<H1><A NAME="SECTION031120000000000000000">The <TT>unelf</TT> utility</A></H1>
+<P>
+<P>
+<P>
+Source files:  <TT>src/predecode/unelf.cc</TT>
+<P>
+<P>
+<P>
+<TT>unelf</TT> uses the functions in the ELF library to expand an <TT>
+ELF</TT> executable into a format that can be processed by a machine
+without support for the ELF library. <TT>unelf</TT> loops through the
+ELF sections for the file. If any section contains data (which can either
+be instructions, initialized static data, or uninitialized data), space
+for that section should be allocated into the overall data array being
+constructed. If the ELF section actually provides data values (instructions
+or initialized static data), those should be copied from the section into
+the data array being constructed. If the section is for uninitialized
+static data, the corresponding region of the data array being
+constructed should be cleared.
+<P>
+After constructing a data array, the utility writes an <TT>
+UnElfedHeader</TT> data structure to the output file. The <TT>
+UnElfedHEader</TT> specifies the size of the data array, the entry point,
+and the virtual address for the start of the data array. Next, <TT>
+unelf</TT> writes the entire data array to the output file.
+<P>
+More information about ELF can be found from the Unix manual pages.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

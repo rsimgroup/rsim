@@ -1,0 +1,590 @@
+#!/bin/csh -f
+# plotall <title> <titlesuffix> file1_err file2_err ... file6_err phase
+
+#############################################################################
+# This file is part of RSIM Utilities                                       #
+#                                                                           #
+######################## LICENSE TERMS AND CONDITIONS #######################
+#                                                                           #
+#  Copyright Notice                                                         #
+#       1997 Rice University                                                #
+#                                                                           #
+#  1. The "Software", below, refers to RSIM (Rice Simulator for ILP         #
+#  Multiprocessors) version 1.0 and includes the RSIM Simulator, the        #
+#  RSIM Applications Library, Example Applications ported to RSIM,          #
+#  and RSIM Utilities.  Each licensee is addressed as "you" or              #
+#  "Licensee."                                                              #
+#                                                                           #
+#  2. Rice University is copyright holder for the RSIM Simulator and RSIM   #
+#  Utilities. The copyright holders reserve all rights except those         #
+#  expressly granted to the Licensee herein.                                #
+#                                                                           #
+#  3. Permission to use, copy, and modify the RSIM Simulator and RSIM       #
+#  Utilities for any non-commercial purpose and without fee is hereby       #
+#  granted provided that the above copyright notice appears in all copies   #
+#  (verbatim or modified) and that both that copyright notice and this      #
+#  permission notice appear in supporting documentation. All other uses,    #
+#  including redistribution in whole or in part, are forbidden without      #
+#  prior written permission.                                                #
+#                                                                           #
+#  4. The RSIM Applications Library is free software; you can               #
+#  redistribute it and/or modify it under the terms of the GNU Library      #
+#  General Public License as published by the Free Software Foundation;     #
+#  either version 2 of the License, or (at your option) any later           #
+#  version.                                                                 #
+#                                                                           #
+#  The Library is distributed in the hope that it will be useful, but       #
+#  WITHOUT ANY WARRANTY; without even the implied warranty of               #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU         #
+#  Library General Public License for more details.                         #
+#                                                                           #
+#  You should have received a copy of the GNU Library General Public        #
+#  License along with the Library; if not, write to the Free Software       #
+#  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,    #
+#  USA.                                                                     #
+#                                                                           #
+#  5. LICENSEE AGREES THAT THE EXPORT OF GOODS AND/OR TECHNICAL DATA FROM   #
+#  THE UNITED STATES MAY REQUIRE SOME FORM OF EXPORT CONTROL LICENSE FROM   #
+#  THE U.S.  GOVERNMENT AND THAT FAILURE TO OBTAIN SUCH EXPORT CONTROL      #
+#  LICENSE MAY RESULT IN CRIMINAL LIABILITY UNDER U.S. LAWS.                #
+#                                                                           #
+#  6. RICE UNIVERSITY NOR ANY OF THEIR EMPLOYEES MAKE ANY WARRANTY,         #
+#  EXPRESS OR IMPLIED, OR ASSUME ANY LEGAL LIABILITY OR RESPONSIBILITY      #
+#  FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF ANY INFORMATION,        #
+#  APPARATUS, PRODUCT, OR PROCESS DISCLOSED AND COVERED BY A LICENSE        #
+#  GRANTED UNDER THIS LICENSE AGREEMENT, OR REPRESENT THAT ITS USE WOULD    #
+#  NOT INFRINGE PRIVATELY OWNED RIGHTS.                                     #
+#                                                                           #
+#  7. IN NO EVENT WILL RICE UNIVERSITY BE LIABLE FOR ANY DAMAGES,           #
+#  INCLUDING DIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES          #
+#  RESULTING FROM EXERCISE OF THIS LICENSE AGREEMENT OR THE USE OF THE      #
+#  LICENSED SOFTWARE.                                                       #
+#                                                                           #
+#############################################################################
+
+onintr cleanup
+
+set origargv = "$argv"
+
+rm -f ${1}${2}_fullres
+touch ${1}${2}_fullres
+
+set title = ${1},${2}
+set filename = ${1}${2}
+
+shift
+shift
+
+pstats $* >>! ${filename}_fullres
+
+calc_stats_very_detailed ${filename}_fullres 100.0 >! /tmp/PLOTALLSTATS.$$
+
+set noglob
+
+cat > /tmp/PLOTALLSTATSawk.$$ << STOP
+BEGIN {i=0; max = 110; split(names,printnames,",");}
+
+/RealBusy/{realbusy[i] =  \$3; stallbusy[i] = \$6;
+readmiss[i] =  \$9; readhit[i] = \$12;
+write[i] =  \$15;
+lock[i] = \$18; flag[i] = \$21;
+barrier[i] = \$24;}
+/RL1/ {readl1[i]=\$3;readl2[i]=\$6;readloc[i]=\$9;readrem[i]=\$12;}
+/WL1/ {writel1[i]=\$3;writel2[i]=\$6;writeloc[i]=\$9;writerem[i]=\$12; i++}
+
+END {
+xmax = 3*i+0;
+printf("new graph\n");
+printf("size %.1f by 3\n",.75*i+1);
+printf("\n");
+printf("graph font helvetica14\n");
+printf("Graph title ${title}\n");
+printf("\n");
+
+printf("x minimum 0\n");
+printf("x maximum %d\n",xmax);
+printf("x interval 100\n");
+printf("y interval 20\n");
+printf("y minimum 0\n");
+printf("y maximum %d\n",max+5);
+printf("\n");
+printf("y font helvetica10b\n");
+printf("y label Normalized execution time\n");
+printf("\n");
+printf("exclude x numbers\n");
+printf("\n");
+
+#############################################################
+## THE BARS
+#############################################################
+
+for (zzz = 0; zzz < i; zzz ++)
+{
+  printf("new text %d, -%d\n",zzz*3.0+1.5,4*max/100.0);
+  printf("%s\n\ntext font helvetica10\ntext align center\n\n",printnames[zzz+1]);
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,barrier[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.3 0.3 1.0\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,flag[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.5 1.0 1.0\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,lock[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 0.5 1.0\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,writerem[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.0 0.2 0.0\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,writeloc[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.0 1.0 0.0\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,writel2[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.6 0.8 0.6\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,writel1[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.8 1.0 0.8\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readrem[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.5 0.0 0.0\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readloc[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 0.2 0.2\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readl2[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 0.6 0.6\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readl1[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 0.9 0.9\ncurve font helvetica12\n\n"); 
+
+#  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,write[zzz]/barrier[zzz]*100.0);
+#  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+#  printf("curve color rgb 0.0 0.0 0.0\ncurve font helvetica12\n\n"); 
+
+#  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readhit[zzz]/barrier[zzz]*100.0);
+#  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+#  printf("curve color rgb 0.0 0.5 0.5\ncurve font helvetica12\n\n"); 
+#
+#  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readmiss[zzz]/barrier[zzz]*100.0);
+#  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+#  printf("curve color rgb 1.0 0.3 0.3\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,stallbusy[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.5 0.3 0.5\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,realbusy[zzz]/barrier[zzz]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 1.0 0.0\ncurve font helvetica12\n\n"); 
+
+  printf("new text %d,%.1f\n%.1f\n\ntext font helvetica10\ntext align center\n\n",zzz*3.0+1.5,barrier[zzz]/barrier[zzz]*100.0+1,barrier[zzz]/barrier[zzz]*100.0);
+}
+
+#############################################################
+
+############################################################
+## THE KEY
+############################################################
+
+printf("new curve\n");
+printf("new points\n");
+printf("%d, %d\n",xmax-1,max*.96);
+printf("\n");
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 0.3 0.3 1.0\n");
+printf("curve font helvetica12\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.93);
+printf("barrier\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.92);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb .5 1.0 1.0\n");
+printf("curve font helvetica12\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.89);
+printf("flag\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.88);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 1.0 .5 1.0\n");
+printf("curve font helvetica12\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.85);
+printf("lock\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.84);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 0.0 0.3 0.0\n");
+printf("curve font helvetica12\n\n\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.81);
+printf("write\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.80);
+printf("\n");
+
+#printf("curve interpolation yhistogram\n");
+#printf("curve type solid\n");
+#printf("curve color rgb 0.0 .5 0.5\n");
+#printf("curve font helvetica12\n\n\n");
+#printf("\n");
+#printf("new text %d,%d\n",xmax-2,max*.77);
+#printf("read hit\n");
+#printf("\n");
+#printf("text font helvetica12\n");
+#printf("text align right\n");
+#printf("\n");
+#printf("new curve\n");
+#printf("new points\n");
+#printf("%d,%d\n",xmax-1,max*.76);
+#printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 1.0 .3 0.3\n");
+printf("curve font helvetica12\n\n\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.77);
+printf("read\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.76);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 0.5 .3 0.5\n");
+printf("curve font helvetica12\n\n\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.73);
+printf("FU stall\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.72);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 1.0 1.0 0.0\n");
+printf("curve font helvetica12\n\n\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.69);
+printf("busy\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.68);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve gray 1.0\n");
+printf("curve font helvetica12\n\n\n");
+
+}
+STOP
+
+cat > /tmp/PLOTALLSTATSawk2.$$ << STOP
+BEGIN {i=0; max = 110; xmax = 45; split(names,printnames,",");}
+
+/RealBusy/{realbusy[i] =  \$3; stallbusy[i] = \$6;
+readmiss[i] =  \$9; readhit[i] = \$12;
+write[i] =  \$15;
+lock[i] = \$18; flag[i] = \$21;
+barrier[i] = \$24;}
+/RL1/ {readl1[i]=\$3;readl2[i]=\$6;readloc[i]=\$9;readrem[i]=\$12;}
+/WL1/ {writel1[i]=\$3;writel2[i]=\$6;writeloc[i]=\$9;writerem[i]=\$12; i++}
+
+END {
+xmax = 3*i+0;
+printf("new graph\n");
+printf("size %.1f by 3\n",.75*i+1);
+printf("\n");
+printf("graph font helvetica14\n");
+printf("Graph title ${title}\n");
+printf("\n");
+
+printf("x minimum 0\n");
+printf("x maximum %d\n",xmax);
+printf("x interval 100\n");
+printf("y interval 20\n");
+printf("y minimum 0\n");
+printf("y maximum %d\n",max+5);
+printf("\n");
+printf("y font helvetica10b\n");
+printf("y label Normalized execution time\n");
+printf("\n");
+printf("exclude x numbers\n");
+printf("\n");
+
+#############################################################
+## THE BARS
+#############################################################
+
+for (zzz = 0; zzz < i; zzz ++)
+{
+  printf("new text %d, -%d\n",zzz*3.0+1.5,4*max/100.0);
+  printf("%s\n\ntext font helvetica10\ntext align center\n\n",printnames[zzz+1]);
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,barrier[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.3 0.3 1.0\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,flag[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.5 1.0 1.0\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,lock[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 0.5 1.0\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,writerem[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.0 0.2 0.0\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,writeloc[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.0 1.0 0.0\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,writel2[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.6 0.8 0.6\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,writel1[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.8 1.0 0.8\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readrem[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.5 0.0 0.0\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readloc[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 0.2 0.2\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readl2[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 0.6 0.6\ncurve font helvetica12\n\n"); 
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readl1[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 0.9 0.9\ncurve font helvetica12\n\n"); 
+
+#  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,write[zzz]/barrier[0]*100.0);
+#  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+#  printf("curve color rgb 0.0 0.0 0.0\ncurve font helvetica12\n\n"); 
+
+#  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readhit[zzz]/barrier[0]*100.0);
+#  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+#  printf("curve color rgb 0.0 0.5 0.5\ncurve font helvetica12\n\n"); 
+#
+#  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,readmiss[zzz]/barrier[0]*100.0);
+#  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+#  printf("curve color rgb 1.0 0.3 0.3\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,stallbusy[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 0.5 0.3 0.5\ncurve font helvetica12\n\n"); 
+
+  printf("new curve\nnew points\n%d, %.1f\n\n",zzz*3.0+1.5,realbusy[zzz]/barrier[0]*100.0);
+  printf("curve interpolation yhistogram\ncurve type solid\n"); 
+  printf("curve color rgb 1.0 1.0 0.0\ncurve font helvetica12\n\n"); 
+
+  printf("new text %d,%.1f\n%.1f\n\ntext font helvetica10\ntext align center\n\n",zzz*3.0+1.5,barrier[zzz]/barrier[0]*100.0+1,barrier[zzz]/barrier[0]*100.0);
+}
+
+#############################################################
+
+############################################################
+## THE KEY
+############################################################
+
+printf("new curve\n");
+printf("new points\n");
+printf("%d, %d\n",xmax-1,max*.96);
+printf("\n");
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 0.3 0.3 1.0\n");
+printf("curve font helvetica12\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.93);
+printf("barrier\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.92);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb .5 1.0 1.0\n");
+printf("curve font helvetica12\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.89);
+printf("flag\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.88);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 1.0 .5 1.0\n");
+printf("curve font helvetica12\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.85);
+printf("lock\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.84);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 0.0 0.3 0.0\n");
+printf("curve font helvetica12\n\n\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.81);
+printf("write\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.80);
+printf("\n");
+
+#printf("curve interpolation yhistogram\n");
+#printf("curve type solid\n");
+#printf("curve color rgb 0.0 .5 0.5\n");
+#printf("curve font helvetica12\n\n\n");
+#printf("\n");
+#printf("new text %d,%d\n",xmax-2,max*.77);
+#printf("read hit\n");
+#printf("\n");
+#printf("text font helvetica12\n");
+#printf("text align right\n");
+#printf("\n");
+#printf("new curve\n");
+#printf("new points\n");
+#printf("%d,%d\n",xmax-1,max*.76);
+#printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 1.0 .3 0.3\n");
+printf("curve font helvetica12\n\n\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.77);
+printf("read\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.76);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 0.5 .3 0.5\n");
+printf("curve font helvetica12\n\n\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.73);
+printf("FU stall\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.72);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve color rgb 1.0 1.0 0.0\n");
+printf("curve font helvetica12\n\n\n");
+printf("\n");
+printf("new text %d,%d\n",xmax-2,max*.69);
+printf("busy\n");
+printf("\n");
+printf("text font helvetica12\n");
+printf("text align right\n");
+printf("\n");
+printf("new curve\n");
+printf("new points\n");
+printf("%d,%d\n",xmax-1,max*.68);
+printf("\n");
+
+printf("curve interpolation yhistogram\n");
+printf("curve type solid\n");
+printf("curve gray 1.0\n");
+printf("curve font helvetica12\n\n\n");
+
+}
+STOP
+
+nawk -f /tmp/PLOTALLSTATSawk.$$ -v names="run1,run2,run3,run4,run5,run6,run7,run8" /tmp/PLOTALLSTATS.$$ >! ${filename}_wt.cmd
+splot ${filename}_wt.cmd >! ${filename}_wt.ps
+
+nawk -f /tmp/PLOTALLSTATSawk2.$$ -v names="run1,run2,run3,run4,run5,run6,run7,run8" /tmp/PLOTALLSTATS.$$ >! ${filename}_exec.cmd
+splot ${filename}_exec.cmd >! ${filename}_exec.ps
+ghostview ${filename}_exec.ps &
+cleanup:
+unset noglob
+rm /tmp/PLOTALLSTATS*.$$ 

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Support for debugging RSIM</TITLE>
+<META NAME="description" CONTENT="Support for debugging RSIM">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1138" HREF="node67.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1136" HREF="node65.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1130" HREF="node65.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1140" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1139" HREF="node67.html">Debugging applications</A>
+<B>Up:</B> <A NAME="tex2html1137" HREF="node65.html">Debugging</A>
+<B> Previous:</B> <A NAME="tex2html1131" HREF="node65.html">Debugging</A>
+<BR> <P>
+<H2><A NAME="SECTION02531000000000000000">Support for debugging RSIM</A></H2>
+<P>
+RSIM provides compile-time options to enable copious debugging and
+diagnostic output to be printed to the standard output and to separate
+files. Such tracing information is likely to be very important to
+anyone seeking to modify RSIM. There are various compile time flags
+which the user can selectively turn on to get debugging information
+for one section of the system (e.g., the network interfaces, the first
+level cache), but it is often the case that the user will want all
+debugging flags available turned on together, as in the debugging
+makefiles provided with the RSIM distribution.
+<P>
+The processor debugging output is written into files called <I>
+corefile</I>s. Each processor has its own corefile, and the
+suffix of each file represents the processor number (with a 
+<TT>corefile.<EM>i</EM></TT> file for each processor with processor number <EM>i</EM>.)
+These files
+contain detailed information on each stage of  simulation for every instruction.
+<P>
+The debugging output related to the memory hierarchy and network is
+printed on the simulation output file. This debugging information is
+also very detailed, providing information about nearly all relevant
+activity in the cache hierarchy, the directory, the busses, and the
+network interfaces.
+<P>
+Because of the amount of information provided by these debugging
+options, these files can quickly grow into several megabytes of data
+in just thousands of processor cycles. The ``-t'' and ``-c'' options
+described in Chapter&nbsp;<A HREF="node28.html#cmd_line">4</A> can be used to limit this tracing
+to the exact spot where the problem is suspected. In the case of
+deadlocks, this moment of simulation time can be determined to some
+extent through the use of the periodic partial statistics displayed by
+RSIM, as processors will usually stop graduating instructions soon
+after the deadlock ensues.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

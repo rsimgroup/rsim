@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Processor parameters</TITLE>
+<META NAME="description" CONTENT="Processor parameters">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html722" HREF="node31.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html720" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html714" HREF="node29.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html724" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html723" HREF="node31.html">Memory unit parameters</A>
+<B>Up:</B> <A NAME="tex2html721" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html715" HREF="node29.html">Command line options</A>
+<BR> <P>
+<H2><A NAME="SECTION02311000000000000000">Processor parameters</A></H2>
+<P>
+<A NAME="cmd_line_procparams">&#160;</A>
+<P>
+<DL ><DT><STRONG>-i num</STRONG>
+<DD> Number of instructions to fetch in a
+cycle. Defaults to 4. 
+<DT><STRONG>-a num</STRONG>
+<DD> Active list size. Defaults to 64.
+<P>
+<DT><STRONG>-g num</STRONG>
+<DD> Maximum number of instructions to graduate per cycle. If
+the value 0 is given, then the processor will be able to graduate an
+unbounded number of instructions per cycle.  Defaults to the same value
+as the instruction fetch width (specified in ``-i'', or 4 if no ``-i''
+is given).
+<P>
+<DT><STRONG>-u</STRONG>
+<DD> Simulate fast functional units - all ALU and FPU instructions
+have single cycle latency. This option overrides any latencies specified
+in the configuration file.
+<P>
+<DT><STRONG>-E num</STRONG>
+<DD> Number of instructions to flush per cycle (from the active
+list) on an exception.
+If the value of 0 is given, the processor will flush all instructions
+immediately on an exception. Defaults to the same value as the
+graduation rate.
+<P>
+<DT><STRONG>-q num,num</STRONG>
+<DD> Many processors include one or more issue windows (corresponding
+to different sets of functional units) separate from the active list. These issue windows only 
+hold instructions that have not yet issued to the corresponding functional units (or,
+in the case of memory instructions, instructions that have not completed
+all of their ordering constraints). Thus, the issue logic only needs to examine
+instructions in the corresponding windows for outstanding dependences.
+The ``<TT>-q</TT>'' option supports a processor
+that has separate issue windows for memory and non-memory instructions, and stalls further instruction decoding when a new instruction cannot obtain a space
+in its issue window.
+The first number specified with this option
+represents the size of the issue window for non-memory operations.
+The second number represents the size of the memory unit, and
+overrides any earlier use of
+the ``<TT>-m</TT>'' option below). Note that when ``<TT>-q</TT>'' is not used, the processor still supports a memory unit, but does not stall if the memory unit
+is full. This option has not yet been extensively tested.
+Unused by  default.
+<P>
+<DT><STRONG>-X</STRONG>
+<DD>  Static scheduling. Supported only with the straightforward
+implementation of release consistency.  The static scheduling supported in RSIM includes
+register renaming and out-of-order completion. Memory instructions are
+considered issued once they have been sent to their address generation
+units; memory fences and structural hazards beyond that point may cause
+additional delays. This option has not yet been extensively tested.
+Unused by default.
+<P>
+ </DL><HR><A NAME="tex2html722" HREF="node31.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html720" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html714" HREF="node29.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html724" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html723" HREF="node31.html">Memory unit parameters</A>
+<B>Up:</B> <A NAME="tex2html721" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html715" HREF="node29.html">Command line options</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

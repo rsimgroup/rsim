@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Processor memory unit</TITLE>
+<META NAME="description" CONTENT="Processor memory unit">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html647" HREF="node26.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html645" HREF="node22.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html639" HREF="node24.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html649" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html648" HREF="node26.html">Exception handling</A>
+<B>Up:</B> <A NAME="tex2html646" HREF="node22.html">Processor microarchitecture</A>
+<B> Previous:</B> <A NAME="tex2html640" HREF="node24.html">Branch prediction</A>
+<BR> <P>
+<H2><A NAME="SECTION02223000000000000000">Processor memory unit</A></H2>
+<P>
+<A NAME="rpipes_mem">&#160;</A>
+<P>
+The processor memory unit is the interface between the processor
+and the caches. 
+Currently, instruction caches are not simulated and are
+assumed to be perfect.  RSIM also does not currently support virtual
+memory<A NAME="tex2html7" HREF="footnode.html#336"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.
+A processor's accesses to its private data space (described
+in Section&nbsp;<A HREF="node47.html#apps_memmodel">5.1</A>) are currently considered to be cache hits in
+all multiprocessor simulations and in uniprocessor simulations
+configured for this purpose.  
+However, contention at all processor and cache resources
+and all memory ordering constraints
+are modeled for private accesses in all cases.
+<P>
+The most important responsibility of the processor memory unit
+is to insure that memory instructions occur in the correct order.
+There are three types of ordering constraints that must be upheld:
+<P>
+<OL><LI>	Constraints to guarantee precise exceptions<LI>	Constraints to satisfy uniprocessor data dependences<LI>	Constraints due to the multiprocessor memory consistency model
+</OL>
+<P>
+<P>
+<P>
+<B>Constraints for precise exceptions</B>
+<P>
+The RSIM memory system
+supports non-blocking loads and stores.  To maintain precise
+exceptions, a store cannot issue before it is ready to be graduated;
+namely, it must be one of the instructions to graduate in the next
+cycle and all previous instructions must have completed successfully.
+A store can be allowed to graduate, as it does not need
+to maintain a space in the active list for any later dependences.
+However, if it is not able to issue to the cache before graduating, it
+must hold a slot in the memory unit until it is actually sent to the
+cache.  The store can leave the memory unit as soon as it has issued,
+unless the multiprocessor memory constraints require the store to
+remain in the unit.
+<P>
+Loads always wait until completion before leaving the memory unit
+or graduating, as loads must write a destination register value.
+Prefetches can leave the memory unit as soon as they are issued to
+the cache, as these instructions have no destination register
+value. Furthermore, there are no additional
+constraints on the graduation of prefetches.
+<P>
+<P>
+<P>
+<B>Constraints for uniprocessor data depedences</B>
+<P>
+These constraints require that a processor's conflicting loads and stores (to
+the same address) appear to execute in program order. The precise exception
+constraint ensures that this condition holds for two stores and for a load
+followed by a store. For a store followed by a load, the processor
+may need to maintains this data dependence by enforcing additional
+constraints on the execution of the load. If the load has generated
+its address, the state of the store address determines whether or not
+the load can issue. Specifically, the prior store must be in
+one of the following
+three categories:
+<P>
+<OL><LI>	address is known, non-conflicting<LI>	address is known, conflicting<LI>	address is unknown
+</OL>
+<P>
+In the first case, there is no data dependence from the store
+to the load. As a result, the load can issue to the cache in all
+configuration options, as long as the multiprocessor ordering constraints
+allow the load to proceed.
+<P>
+In the second case, the processor knows that there is a data dependence
+from the store to the load. If the store matches  the load address exactly,
+the load can
+forward its return value from the value of the store in the memory
+unit without ever having to issue to cache, if the multiprocessor
+ordering constraints allow this. If the load address and
+the store address only partially overlap, the load may have to stall
+until the store has completed at the caches; such a stall is called a
+<EM>partial overlap</EM>, and is discussed further in
+Chapter&nbsp;<A HREF="node85.html#rsimproc_memunit">11</A>.
+<P>
+In the third case, however, the load may or may not have a data
+dependence on the previous store. The behavior of the RSIM memory unit
+in this situation depends on the configuration options.
+In the default RSIM configuration, the load is allowed to issue to the cache,
+if allowed by the multiprocessor ordering constraints. When the load
+data returns from the cache, the load will be allowed to complete unless there
+is still a prior store with an unknown or conflicting address. If a prior
+store is now known to have a conflicting address, the load must either
+attempt to reissue or forward a value from the store as appropriate.
+If a prior store still has an unknown address, the load remains in the
+memory unit, but clears the busy bit of its destination register,
+allowing further instructions to use the value of the load. However, if a prior
+store is later disambiguated and is found to conflict with a later
+completed load, the load is marked with a <EM>soft exception</EM>, which
+flushes the value of that load and all subsequent
+instructions. Soft-exception handling is discussed in
+Section&nbsp;<A HREF="node26.html#rpipes_except">3.2.4</A>.
+<P>
+There are two less aggressive variations provided on this default
+policy for handling the third case.  The first scheme is similar
+to the default policy; however, the busy bit of the load is not
+cleared until all prior stores have completed. Thus, if a
+prior store is later found to have a conflicting address, the
+instruction must only be forced to reissue, rather than to take a
+soft exception.  However, later instructions cannot use the value of the
+load until all prior stores have been disambiguated.
+<P>
+The second memory unit variation stalls the issue of the load
+altogether whenever a prior store has an unknown address.
+<P>
+<P>
+<B>Constraints for multiprocessor memory consistency model</B>.
+<P>
+RSIM supports memory systems 
+three types of multiprocessor memory consistency protocols:
+<P>
+<UL><LI> Relaxed memory ordering (RMO)&nbsp;[<A HREF="node132.html#Sun1993">23</A>] and release consistency (RC)&nbsp;[<A HREF="node132.html#KouroshLenoski1990">6</A>]<LI> Sequential consistency (SC)&nbsp;[<A HREF="node132.html#Lamport1979">11</A>]<LI> Processor consistency (PC)&nbsp;[<A HREF="node132.html#KouroshLenoski1990">6</A>] and total store ordering (TSO)&nbsp;[<A HREF="node132.html#Sun1991">26</A>]
+</UL>
+<P>
+Each of these memory models is supported with a straightforward
+implementation and optimized implementations. We first describe
+the straightforward implementation and then the more optimized implementations
+for each of these models.
+<P>
+The <EM>relaxed memory ordering</EM> (RMO)  model is based on the memory barrier
+(or fence) instructions, called <TT>MEMBAR</TT>s, 
+in the SPARC V9 ISA&nbsp;[<A HREF="node132.html#Sun1993">23</A>].
+Multiprocessor ordering constraints are imposed only with respect
+to these fence instructions.
+A SPARC V9 <TT>MEMBAR</TT> can specify one or more of several ordering options.
+An example of a commonly used class of <TT>MEMBAR</TT> is a
+<TT>LoadStore</TT> <TT>MEMBAR</TT>, which orders all loads (by program order) before
+the <TT>MEMBAR</TT> with respect to all stores following the <TT>MEMBAR</TT> (by
+program order).  Other common forms of <TT>MEMBAR</TT> instructions include
+<TT>StoreStore</TT>, <TT>LoadLoad</TT>, and combinations of the above formed
+by bitwise or (e.g. <TT>LoadLoad|LoadStore</TT>). Instructions
+that are ordered by the above <TT>MEMBAR</TT> instructions must appear to
+execute in program order. Additionally, RSIM supports the <TT>MemIssue</TT>
+class of <TT>MEMBAR</TT>, which forces all previous memory accesses to have
+been globally performed before any later instructions can be initiated;
+this precludes the use of the optimized consistency implementations described
+below<A NAME="tex2html8" HREF="footnode.html#448"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.
+<P>
+<EM>Release consistency</EM> is implemented using RMO with <TT>
+LoadLoad|LoadStore</TT> fences after acquire operations and <TT>
+LoadStore|StoreStore</TT> fences before release operations.
+<P>
+In the <EM>sequential consistency</EM> (SC) memory model, all operations must
+appear to execute in strictly serial order. The straightforward implementation of SC
+enforces this constraint by actually serializing all memory instructions;
+i.e. a load or store is issued to the cache only after the previous
+memory instruction by program order is globally performed<A NAME="tex2html9" HREF="footnode.html#377"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>&nbsp;[<A HREF="node132.html#ScheurichDubois1987">19</A>].
+Further, stores in SC maintain their entries in the memory unit
+until they have globally performed to facilitate maintaining multiprocessor
+memory ordering dependences from stores to later instructions.
+Unless RSIM is invoked with the <EM>store buffering</EM>
+command line option (discussed in Chapter&nbsp;<A HREF="node28.html#cmd_line">4</A>), stores in
+SC do not graduate until they have globally performed.
+Forwarding of values from stores to loads inside the memory unit is
+not allowed in the straightforward implementation of sequential consistency.
+<TT>MEMBAR</TT>s are ignored in the sequential consistency model.
+<P>
+The <EM>processor consistency</EM> (PC) and <EM>total-store ordering</EM> (TSO)
+implementations are identical in RSIM. With these models, stores
+are handled just as in sequential consistency with store buffering. Loads are
+ordered with respect to other loads, but are not prevented from
+issuing, leaving the memory unit, or graduating if only stores
+are ahead of them in the memory unit. Processor consistency and
+total store ordering also do not impose any
+multiprocessor constraints on forwarding values from stores to loads
+inside the memory unit, or on loads issuing past stores that have
+not yet disambiguated.
+<TT>MEMBAR</TT>s are ignored under the processor consistency and total store
+ordering models.
+<P>
+Beyond the above straightforward implementations,
+the processor memory unit in RSIM also supports optimized implementations
+of memory consistency constraints. These implementations use
+two techniques to improve the performance of consistency
+implementations: hardware-controlled non-binding prefetching from the
+active list and speculative load execution&nbsp;[<A HREF="node132.html#KouroshGupta1991b">5</A>].
+<P>
+In the straightforward implementations of memory consistency models, a load or
+store is prevented from issuing into the memory system whenever it has an outstanding
+consistency constraint from a prior instruction that has not yet been
+completed at the memory system.
+Hardware-controlled non-binding prefetching
+from the active
+list allows loads or stores in the active list that are blocked for
+consistency constraints to be prefetched into the processor's cache.
+As a result, the access
+is likely to expose less latency when it is issued to the caches
+after its consistency constraints have been met.
+This technique also allows
+exclusive prefetching of stores that have not yet reached the head of
+the active list (and which are thus prevented from issuing by the
+precise exception constraints).
+<P>
+Speculative load execution allows the processor not only to prefetch the
+cache lines for loads blocked for consistency constraints into the cache, but also to
+use the values in these prefetched lines. Values used in this fashion are correct
+as long as they are not overwritten by another processor before the
+load instruction completes its consistency constraints. The processor
+detects potential violations by monitoring coherence actions due to
+sharing or replacement at the cache. As in the MIPS R10000, a soft
+exception is marked on any speculative load for which such a coherence
+action occurs&nbsp;[<A HREF="node132.html#MIPSR10KMICRO">28</A>]; this soft exception will force the
+load to reissue and will flush subsequent instructions. The soft exception
+mechanism used on violations is the same as the mechanism used in the case
+of aggressive speculation of loads beyond stores with unknown addresses.
+Speculative load execution can be used in conjunction
+with hardware-controlled non-binding prefetching.
+<P>
+<HR><A NAME="tex2html647" HREF="node26.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html645" HREF="node22.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html639" HREF="node24.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html649" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html648" HREF="node26.html">Exception handling</A>
+<B>Up:</B> <A NAME="tex2html646" HREF="node22.html">Processor microarchitecture</A>
+<B> Previous:</B> <A NAME="tex2html640" HREF="node24.html">Branch prediction</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

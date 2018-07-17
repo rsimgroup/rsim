@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Debugging applications</TITLE>
+<META NAME="description" CONTENT="Debugging applications">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1147" HREF="node68.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1145" HREF="node65.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1141" HREF="node66.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1149" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1148" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<B>Up:</B> <A NAME="tex2html1146" HREF="node65.html">Debugging</A>
+<B> Previous:</B> <A NAME="tex2html1142" HREF="node66.html">Support for debugging RSIM</A>
+<BR> <P>
+<H2><A NAME="SECTION02532000000000000000">Debugging applications</A></H2>
+<P>
+RSIM does not currently include support for debugging application
+programs with a debugger like <TT>gdb</TT> or <TT>dbx</TT>, as RSIM does
+not expose information about the application being simulated
+to such a debugger. If RSIM
+encounters a nonrecoverable exception (such as a segmentation fault or
+bus error), all processors halt immediately and a termination message
+is printed on the standard error file. Application errors can be
+debugged either by running the applications natively on a machine
+using an ordinary debugger, or by running the application through RSIM
+instrumented with many <TT>printf</TT> calls. If the latter option is
+chosen, the debugging code should include an <TT>fflush(stdout)</TT>
+after each <TT>printf</TT>, as stdio streams are not guaranteed to be
+flushed on an abnormal exit in RSIM.
+<P>
+A common mistake in porting applications to RSIM is to forget the
+``volatile'' declaration for shared synchronization variables.  This
+is important for avoiding compiler optimizations that may
+cause infinite loops.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

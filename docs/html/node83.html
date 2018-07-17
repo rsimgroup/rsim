@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Exception handling</TITLE>
+<META NAME="description" CONTENT="Exception handling">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1396" HREF="node84.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1394" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1388" HREF="node82.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1398" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1397" HREF="node84.html">Principal data structures</A>
+<B>Up:</B> <A NAME="tex2html1395" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1389" HREF="node82.html">Graduation</A>
+<BR> <P>
+<H1><A NAME="SECTION03480000000000000000">Exception handling</A></H1>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/except.cc</TT>, <TT>src/Processor/traps.cc</TT>,
+<TT>src/Processor/traptable.cc</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/Processor/traptable.h</TT>, <TT>incl/Processor/instance.h</TT>,
+<TT>incl/Processor/hash.h</TT>
+<P>
+<P>
+<P>
+When the processor is first set into
+exception mode by the graduation functions, it stops decoding new
+instructions and instead calls the function <TT>PreExceptionHandler</TT>
+each cycle. This function makes sure that all stores in the memory
+unit prior to the excepting instruction have issued to the caches
+before allowing any
+exception to trap to the kernel. This step is important if a kernel
+trap can eventually result in context termination or paging, as the
+pages needed for the store to take place may no longer be present in
+the system after such an exception.  Soft exceptions (described
+in Section&nbsp;<A HREF="node26.html#rpipes_except">3.2.4</A>) may be processed
+immediately, as these are resolved entirely in hardware.
+<P>
+After the above conditions have completed, <TT>PreExceptionHandler</TT>
+calls <TT>ExceptionHandler</TT>, which starts by flushing the branch queue,
+the memory unit, the processor stall queue, and the active list, just
+as in the case of a branch misprediction. Although a real processor would
+also need to reverse process the register mappings in order to obtain
+the correct register mapping for continuing execution, the RSIM processor
+uses its abstraction of logical register files to reload the physical
+register file and restart with a clean mapping table.
+<P>
+<TT>ExceptionHandler</TT> then processes exceptions based on the exception
+type.
+<P>
+<TT>ExceptionHandler</TT> handles soft-exceptions with the bare minimum
+amount of processing for an exception. Specifically, the processor
+PC and NPC are reset, and normal instruction processing occurs
+as before starting with the instruction in question.
+<P>
+In the case of segmentation faults, the processor must determine
+whether this is a fault that simply indicates the need for growing
+the stack or an actual error. If the address is in a region that would
+be considered appropriate for the processor stack, the function <TT>
+StackTrapHandle</TT> is called. This function allocates space for the
+stack increase and adds those pages to the processor <TT>
+PageTable</TT>. For other types of segmentation faults, the function <TT>
+FatalException</TT> is called to print information about the type of
+violation and force all processors in the simulation to a halt.
+<P>
+In the case of an alignment error, this handler first checks to see if
+the alignment used is actually acceptable according to the ISA (this
+can arise as double-precision and quadruple-precision floating point
+loads and stores must only be aligned to single-word boundaries in the
+SPARC architecture). In such cases, the simulator must seek to emulate
+the effect of these instructions and then continue. As we expect these
+occurrences to be rare, RSIM currently does not simulate cache
+behavior for these accesses, instead calling the corresponding
+functions in <TT>src/Processor/funcs.cc</TT> immediately. In cases of
+genuine alignment failures, the exception is considered
+nonrecoverable, and <TT>FatalException</TT> is called.
+<P>
+The function <TT>SysTrapHandle</TT> handles the emulation of all
+supported system traps, which include
+some functions with
+UNIX-like semantics (<TT>close</TT>, <TT>dup</TT>, <TT>dup2</TT>, <TT>exit</TT>,
+<TT>lseek</TT>, <TT>open</TT>, <TT>read</TT>, <TT>sbrk</TT>, <TT>time</TT>, <TT>
+times</TT>, and <TT>write</TT>), and some additional traps
+provided
+by RSIM (corresponding to the following functions and macros: <TT>abort</TT>, <TT>AssociateAddrNode</TT>, <TT>endphase</TT>, <TT>fork</TT>,
+<TT>GET_L2CACHELINE_SIZE</TT>, <TT>getpid</TT>,
+<TT>MEMSYS_OFF</TT>, <TT>MEMSYS_ON</TT>,
+<TT>newphase</TT>, <TT>shmalloc</TT>, <TT>StatClearAll</TT>, <TT>StatReportAll</TT>,
+<TT>sys_bzero</TT>, and <TT>sysclocks</TT>).
+The UNIX I/O functions are emulated
+by actually calling the corresponding functions in the simulator
+and setting the <TT>%o0</TT> register value of the simulated processor to
+indicate the return value. Note that these accesses are processed by
+the host filesystem: as a result, simulated programs can actually
+overwrite system files. The <TT>sbrk</TT> function is processed by
+adding pages to the address space for the simulated processor.
+The <TT>time</TT> and <TT>times</TT> functions use the simulated cycle time
+to set the appropriate return values and structure fields.
+Although all of these functions have the same
+behavior as UNIX functions on success (except as noted in Section&nbsp;<A HREF="node48.html#apps_library">5.2</A>) and return the same values on
+failure, these functions do not set the <TT>errno</TT> variable on
+failure. The additional functions provided by RSIM are handled through 
+calls to simulator internal functions, setting the
+<TT>%o0</TT> register value to the result of the trap.
+<P>
+RSIM also uses exceptions
+to implement certain instructions that either modify system-wide
+status registers (e.g. <TT>LDFSR</TT>, <TT>STFSR</TT>), are outdated
+instructions with data-paths too complex for a processor with the
+aggressive features simulated in RSIM (e.g. <TT>MULScc</TT>), or
+deal with traps and must have their effects observed in a
+serial, non-speculative manner (e.g. <TT>SAVED</TT> and <TT>RESTORED</TT>, which are invoked just before the end
+of a window trap to indicate that the processor can modify its <TT>
+CANRESTORE</TT> and <TT>CANSAVE</TT> fields; and <TT>DONE</TT> and <TT>RETRY</TT>,
+which are used to return from a trap back to regular
+processing&nbsp;[<A HREF="node132.html#Sun1993">23</A>]).
+All of these instructions types are marked with <TT>SERIALIZE</TT> traps,
+and are handled in <TT>
+ProcessSerializedInstructions</TT>.  In the case of <TT>STFSR</TT> and <TT>
+STXFSR</TT>, control will be transfered to instructions in the trap-table,
+while <TT>DONE</TT> and <TT>RETRY</TT> transfer control back to the <TT>
+trappc</TT> and <TT>trapnpc</TT> fields saved aside before entering the
+trap-table. Other serialized instructions continue with normal
+execution starting from the instruction after the serialized one.
+<P>
+Window traps dispatch control to the trap table through the <TT>TrapTableHandle</TT> function. This function puts the processor into privileged state and
+saves aside the PC and NPC of the faulting instruction as <TT>trappc</TT>
+and <TT>trapnpc</TT>. The processor PC and NPC are then set to the
+appropriate instruction sequences for the window traps, and
+the processor restarts execution from within those trap-handlers.
+<P>
+For the remaining non-recoverable exceptions (division by zero,
+floating point error, illegal instruction, priviliged instruction,
+illegal program counter value), the function <TT>FatalException</TT> is
+called.
+<P>
+<HR><A NAME="tex2html1396" HREF="node84.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1394" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1388" HREF="node82.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1398" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1397" HREF="node84.html">Principal data structures</A>
+<B>Up:</B> <A NAME="tex2html1395" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1389" HREF="node82.html">Graduation</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

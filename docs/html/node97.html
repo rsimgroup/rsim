@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Memory system simulator initialization</TITLE>
+<META NAME="description" CONTENT="Memory system simulator initialization">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1560" HREF="node98.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1558" HREF="node90.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1552" HREF="node96.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1562" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1561" HREF="node98.html">Deadlock avoidance</A>
+<B>Up:</B> <A NAME="tex2html1559" HREF="node90.html">Memory Hierarchy and Interconnection </A>
+<B> Previous:</B> <A NAME="tex2html1553" HREF="node96.html">The s.nack_st field</A>
+<BR> <P>
+<H1><A NAME="SECTION03630000000000000000">Memory system simulator initialization</A></H1>
+<P>
+<A NAME="memsys_init">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/architecture.c</TT>, <TT>src/MemSys/mesh.c</TT>, <TT>src/MemSys/net.c</TT>, <TT>src/MemSys/module.c</TT>, <TT>src/MemSys/setup_cohe.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/arch.h</TT>, <TT>incl/MemSys/net.h</TT>
+<P>
+<P>
+<P>
+As mentioned in Chapter&nbsp;<A HREF="node74.html#rsim_init">9</A>, RSIM uses the <TT>SystemInit</TT>
+function to set the desired characteristics of the multiprocessor
+architecture being simulated. After setting some global fields
+according to the modules present in the system, the <TT>SystemInit</TT>
+function calls <TT>dir_net_init</TT>.
+<P>
+First, <TT>dir_net_init</TT> constructs the multiprocessor
+interconnection network. This is a 2-dimensional mesh network with a
+square number of nodes (if a non-square system is desired, the user
+should either round up to the nearest square or some other appropriate
+square configuration size).  <TT>dir_net_init</TT> calls <TT>CreateMESH</TT>
+to construct the request and reply networks. This function initializes
+all the buffers and ports of the network (described in
+Section&nbsp;<A HREF="node124.html#rsimmemsys_net">15.3</A>), calling the functions <TT>MeshCreate</TT>, <TT>
+Create1DMesh</TT>, <TT>ConnectMeshes</TT>, <TT>ConnectComponents</TT>, and <TT>
+NetworkConnect</TT> to set up the system. After creating these meshes,
+<TT>dir_net_init</TT> next sets the mesh parameters of flit delay and
+arbitration delay: if pipelined switches are being modeled, these
+parameters are modified from the input parameters in order to simulate
+the desired degree of pipelining.  The network used in RSIM is
+taken from the NETSIM interconnection network simulator&nbsp;[<A HREF="node132.html#NETSIM">7</A>].
+More details on the network
+interconnection and parameters are available in Section&nbsp;<A HREF="node124.html#rsimmemsys_net">15.3</A>
+and in the NETSIM reference manual (available from
+<TT>http://www-ece.rice.edu/ <IMG WIDTH=10 HEIGHT=4 ALIGN=BOTTOM ALT="tex2html_wrap_inline3912" SRC="img1.gif"  > rsim/rppt.html</TT>).
+<P>
+Next, <TT>dir_net_init</TT> creates the <TT>Delays</TT> data structures
+for many of the individual modules. Each module has parameters for
+access time, initial transfer time, and flit transfer
+time. Additionally, the directory module has parameters for the first
+packet creation time associated with a request and each subsequent
+packet creation time, which are used to effect delays when sending
+coherence messages from a directory. The access time and packet
+creation times of the <TT>DirDelays</TT> structures are configurable at
+run-time. These <TT>Delays</TT> are not currently used for the
+CPU, L1 cache, L2 cache, and write-buffer, but are provided for possible
+expansion. The actual latencies for the L1 and L2 caches are stored
+in the variables <TT>L1TAG_DELAY</TT>, <TT>L2TAG_DELAY</TT>, and
+<TT>L2DATA_DELAY</TT>.
+<P>
+Next, <TT>dir_net_init</TT> allocates all the needed modules for the
+individual nodes (e.g. caches, write buffers, network interfaces, busses,
+and directory banks). The system then initializes each of these modules,
+using <TT>NewProcessor</TT>, <TT>NewCache</TT>, <TT>NewWBuffer</TT>, <TT>
+NewSmnetSend</TT> (creates new network send interface), <TT>NewSmnetRcv</TT> (creates
+new network receive interface), <TT>NewBus</TT>, and <TT>NewDir</TT>
+to set the parameters for each module type. As caches are created,
+the <TT>setup_tables</TT> function is called to configure the
+coherence behavior of the system. Within the memory system simulator, the MESI states are
+referred to as <TT>PR_DY</TT>, <TT>PR_CL</TT>, <TT>SH_CL</TT>, and <TT>INVALID</TT>,
+respectively.
+<P>
+The <TT>ModuleConnect</TT> functions are then used to connect the various
+modules through their appropriate <TT>SMPORT</TT> data structures. The
+invocation <TT>ModuleConnect(src,dest,a,b,width)</TT> creates a
+bidirectional connection between the modules: output port <TT>a</TT> of
+module <TT>src</TT> is connected to input port <TT>b</TT> of module <TT>
+dest</TT>, and input port <TT>a</TT> of module <TT>src</TT> is connected to
+output port <TT>b</TT> of module <TT>dest</TT>. The output ports must have
+already been constructed by the <TT>ModuleInit</TT> function described
+in Section&nbsp;<A HREF="node91.html#memsys_modules">12.1</A>; <TT>ModuleConnect</TT> simply sets the
+input ports of one module to point to the same data structures
+as the output ports of the other module.
+The interconnection between these modules has a
+width of <TT>width</TT> bytes. (Currently, the width parameter for
+all module connections is a compile-time parameter, <TT>INTERCONNECTION_WIDTH_BYTES</TT>.)
+<P>
+As described in Section&nbsp;<A HREF="node91.html#memsys_modules">12.1</A>, the <TT>ModuleInit</TT> function initializes all output ports of a given
+module  with queues of the same size. 
+However, the user may override these through the runtime parameters
+specified in Section&nbsp;<A HREF="node44.html#cmd_line_portsz">4.2.7</A>. These changes in
+queue lengths are incorporated using the 
+<TT>QueueSizeCorrect</TT> function.
+<P>
+<HR><A NAME="tex2html1560" HREF="node98.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1558" HREF="node90.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1552" HREF="node96.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1562" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1561" HREF="node98.html">Deadlock avoidance</A>
+<B>Up:</B> <A NAME="tex2html1559" HREF="node90.html">Memory Hierarchy and Interconnection </A>
+<B> Previous:</B> <A NAME="tex2html1553" HREF="node96.html">The s.nack_st field</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

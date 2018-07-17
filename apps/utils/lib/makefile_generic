@@ -1,0 +1,160 @@
+# Generic makefile -- can be included in application makefiles, or
+# modified as desired. At installation time, the LIBDIR variable must
+# be set, and compiler/linker paths may be set. PREDECODE may need to be set
+
+# The file that includes this makefile must provide a TARGET name, a list of
+# SRC files, and a list of HEADERS files. These must be set up
+# as follows:
+
+# Each application directory is expected to have the subdirectories
+# "execs/", "src/", and "obj/" . The makefile will be in the applications
+# top level directory. All C source and header files are in "src/" , and
+# all executables and objects are put in their appropriate directories.
+# So, if the C source files are "src/file1.c" and "src/file2.c", the
+# C headers are "src/file3.h" and "src/file4.h" and the desired executables
+# are "execs/app_rc.out.dec" and "execs/app_rc_pref.out.dec", the
+# SRC, HEADERS, and TARGET should be set as follows by the application makefile
+# before including this one
+# SRC = file1 file2
+# HEADERS = file3 file4
+# TARGET = app
+# Everything else is generated from that, and the user just has to type
+# "make execs/app_rc.out.dec execs/app_rc_pref.out.dec" to get the desired
+# results
+
+# At installation time, the user must fill in LIBDIR here as the
+# directory in which this file resides. The user should also fill in
+# PREDECODE according to a valid path for the predecode executable (if it
+# is in the user's PATH, then it is sufficient to leave it as is).
+# The user may also want change the linker, compiler, or options and can
+# do so here. 
+LIBDIR = /home/rsim/rsim-1.0/apps/utils/lib
+PREDECODE = predecode
+LD = /usr/ccs/bin/ld
+STATLINK = -dn -z muldefs # Option to force static linkage
+LDFLAGS = -L $(LIBDIR) -emystart # Right now, RSIM wants the entry point to also be the base of the first text segment
+CC = cc
+OPTIMIZE = -xO4 -xtarget=ultra1/170 -xarch=v8plus -dalign # Options to specify desired optimization level
+UNOPT = -xarch=v8plus # For runs without optimization; v8plus needed for MEMBARs
+
+INCL = -I$(LIBDIR)/include
+CRT = $(LIBDIR)/crt0.obj 
+MACROS = $(LIBDIR)/rsim_macros
+LIBS = -l rsim -l c -l m -l rsim
+# List rsim twice to resolve refs from C/math lib
+# Also, if libsync.o ever becomes a library (libsync.a), "-l sync"
+# should be moved to the head of the LIBS list
+
+CFLAGS = $(OPTIMIZE) $(INCL) -DAUG
+#Splash-1 wants "AUG" to be defined.
+
+TARGETS = $(TARGET) $(TARGET)_rc $(TARGET)_rcpref $(TARGET)_rc_handunrollpref $(TARGET)_rc_handunroll $(TARGET)_rcspat $(TARGET)_unopt
+#The user can add additional target classes here
+
+RC_OPTS =
+NOSUFF_OPTS =                     # default for no suffix is same as RC
+RCPREF_OPTS = -DDO_PREF -DPREF_LAT200 
+RCHANDUNROLL_OPTS = -xunroll=1 -DHAND_UNROLL
+RCHANDUNROLL_PREFOPTS = -xunroll=1 -DHAND_UNROLL -DDO_PREF -DPREF_LAT200 
+
+RCSPAT_OPTS = -DSPATIAL
+UNOPT_OPTS = $(UNOPT) $(INCL) -DAUG
+
+#The user can add additional option classes here
+
+RC_OBJS = $(SRC:%=obj/%_rc.o)
+NOSUFF_OBJS = $(SRC:%=obj/%.o)
+RCPREF_OBJS = $(SRC:%=obj/%_rcpref.o)
+RCHANDUNROLLPREF_OBJS = $(SRC:%=obj/%_rc_handunrollpref.o)
+RCHANDUNROLL_OBJS = $(SRC:%=obj/%_rc_handunroll.o)
+
+RCSPAT_OBJS = $(SRC:%=obj/%_rcspat.o)
+UNOPT_OBJS = $(SRC:%=obj/%_unopt.o)
+#The user can add additional object classes here
+
+# Rules for building predecoded executable for running through RSIM
+execs/$(TARGET)_rc.out.dec: execs/$(TARGET)_rc.out
+	$(PREDECODE) execs/$(TARGET)_rc > /dev/null
+
+all: $(TARGETS:%=execs/%.out.dec)
+
+execs/$(TARGET).out.dec: execs/$(TARGET).out
+	$(PREDECODE) execs/$(TARGET) > /dev/null
+
+execs/$(TARGET)_rcpref.out.dec: execs/$(TARGET)_rcpref.out
+	$(PREDECODE) execs/$(TARGET)_rcpref > /dev/null
+
+execs/$(TARGET)_rc_handunroll.out.dec: execs/$(TARGET)_rc_handunroll.out
+	$(PREDECODE) execs/$(TARGET)_rc_handunroll > /dev/null
+
+execs/$(TARGET)_rc_handunrollpref.out.dec: execs/$(TARGET)_rc_handunrollpref.out
+	$(PREDECODE) execs/$(TARGET)_rc_handunrollpref > /dev/null
+
+execs/$(TARGET)_rcspat.out.dec: execs/$(TARGET)_rcspat.out
+	$(PREDECODE) execs/$(TARGET)_rcspat > /dev/null
+
+execs/$(TARGET)_unopt.out.dec: execs/$(TARGET)_unopt.out
+	$(PREDECODE) execs/$(TARGET)_unopt > /dev/null
+
+# Rules for building ELF style executable
+execs/$(TARGET)_rc.out: $(RC_OBJS)
+	$(LD) $(STATLINK) $(LDFLAGS) -o execs/$(TARGET)_rc.out $(CRT) $(RC_OBJS) $(LIBS)
+
+execs/$(TARGET).out: $(NOSUFF_OBJS)
+	$(LD) $(STATLINK) $(LDFLAGS) -o execs/$(TARGET).out $(CRT) $(NOSUFF_OBJS) $(LIBS)
+
+execs/$(TARGET)_rcpref.out: $(RCPREF_OBJS)
+	$(LD) $(STATLINK) $(LDFLAGS) -o execs/$(TARGET)_rcpref.out $(CRT) $(RCPREF_OBJS) $(LIBS)
+
+execs/$(TARGET)_rc_handunrollpref.out: $(RCHANDUNROLLPREF_OBJS)
+	$(LD) $(STATLINK) $(LDFLAGS) -o execs/$(TARGET)_rc_handunrollpref.out $(CRT) $(LIBDIRS) $(RCHANDUNROLLPREF_OBJS) $(LIBS)
+
+execs/$(TARGET)_rc_handunroll.out: $(RCHANDUNROLL_OBJS)
+	$(LD) $(STATLINK) $(LDFLAGS) -o execs/$(TARGET)_rc_handunroll.out $(CRT) $(LIBDIRS) $(RCHANDUNROLL_OBJS) $(LIBS)
+
+execs/$(TARGET)_rcspat.out: $(RCSPAT_OBJS)
+	$(LD) $(STATLINK) $(LDFLAGS) -o execs/$(TARGET)_rcspat.out $(CRT) $(RCSPAT_OBJS) $(LIBS)
+
+execs/$(TARGET)_unopt.out: $(UNOPT_OBJS)
+	$(LD) $(STATLINK) $(LDFLAGS) -o execs/$(TARGET)_unopt.out $(CRT) $(UNOPT_OBJS) $(LIBS)
+
+# Rules for building object files
+$(RC_OBJS): $(HEADERS:%=src/%.h) $(SRC:%=src/%.c)
+	$(CC) -o $@ $(CFLAGS) $(RC_OPTS) -c $(*:obj/%_rc=src/%.c)
+
+$(NOSUFF_OBJS): $(HEADERS:%=src/%.h) $(SRC:%=src/%.c)
+	$(CC) -o $@ $(CFLAGS) $(NOSUFF_OPTS) -c $(*:obj/%=src/%.c)
+
+$(RCPREF_OBJS): $(HEADERS:%=src/%.h) $(SRC:%=src/%.c)
+	$(CC) -o $@ $(CFLAGS) $(RCPREF_OPTS) -c $(*:obj/%_rcpref=src/%.c)
+
+$(RCHANDUNROLLPREF_OBJS): $(HEADERS:%=src/%.h) $(SRC:%=src/%.c)
+	$(CC) -o $@ $(CFLAGS) $(RCHANDUNROLLPREF_OPTS) -c $(*:obj/%_rc_handunrollpref=src/%.c)
+
+$(RCHANDUNROLL_OBJS): $(HEADERS:%=src/%.h) $(SRC:%=src/%.c)
+	$(CC) -o $@ $(CFLAGS) $(RCHANDUNROLL_OPTS) -c $(*:obj/%_rc_handunroll=src/%.c)
+
+$(RCSPAT_OBJS): $(HEADERS:%=src/%.h) $(SRC:%=src/%.c)
+	$(CC) -o $@ $(CFLAGS) $(RCSPAT_OPTS) -c $(*:obj/%_rcspat=src/%.c)
+
+$(UNOPT_OBJS): $(HEADERS:%=src/%.h) $(SRC:%=src/%.c)
+	$(CC) -o $@ $(UNOPT_OPTS) -c $(*:obj/%_unopt=src/%.c)
+
+# Rules for generating source files from PARMACS macros file (used by SPLASH)
+
+.SUFFIXES: .C .H .U $(SUFFIXES)
+
+.H.h:
+	m4 $(MACROS) $< > $@
+
+.C.c:
+	m4 $(MACROS) $< > $@
+
+.U.c:
+	m4 $(MACROS) $< > $@
+
+# clean
+
+clean:
+	rm -f obj/*.o execs/*.out execs/*.out.dec
+

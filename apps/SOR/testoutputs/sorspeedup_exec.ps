@@ -1,0 +1,685 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%BoundingBox: 26 10 360 298
+%%Pages: 1
+%%DocumentFonts: Helvetica Helvetica-Oblique Helvetica-Bold Helvetica-BoldOblique Times-Roman Times-Italic Times-Bold Times-BoldItalic
+%%EndComments
+50 dict begin
+/symbolFont 10 dict def
+symbolFont begin
+/FontType 3 def
+/FontMatrix [.001 0 0 .001 0 0] def
+/FontBBox [-500 -500 500 500] def
+/Encoding 256 array def
+0 1 255 {Encoding exch /.notdef put} for
+Encoding 1 /Cross put
+Encoding 2 /Triangle put
+Encoding 3 /Trianglefilled put
+Encoding 4 /Diamond put
+Encoding 5 /Diamondfilled put
+Encoding 6 /Square put
+Encoding 7 /Squarefilled put
+Encoding 8 /Rectan put
+Encoding 9 /Rectanfilled put
+Encoding 10 /Circle put
+Encoding 11 /Circlefilled put
+Encoding 12 /Bullet put
+Encoding 13 /Star put
+Encoding 14 /Plus put
+
+/graphclip {newpath moveto lineto lineto lineto closepath clip } def
+
+/Procs 15 dict def
+Procs begin
+/.notdef {} def
+
+/Cross {
+ newpath -500 -500 moveto 500 500 lineto stroke
+ newpath -500 500 moveto 500 -500 lineto stroke } def
+
+/Triangle {
+ newpath -500 -500 moveto 0 500 lineto 500 -500 lineto closepath stroke } def
+
+/Trianglefilled {
+ newpath -500 -500 moveto 0 500 lineto 500 -500 lineto closepath fill } def
+
+/Diamond {
+  newpath -500 0 moveto 0 500 lineto 500 0 lineto 0 -500 lineto closepath
+ stroke } def
+
+/Diamondfilled {
+  newpath -500 0 moveto 0 500 lineto 500 0 lineto 0 -500 lineto closepath
+  fill } def
+
+/Square {
+ newpath -500 -500 moveto -500 500 lineto 500 500 lineto 500 -500 lineto
+ closepath stroke } def
+
+/Squarefilled {
+ newpath -500 -500 moveto -500 500 lineto 500 500 lineto 500 -500 lineto
+ closepath fill } def
+
+/Rectan {
+ newpath -200 -500 moveto -200 500 lineto 200 500 lineto 200 -500 lineto  
+closepath stroke } def
+
+/Rectanfilled {
+ newpath -200 -500 moveto -200 500 lineto 200 500 lineto 200 -500 lineto  
+closepath fill } def
+
+
+/Circle { newpath 0 0 500 0 360 arc stroke } def
+
+/Circlefilled { newpath 0 0 500 0 360 arc closepath fill } def
+
+
+/Bullet { newpath 0 0 500 0 360 arc closepath fill } def
+
+/Plus {
+ newpath 0 -500 moveto 0 500 lineto stroke
+ newpath -500 0 moveto 500 0 lineto stroke } def
+
+/Star {
+ newpath 0 -500 moveto 0 500 lineto stroke
+ newpath -500 0 moveto 500 0 lineto stroke
+ newpath -500 -500 moveto 500 500 lineto stroke
+ newpath -500 500 moveto 500 -500 lineto stroke } def
+
+end
+
+/BuildChar {
+ 1000 0 -500 -500 500 500 setcachedevice
+ exch begin Encoding exch get Procs exch get end exec } def
+end
+
+/Symbols symbolFont definefont pop
+
+% size SetSym		-> set font to be symbols scaled by 'size'
+/SetSym { /Symbols findfont exch scalefont setfont } def
+
+% size fontname SetTxt		-> set font 'fontname' scaled by 'size'
+/SetTxt { findfont exch scalefont setfont } def
+
+% dashtype thicknes SL
+/SL { setlinewidth 0 setdash } def
+
+/cross {2 copy le {exch pop} {pop} ifelse} def
+
+%9 added to distinguish from other clashing scribe definitions
+% from to L9	-> print line between points 'from' and 'to'
+/L9 { newpath moveto lineto stroke } def
+/S9 { newpath moveto } def
+/M9 { lineto } def
+/D9 { stroke } def
+
+%%%%
+%%%% setscreen is not EPSF compliant. if compliance is required,
+%%%% switch which of the following two definitions of SS9 is commented
+%%%% out. it would probably be better to do this by having a seperate
+%%%% version of the prolog file for the user to select.
+%%%%
+%%%% /SS9 { pop pop pop } def
+/SS9 { setscreen } def
+
+/G9 { setgray } def
+/F9 {newpath moveto lineto lineto lineto closepath fill} def
+/E9 {closepath fill} def
+% E9 is fills for incremental curves, while F9 for curve segments
+
+/Landscape {612 0 translate 90 rotate} def
+
+% save current point in global variable psx psy
+/SAVPOS { /psx currentpoint pop def /psy currentpoint exch pop def } def
+
+% string angle xpos ypos TXL	-> print 'string' at pos xpos, ypos
+/TXL { gsave translate rotate 0 0 moveto show SAVPOS grestore } def
+
+% string angle xpos ypos TXR	-> print 'string' at pos xpos, ypos
+/TXR { gsave translate rotate dup stringwidth pop neg 0 moveto show SAVPOS 
+       grestore } def
+
+% string angle xpos ypos TXC	-> print 'string' at pos xpos, ypos
+/TXC { gsave translate rotate dup stringwidth pop 2 div neg 0 moveto show
+       SAVPOS grestore } def
+
+% string angle TXREL	-> print 'string' at xpos ypos translate psx psy rel
+/TXREL { gsave translate rotate psx psy moveto show SAVPOS grestore } def
+
+% char xpos ypos SY	-> print symbol 'char' at position xpos, ypos
+/SY { moveto show } def
+
+/len {dup mul exch dup mul add sqrt}def
+
+
+%%%%%%%%%%%%%%%%%%%%%%%  CURVE SMOOTHING  %%%%%%%%%%%%%%%%%%%%%%
+
+% Curve Smoothing Routines
+%  Ernest Wood  -  Wed Apr 16 09:05:05 1986
+%
+%  These routines will ALWAYS create a smooth curve which
+%  intercepts EVERY point used to generate them.
+%
+%  The definition qA determines the amount of overshoot smoothing
+%  produces around each point.  The distance is the distance to the
+%  next point times aA.  The factor qB scales the amount of overshoot
+%  by the acuteness of the angle around the point.
+%
+%  These values make a square of points into a circle.
+/qA .3 def		% used in qx
+/qB 1 def		% used in afactor
+
+/8a 8 array def
+%
+%  Angle of vector from p0 to p1	p0 p1 polar ang
+/polar{qs neg exch neg atan}def 
+
+%subtract and add points	p0 p1 qs p0-p1
+%				p0 p1 qa p0+p1
+/qs{exch 3 1 roll sub 3 1 roll sub exch}def
+/qa{exch 3 1 roll add 3 1 roll add exch}def
+
+%  Extract point from 8 point array
+%
+/Pt{2 mul dup 8a exch get exch 1 add 8a exch get}def
+
+%  a0 a1 mirrorang ma
+%	If a0 is the angle from p1 to p0 and a1 is the angle from
+%	p1 to p2 then ma is the mirror angle between p0-p1 and p1-p2.
+%  a0 a1 afactor f
+%	If a0 is the angle from p1 to p0 and a1 is the angle from
+%	p1 to p2 then f is the ratio of the inside angle between a0 and a1
+%	and 180 times qB.  This ratio is saturated at 1 and if qB is 0 then
+%	the value returned is always 1.  Thus the more acute the angle 
+%	the smaller the value of f.
+%
+/mirrorang{2 copy add 2 div 3 1 roll sub 0 lt {90} {-90}ifelse add}def
+/afactor{
+    qB 0 eq
+	{ 1 }
+	{sub abs dup 180 gt {360 exch sub} if 180 div qB mul
+	 dup 1 gt {pop 1} if}
+    ifelse
+}def
+
+%  a d xya x y
+%	Given angle a and distance d
+%	produce x and y offsets.
+%
+/xya{exch 2 copy cos mul 3 1 roll sin mul}def
+
+%  p0 p1 p2 p3  qx  pp1 pp2 pp3
+%	Given 4 points on a curve produce the pp# values needed by
+%	curveto to draw a smooth curve between p1 and p2.  The slope
+%	of the curve at p1 and p2 will be perpendicular to the bisector
+%	of a angle between p0/p1/p2 or p1/p2/p3.
+%
+/qx{
+    8a astore pop
+    1 Pt 2 Pt qs len qA mul /dist exch def
+    1 Pt 0 Pt polar
+    1 Pt 2 Pt polar
+    2 copy mirrorang
+    3 1 roll afactor dist mul
+    xya 1 Pt qa
+    2 Pt 3 Pt polar
+    2 Pt 1 Pt polar
+    2 copy mirrorang
+    3 1 roll afactor dist mul
+    xya 2 Pt qa
+    2 Pt
+}def
+
+/qp{8 copy 16 -2 roll pop pop}def
+/ns1{4 copy 4 -2 roll 2 copy qa 4 2 roll qs 6 2 roll /ns{ns2}def }def
+/ns2{qp qx curveto}def
+
+%  User definitions for curve smoothing routines.
+%	First (ms), intermediate (ns), and last points with (fs) and
+%	without (nsfs) automatic stroke execution.
+%
+/ms{2 copy newpath moveto /ns{ns1}def}def
+/ns{ns1}def
+/fs{stroke}def
+/nsfs{ns 4 copy 2 copy qa 4 2 roll qs qx curveto}def
+/nsend{4 copy 2 copy qa 4 2 roll qs qx curveto}def
+%%EndProlog
+%%Page ? 1
+72.000000 72.000000 360.000000 72.000000 360.000000 288.000000 72.000000 288.000000 newpath moveto lineto lineto lineto closepath clip
+72.000000 72.000000 360.000000 72.000000 360.000000 288.000000 72.000000 288.000000 newpath moveto lineto lineto lineto closepath clip
+96 72 S9
+[] 16.800000 SL
+96 259.826 M9
+gsave 0.300000 0.300000 1.000000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 259.826 M9
+gsave 0.500000 1.000000 1.000000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 259.826 M9
+gsave 1.000000 0.500000 1.000000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 259.826 M9
+gsave 0.000000 0.200000 0.000000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 259.826 M9
+gsave 0.000000 1.000000 0.000000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 259.826 M9
+gsave 0.600000 0.800000 0.600000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 259.826 M9
+gsave 0.800000 1.000000 0.800000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 259.826 M9
+gsave 0.500000 0.000000 0.000000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 259.826 M9
+gsave 1.000000 0.200000 0.200000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 252.125 M9
+gsave 1.000000 0.600000 0.600000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 251.75 M9
+gsave 1.000000 0.900000 0.900000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 251.75 M9
+gsave 0.500000 0.300000 0.500000 setrgbcolor
+D9
+grestore
+96 72 S9
+[] 16.800000 SL
+96 130.038 M9
+gsave 1.000000 1.000000 0.000000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 185.635 M9
+gsave 0.300000 0.300000 1.000000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 172.111 M9
+gsave 0.500000 1.000000 1.000000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 172.111 M9
+gsave 1.000000 0.500000 1.000000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 172.111 M9
+gsave 0.000000 0.200000 0.000000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 172.111 M9
+gsave 0.000000 1.000000 0.000000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 172.111 M9
+gsave 0.600000 0.800000 0.600000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 172.111 M9
+gsave 0.800000 1.000000 0.800000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 171.736 M9
+gsave 0.500000 0.000000 0.000000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 166.101 M9
+gsave 1.000000 0.200000 0.200000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 162.344 M9
+gsave 1.000000 0.600000 0.600000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 161.969 M9
+gsave 1.000000 0.900000 0.900000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 161.969 M9
+gsave 0.500000 0.300000 0.500000 setrgbcolor
+D9
+grestore
+168 72 S9
+[] 16.800000 SL
+168 101.113 M9
+gsave 1.000000 1.000000 0.000000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 155.395 M9
+gsave 0.300000 0.300000 1.000000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 128.536 M9
+gsave 0.500000 1.000000 1.000000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 128.536 M9
+gsave 1.000000 0.500000 1.000000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 128.536 M9
+gsave 0.000000 0.200000 0.000000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 128.536 M9
+gsave 0.000000 1.000000 0.000000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 128.536 M9
+gsave 0.600000 0.800000 0.600000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 128.536 M9
+gsave 0.800000 1.000000 0.800000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 128.536 M9
+gsave 0.500000 0.000000 0.000000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 119.332 M9
+gsave 1.000000 0.200000 0.200000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 117.642 M9
+gsave 1.000000 0.600000 0.600000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 117.642 M9
+gsave 1.000000 0.900000 0.900000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 117.642 M9
+gsave 0.500000 0.300000 0.500000 setrgbcolor
+D9
+grestore
+240 72 S9
+[] 16.800000 SL
+240 86.6504 M9
+gsave 1.000000 1.000000 0.000000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 147.694 M9
+gsave 0.300000 0.300000 1.000000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 106.936 M9
+gsave 0.500000 1.000000 1.000000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 106.936 M9
+gsave 1.000000 0.500000 1.000000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 106.936 M9
+gsave 0.000000 0.200000 0.000000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 106.936 M9
+gsave 0.000000 1.000000 0.000000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 106.936 M9
+gsave 0.600000 0.800000 0.600000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 106.936 M9
+gsave 0.800000 1.000000 0.800000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 106.936 M9
+gsave 0.500000 0.000000 0.000000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 95.8539 M9
+gsave 1.000000 0.200000 0.200000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 95.1026 M9
+gsave 1.000000 0.600000 0.600000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 95.1026 M9
+gsave 1.000000 0.900000 0.900000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 95.1026 M9
+gsave 0.500000 0.300000 0.500000 setrgbcolor
+D9
+grestore
+312 72 S9
+[] 16.800000 SL
+312 79.3252 M9
+gsave 1.000000 1.000000 0.000000 setrgbcolor
+D9
+grestore
+336 72 S9
+[] 16.800000 SL
+336 269.217 M9
+gsave 0.300000 0.300000 1.000000 setrgbcolor
+D9
+grestore
+336 72 S9
+[] 16.800000 SL
+336 261.704 M9
+gsave 0.500000 1.000000 1.000000 setrgbcolor
+D9
+grestore
+336 72 S9
+[] 16.800000 SL
+336 252.313 M9
+gsave 1.000000 0.500000 1.000000 setrgbcolor
+D9
+grestore
+336 72 S9
+[] 16.800000 SL
+336 244.8 M9
+gsave 0.000000 0.300000 0.000000 setrgbcolor
+D9
+grestore
+336 72 S9
+[] 16.800000 SL
+336 237.287 M9
+gsave 1.000000 0.300000 0.300000 setrgbcolor
+D9
+grestore
+336 72 S9
+[] 16.800000 SL
+336 227.896 M9
+gsave 0.500000 0.300000 0.500000 setrgbcolor
+D9
+grestore
+336 72 S9
+[] 16.800000 SL
+336 220.383 M9
+gsave 1.000000 1.000000 0.000000 setrgbcolor
+D9
+grestore
+336 72 S9
+[] 16.800000 SL
+336 210.991 M9
+gsave 1.000000 G9
+D9
+grestore
+initclip 
+12 /Helvetica SetTxt
+(|) 0 72 72 TXC
+(|) -90 72 72 TXC
+10 /Helvetica-Bold SetTxt
+(0) 0 67 67.8 TXR
+12 /Helvetica SetTxt
+(|) -90 72 109.565 TXC
+10 /Helvetica-Bold SetTxt
+(20) 0 67 105.365 TXR
+12 /Helvetica SetTxt
+(|) -90 72 147.13 TXC
+10 /Helvetica-Bold SetTxt
+(40) 0 67 142.93 TXR
+12 /Helvetica SetTxt
+(|) -90 72 184.696 TXC
+10 /Helvetica-Bold SetTxt
+(60) 0 67 180.496 TXR
+12 /Helvetica SetTxt
+(|) -90 72 222.261 TXC
+10 /Helvetica-Bold SetTxt
+(80) 0 67 218.061 TXR
+12 /Helvetica SetTxt
+(|) -90 72 259.826 TXC
+10 /Helvetica-Bold SetTxt
+(100) 0 67 255.626 TXR
+14 /Helvetica SetTxt
+( sor,speedup) 0 216 10.4 TXC
+[] 1.800000 SL
+2 setlinecap
+72 72 360 72 
+L9
+0 setlinecap
+72 72 72 288 
+L9
+() 0 360 42 TXR
+( Normalized execution time) 90 40.3 288 TXR
+10 /Helvetica SetTxt
+(run1) 0 96 64.487 TXC
+(100.0) 0 96 261.704 TXC
+(run2) 0 168 64.487 TXC
+(60.5) 0 168 187.513 TXC
+(run3) 0 240 64.487 TXC
+(44.4) 0 240 157.273 TXC
+(run4) 0 312 64.487 TXC
+(40.3) 0 312 149.572 TXC
+12 /Helvetica SetTxt
+(barrier) 0 312 263.583 TXR
+(flag) 0 312 254.191 TXR
+(lock) 0 312 246.678 TXR
+(write) 0 312 239.165 TXR
+(read) 0 312 229.774 TXR
+(FU stall) 0 312 222.261 TXR
+(busy) 0 312 212.87 TXR
+10 /Helvetica SetTxt
+() 0 96 53.987 TXC
+() 0 96 251.204 TXC
+() 0 168 53.987 TXC
+() 0 168 177.013 TXC
+() 0 240 53.987 TXC
+() 0 240 146.773 TXC
+() 0 312 53.987 TXC
+() 0 312 139.072 TXC
+12 /Helvetica SetTxt
+() 0 312 250.983 TXR
+() 0 312 241.591 TXR
+() 0 312 234.078 TXR
+() 0 312 226.565 TXR
+() 0 312 217.174 TXR
+() 0 312 209.661 TXR
+() 0 312 200.27 TXR
+72.000000 72.000000 360.000000 72.000000 360.000000 288.000000 72.000000 288.000000 newpath moveto lineto lineto lineto closepath clip
+72.000000 72.000000 360.000000 72.000000 360.000000 288.000000 72.000000 288.000000 newpath moveto lineto lineto lineto closepath clip
+8 SetSym
+initclip 
+showpage
+%%Trailer
+end

@@ -1,0 +1,390 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%BoundingBox: 15 10 252 266
+%%Pages: 1
+%%DocumentFonts: Helvetica Helvetica-Oblique Helvetica-Bold Helvetica-BoldOblique Times-Roman Times-Italic Times-Bold Times-BoldItalic
+%%EndComments
+50 dict begin
+/symbolFont 10 dict def
+symbolFont begin
+/FontType 3 def
+/FontMatrix [.001 0 0 .001 0 0] def
+/FontBBox [-500 -500 500 500] def
+/Encoding 256 array def
+0 1 255 {Encoding exch /.notdef put} for
+Encoding 1 /Cross put
+Encoding 2 /Triangle put
+Encoding 3 /Trianglefilled put
+Encoding 4 /Diamond put
+Encoding 5 /Diamondfilled put
+Encoding 6 /Square put
+Encoding 7 /Squarefilled put
+Encoding 8 /Rectan put
+Encoding 9 /Rectanfilled put
+Encoding 10 /Circle put
+Encoding 11 /Circlefilled put
+Encoding 12 /Bullet put
+Encoding 13 /Star put
+Encoding 14 /Plus put
+
+/graphclip {newpath moveto lineto lineto lineto closepath clip } def
+
+/Procs 15 dict def
+Procs begin
+/.notdef {} def
+
+/Cross {
+ newpath -500 -500 moveto 500 500 lineto stroke
+ newpath -500 500 moveto 500 -500 lineto stroke } def
+
+/Triangle {
+ newpath -500 -500 moveto 0 500 lineto 500 -500 lineto closepath stroke } def
+
+/Trianglefilled {
+ newpath -500 -500 moveto 0 500 lineto 500 -500 lineto closepath fill } def
+
+/Diamond {
+  newpath -500 0 moveto 0 500 lineto 500 0 lineto 0 -500 lineto closepath
+ stroke } def
+
+/Diamondfilled {
+  newpath -500 0 moveto 0 500 lineto 500 0 lineto 0 -500 lineto closepath
+  fill } def
+
+/Square {
+ newpath -500 -500 moveto -500 500 lineto 500 500 lineto 500 -500 lineto
+ closepath stroke } def
+
+/Squarefilled {
+ newpath -500 -500 moveto -500 500 lineto 500 500 lineto 500 -500 lineto
+ closepath fill } def
+
+/Rectan {
+ newpath -200 -500 moveto -200 500 lineto 200 500 lineto 200 -500 lineto  
+closepath stroke } def
+
+/Rectanfilled {
+ newpath -200 -500 moveto -200 500 lineto 200 500 lineto 200 -500 lineto  
+closepath fill } def
+
+
+/Circle { newpath 0 0 500 0 360 arc stroke } def
+
+/Circlefilled { newpath 0 0 500 0 360 arc closepath fill } def
+
+
+/Bullet { newpath 0 0 500 0 360 arc closepath fill } def
+
+/Plus {
+ newpath 0 -500 moveto 0 500 lineto stroke
+ newpath -500 0 moveto 500 0 lineto stroke } def
+
+/Star {
+ newpath 0 -500 moveto 0 500 lineto stroke
+ newpath -500 0 moveto 500 0 lineto stroke
+ newpath -500 -500 moveto 500 500 lineto stroke
+ newpath -500 500 moveto 500 -500 lineto stroke } def
+
+end
+
+/BuildChar {
+ 1000 0 -500 -500 500 500 setcachedevice
+ exch begin Encoding exch get Procs exch get end exec } def
+end
+
+/Symbols symbolFont definefont pop
+
+% size SetSym		-> set font to be symbols scaled by 'size'
+/SetSym { /Symbols findfont exch scalefont setfont } def
+
+% size fontname SetTxt		-> set font 'fontname' scaled by 'size'
+/SetTxt { findfont exch scalefont setfont } def
+
+% dashtype thicknes SL
+/SL { setlinewidth 0 setdash } def
+
+/cross {2 copy le {exch pop} {pop} ifelse} def
+
+%9 added to distinguish from other clashing scribe definitions
+% from to L9	-> print line between points 'from' and 'to'
+/L9 { newpath moveto lineto stroke } def
+/S9 { newpath moveto } def
+/M9 { lineto } def
+/D9 { stroke } def
+
+%%%%
+%%%% setscreen is not EPSF compliant. if compliance is required,
+%%%% switch which of the following two definitions of SS9 is commented
+%%%% out. it would probably be better to do this by having a seperate
+%%%% version of the prolog file for the user to select.
+%%%%
+%%%% /SS9 { pop pop pop } def
+/SS9 { setscreen } def
+
+/G9 { setgray } def
+/F9 {newpath moveto lineto lineto lineto closepath fill} def
+/E9 {closepath fill} def
+% E9 is fills for incremental curves, while F9 for curve segments
+
+/Landscape {612 0 translate 90 rotate} def
+
+% save current point in global variable psx psy
+/SAVPOS { /psx currentpoint pop def /psy currentpoint exch pop def } def
+
+% string angle xpos ypos TXL	-> print 'string' at pos xpos, ypos
+/TXL { gsave translate rotate 0 0 moveto show SAVPOS grestore } def
+
+% string angle xpos ypos TXR	-> print 'string' at pos xpos, ypos
+/TXR { gsave translate rotate dup stringwidth pop neg 0 moveto show SAVPOS 
+       grestore } def
+
+% string angle xpos ypos TXC	-> print 'string' at pos xpos, ypos
+/TXC { gsave translate rotate dup stringwidth pop 2 div neg 0 moveto show
+       SAVPOS grestore } def
+
+% string angle TXREL	-> print 'string' at xpos ypos translate psx psy rel
+/TXREL { gsave translate rotate psx psy moveto show SAVPOS grestore } def
+
+% char xpos ypos SY	-> print symbol 'char' at position xpos, ypos
+/SY { moveto show } def
+
+/len {dup mul exch dup mul add sqrt}def
+
+
+%%%%%%%%%%%%%%%%%%%%%%%  CURVE SMOOTHING  %%%%%%%%%%%%%%%%%%%%%%
+
+% Curve Smoothing Routines
+%  Ernest Wood  -  Wed Apr 16 09:05:05 1986
+%
+%  These routines will ALWAYS create a smooth curve which
+%  intercepts EVERY point used to generate them.
+%
+%  The definition qA determines the amount of overshoot smoothing
+%  produces around each point.  The distance is the distance to the
+%  next point times aA.  The factor qB scales the amount of overshoot
+%  by the acuteness of the angle around the point.
+%
+%  These values make a square of points into a circle.
+/qA .3 def		% used in qx
+/qB 1 def		% used in afactor
+
+/8a 8 array def
+%
+%  Angle of vector from p0 to p1	p0 p1 polar ang
+/polar{qs neg exch neg atan}def 
+
+%subtract and add points	p0 p1 qs p0-p1
+%				p0 p1 qa p0+p1
+/qs{exch 3 1 roll sub 3 1 roll sub exch}def
+/qa{exch 3 1 roll add 3 1 roll add exch}def
+
+%  Extract point from 8 point array
+%
+/Pt{2 mul dup 8a exch get exch 1 add 8a exch get}def
+
+%  a0 a1 mirrorang ma
+%	If a0 is the angle from p1 to p0 and a1 is the angle from
+%	p1 to p2 then ma is the mirror angle between p0-p1 and p1-p2.
+%  a0 a1 afactor f
+%	If a0 is the angle from p1 to p0 and a1 is the angle from
+%	p1 to p2 then f is the ratio of the inside angle between a0 and a1
+%	and 180 times qB.  This ratio is saturated at 1 and if qB is 0 then
+%	the value returned is always 1.  Thus the more acute the angle 
+%	the smaller the value of f.
+%
+/mirrorang{2 copy add 2 div 3 1 roll sub 0 lt {90} {-90}ifelse add}def
+/afactor{
+    qB 0 eq
+	{ 1 }
+	{sub abs dup 180 gt {360 exch sub} if 180 div qB mul
+	 dup 1 gt {pop 1} if}
+    ifelse
+}def
+
+%  a d xya x y
+%	Given angle a and distance d
+%	produce x and y offsets.
+%
+/xya{exch 2 copy cos mul 3 1 roll sin mul}def
+
+%  p0 p1 p2 p3  qx  pp1 pp2 pp3
+%	Given 4 points on a curve produce the pp# values needed by
+%	curveto to draw a smooth curve between p1 and p2.  The slope
+%	of the curve at p1 and p2 will be perpendicular to the bisector
+%	of a angle between p0/p1/p2 or p1/p2/p3.
+%
+/qx{
+    8a astore pop
+    1 Pt 2 Pt qs len qA mul /dist exch def
+    1 Pt 0 Pt polar
+    1 Pt 2 Pt polar
+    2 copy mirrorang
+    3 1 roll afactor dist mul
+    xya 1 Pt qa
+    2 Pt 3 Pt polar
+    2 Pt 1 Pt polar
+    2 copy mirrorang
+    3 1 roll afactor dist mul
+    xya 2 Pt qa
+    2 Pt
+}def
+
+/qp{8 copy 16 -2 roll pop pop}def
+/ns1{4 copy 4 -2 roll 2 copy qa 4 2 roll qs 6 2 roll /ns{ns2}def }def
+/ns2{qp qx curveto}def
+
+%  User definitions for curve smoothing routines.
+%	First (ms), intermediate (ns), and last points with (fs) and
+%	without (nsfs) automatic stroke execution.
+%
+/ms{2 copy newpath moveto /ns{ns1}def}def
+/ns{ns1}def
+/fs{stroke}def
+/nsfs{ns 4 copy 2 copy qa 4 2 roll qs qx curveto}def
+/nsend{4 copy 2 copy qa 4 2 roll qs qx curveto}def
+%%EndProlog
+%%Page ? 1
+72 200.571 S9
+[] 1.400000 SL
+gsave 0.000000 0.000000 0.000000 setrgbcolor
+121.353 245.571 149.699 245.571 
+L9
+grestore
+8 SetSym
+<02> 135.526 245.571 SY
+12 /Helvetica SetTxt
+( p1) 0 165.203 241.971 TXL
+72 200.571 S9
+gsave 0.000000 0.000000 0.000000 setrgbcolor
+121.353 229.971 149.699 229.971 
+L9
+grestore
+8 SetSym
+<06> 135.526 229.971 SY
+12 /Helvetica SetTxt
+( p2) 0 165.203 226.371 TXL
+72.000000 72.000000 252.000000 72.000000 252.000000 252.000000 72.000000 252.000000 newpath moveto lineto lineto lineto closepath clip
+72.000000 72.000000 252.000000 72.000000 252.000000 252.000000 72.000000 252.000000 newpath moveto lineto lineto lineto closepath clip
+72 200.571 S9
+93.1765 73.2857 M9
+114.353 72 M9
+135.529 72 M9
+156.706 72 M9
+177.882 72 M9
+199.059 72 M9
+220.235 72 M9
+241.412 72 M9
+gsave 0.000000 0.000000 0.000000 setrgbcolor
+D9
+grestore
+72 200.571 S9
+93.1765 97.7143 M9
+114.353 78.4286 M9
+135.529 73.2857 M9
+156.706 72 M9
+177.882 72 M9
+199.059 72 M9
+220.235 72 M9
+241.412 72 M9
+gsave 0.000000 0.000000 0.000000 setrgbcolor
+D9
+grestore
+initclip 
+(|) 0 72 72 TXC
+14 /Helvetica-Bold SetTxt
+(0) 0 72 55.2 TXC
+12 /Helvetica SetTxt
+(|) 0 93.1765 72 TXC
+14 /Helvetica-Bold SetTxt
+(1) 0 93.1765 55.2 TXC
+12 /Helvetica SetTxt
+(|) 0 114.353 72 TXC
+14 /Helvetica-Bold SetTxt
+(2) 0 114.353 55.2 TXC
+12 /Helvetica SetTxt
+(|) 0 135.529 72 TXC
+14 /Helvetica-Bold SetTxt
+(3) 0 135.529 55.2 TXC
+12 /Helvetica SetTxt
+(|) 0 156.706 72 TXC
+14 /Helvetica-Bold SetTxt
+(4) 0 156.706 55.2 TXC
+12 /Helvetica SetTxt
+(|) 0 177.882 72 TXC
+14 /Helvetica-Bold SetTxt
+(5) 0 177.882 55.2 TXC
+12 /Helvetica SetTxt
+(|) 0 199.059 72 TXC
+14 /Helvetica-Bold SetTxt
+(6) 0 199.059 55.2 TXC
+12 /Helvetica SetTxt
+(|) 0 220.235 72 TXC
+14 /Helvetica-Bold SetTxt
+(7) 0 220.235 55.2 TXC
+12 /Helvetica SetTxt
+(|) 0 241.412 72 TXC
+14 /Helvetica-Bold SetTxt
+(8) 0 241.412 55.2 TXC
+12 /Helvetica SetTxt
+(|) -90 72 72 TXC
+14 /Helvetica-Bold SetTxt
+(0.0) 0 65 67.8 TXR
+12 /Helvetica SetTxt
+(|) -90 72 97.7143 TXC
+14 /Helvetica-Bold SetTxt
+(0.2) 0 65 93.5143 TXR
+12 /Helvetica SetTxt
+(|) -90 72 123.429 TXC
+14 /Helvetica-Bold SetTxt
+(0.4) 0 65 119.229 TXR
+12 /Helvetica SetTxt
+(|) -90 72 149.143 TXC
+14 /Helvetica-Bold SetTxt
+(0.6) 0 65 144.943 TXR
+12 /Helvetica SetTxt
+(|) -90 72 174.857 TXC
+14 /Helvetica-Bold SetTxt
+(0.8) 0 65 170.657 TXR
+12 /Helvetica SetTxt
+(|) -90 72 200.571 TXC
+14 /Helvetica-Bold SetTxt
+(1.0) 0 65 196.371 TXR
+12 /Helvetica SetTxt
+(|) -90 72 226.286 TXC
+14 /Helvetica-Bold SetTxt
+(1.2) 0 65 222.086 TXR
+14 /Helvetica SetTxt
+() 0 162 10.4 TXC
+[] 1.800000 SL
+2 setlinecap
+72 72 252 72 
+L9
+0 setlinecap
+72 72 72 252 
+L9
+( L2 MSHR) 0 252 37 TXR
+( Utilization) 90 29.3 252 TXR
+72.000000 72.000000 252.000000 72.000000 252.000000 252.000000 72.000000 252.000000 newpath moveto lineto lineto lineto closepath clip
+72.000000 72.000000 252.000000 72.000000 252.000000 252.000000 72.000000 252.000000 newpath moveto lineto lineto lineto closepath clip
+8 SetSym
+<02> 72 200.571 SY
+<02> 93.1765 73.2857 SY
+<02> 114.353 72 SY
+<02> 135.529 72 SY
+<02> 156.706 72 SY
+<02> 177.882 72 SY
+<02> 199.059 72 SY
+<02> 220.235 72 SY
+<02> 241.412 72 SY
+<06> 72 200.571 SY
+<06> 93.1765 97.7143 SY
+<06> 114.353 78.4286 SY
+<06> 135.529 73.2857 SY
+<06> 156.706 72 SY
+<06> 177.882 72 SY
+<06> 199.059 72 SY
+<06> 220.235 72 SY
+<06> 241.412 72 SY
+initclip 
+showpage
+%%Trailer
+end

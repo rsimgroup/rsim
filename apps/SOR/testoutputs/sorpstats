@@ -1,0 +1,53 @@
+Phase 1 STATS
+FILE sorp1_1x4d_err
+Total elapsed time of simulation 27.000000
+Simulated time 228131.500000
+
+Exec time IPC   Busy    Acq     Rel     Read    Write   RMW     Spin    Barrier
+5.59e+04  1.668 95.63   0.00    0.00    4.32    0.00    0.00    0.00    0.05
+
+USER:   1       2       3       4       5       6       7       8       9
+USER:   0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
+
+        Read L1 =       0.01    Write L1 =      0.00    RMW L1 =        0.00
+        Read L2 =       0.16    Write L2 =      0.00    RMW L2 =        0.00
+        Read local =    4.14    Write local =   0.00    RMW remote =    0.00
+        Read remote =   0.00    Write remote =  0.00    RMW remote =    0.00
+
+LAT   : RD      WT      RMW
+Addr  : 5.30    46.44   NaN
+
+Issue : 1.16    10.63   NaN
+
+Active: 7.69    49.78   NaN
+
+BUSY=30.86      ALU=0.06        FPU=64.69       BRU=0.02
+READ MISS=4.31  WRITE MISS=0.00 RMW MISS=0.00
+Avail=0.460     Eff=3.717       Util=0.975
+
+----------------------------------------------------------------
+FILE sorp2_1x4d_err
+Total elapsed time of simulation 30.000000
+Simulated time 222394.500000
+
+Exec time IPC   Busy    Acq     Rel     Read    Write   RMW     Spin    Barrier
+3.38e+04  1.591 79.40   0.00    0.00    8.63    0.02    0.00    0.00    11.94
+
+USER:   1       2       3       4       5       6       7       8       9
+USER:   0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
+
+        Read L1 =       0.02    Write L1 =      0.02    RMW L1 =        0.00
+        Read L2 =       0.12    Write L2 =      0.00    RMW L2 =        0.00
+        Read local =    3.39    Write local =   0.00    RMW remote =    0.00
+        Read remote =   5.08    Write remote =  0.00    RMW remote =    0.00
+
+LAT   : RD      WT      RMW
+Addr  : 6.13    50.97   NaN
+
+Issue : 1.77    13.40   NaN
+
+Active: 8.98    54.49   NaN
+
+BUSY=25.60      ALU=0.18        FPU=53.59       BRU=0.02
+READ MISS=8.60  WRITE MISS=0.00 RMW MISS=0.00
+Avail=0.443     Eff=3.709       Util=0.968

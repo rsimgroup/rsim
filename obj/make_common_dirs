@@ -1,0 +1,6 @@
+HOME = ../..
+INCLUDES = -I$(HOME)/incl
+PREDECODE_SRCDIR = $(HOME)/src/predecode
+PROC_SRCDIR = $(HOME)/src/Processor
+MEMSYS_SRCDIR = $(HOME)/src/MemSys
+DEPSDIR = ..

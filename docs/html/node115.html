@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Sending out COHE messages</TITLE>
+<META NAME="description" CONTENT="Sending out COHE messages">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1775" HREF="node116.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1773" HREF="node112.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1767" HREF="node114.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1777" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1776" HREF="node116.html">Processing incoming write-back and </A>
+<B>Up:</B> <A NAME="tex2html1774" HREF="node112.html">Directory and Memory Simulation</A>
+<B> Previous:</B> <A NAME="tex2html1768" HREF="node114.html">Processing incoming REQUESTs</A>
+<BR> <P>
+<H1><A NAME="SECTION03830000000000000000">Sending out <TT>COHE</TT> messages</A></H1>
+<P>
+<A NAME="rsimmemsys_dir_sendcohe">&#160;</A>
+<P>
+State <TT>DIRSENDCOHE</TT> attempts to send out <TT>COHE</TT> messages
+needed by a new or partially-completed <TT>REQUEST</TT> being processed.
+If there is no space available on the output port for <TT>COHE</TT>s, the
+<TT>REQUEST</TT> is placed in the <TT>req_partial</TT> field to indicate
+that it is a partially-completed transaction. The directory is then
+sent back to state <TT>DIRSTARTOVER</TT> so that it may be able to
+process incoming <TT>COHE_REPLY</TT>s in the meanwhile.
+<P>
+If there is space available on the output <TT>COHE</TT> port, a <TT>
+COHE</TT> for this transaction is sent out. If the transaction requires
+more coherence messages to be sent out, the request is placed in the
+<TT>req_partial</TT> field and the directory must delay for the
+additional packet creation time (a configurable parameter). After
+delaying, the directory will remain in state <TT>DIRSENDCOHE</TT>, which
+will then attempt to send the next coherence message out. These steps
+repeat until all <TT>COHE</TT>s for this transaction have been sent out.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

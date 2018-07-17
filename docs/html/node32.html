@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Cache parameters</TITLE>
+<META NAME="description" CONTENT="Cache parameters">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html744" HREF="node33.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html742" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html736" HREF="node31.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html746" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html745" HREF="node33.html">Approximate simulation models</A>
+<B>Up:</B> <A NAME="tex2html743" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html737" HREF="node31.html">Memory unit parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION02313000000000000000">Cache parameters</A></H2>
+<P>
+Most cache parameters are specified in the RSIM configuration file. The
+command line parameters available are:
+<P>
+<DL ><DT><STRONG>-H num,num</STRONG>
+<DD> Number of MSHRs&nbsp;[<A HREF="node132.html#Kroft1981">10</A>] supported at the L1
+and L2 cache, respectively. Defaults to ``8,8''.
+<DT><STRONG>-T</STRONG>
+<DD> Discriminate prefetching. If a hardware or software prefetch is stalled for
+resource constraints at the L1 cache (e.g. all MSHRs full), it will be dropped
+(to make place for later demand accesses that may also be stalled).
+<DT><STRONG>-x</STRONG>
+<DD> Drop all software prefetches. Useful only for measuring instruction
+overhead of prefetching.
+<P>
+ </DL><BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

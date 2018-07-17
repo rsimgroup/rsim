@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Approximate simulation models</TITLE>
+<META NAME="description" CONTENT="Approximate simulation models">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html755" HREF="node34.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html753" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html747" HREF="node32.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html757" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html756" HREF="node34.html">Other architectural configuration parameters</A>
+<B>Up:</B> <A NAME="tex2html754" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html748" HREF="node32.html">Cache parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION02314000000000000000">Approximate simulation models</A></H2>
+<P>
+These parameters allow RSIM to simulate simple processors with single
+instruction issue, static scheduling, and blocking reads, possibly
+with increased processor and/or cache clock rates.
+These parameters were used in our previous work to investigate the
+effectiveness of  models based on simple processors in approximating the behavior of ILP
+processors&nbsp;[<A HREF="node132.html#PaiRanganathan1997a">14</A>]. It is important to note that
+the change in processor speed brought about by these parameters
+do not affect the latencies in absolute times for the other modules. For example, if the DRAM memory latency is specified to be 18 processor
+cycles with the default processor speed of 300 MHz, this translates
+to a 60 ns access time. With the ``<TT>-F4</TT>'' option, which speeds up
+the processor by a factor of 4, RSIM automatically increases the DRAM
+speed in terms of processor cycles by a factor of 4 (i.e. 72 processor
+cycles and 60 ns in absolute time).
+<P>
+These approximate simulation models are not intended to speed up
+the performance of RSIM, but are provided only for purposes of
+comparison.
+<P>
+<DL ><DT><STRONG>-k</STRONG>
+<DD>	Turn off ILP simulation; i.e. simulate a processor
+with single-issue, static scheduling, and blocking reads. Supported only for RC.
+<DT><STRONG>-F num</STRONG>
+<DD>	Increase processor clock speed by the factor specified in <B>num</B>. Defaults to 1.
+<DT><STRONG>-y num</STRONG>
+<DD>	Increase L1 cache access speed by the factor specified in <B>num</B>. Defaults to 1.
+<P>
+ </DL><BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

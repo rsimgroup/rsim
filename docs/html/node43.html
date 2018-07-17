@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Interconnection network parameters</TITLE>
+<META NAME="description" CONTENT="Interconnection network parameters">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html870" HREF="node44.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html868" HREF="node37.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html862" HREF="node42.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html872" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html871" HREF="node44.html">Queue sizes connecting memory </A>
+<B>Up:</B> <A NAME="tex2html869" HREF="node37.html">Configuration file</A>
+<B> Previous:</B> <A NAME="tex2html863" HREF="node42.html">Directory and memory parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION02326000000000000000">Interconnection network parameters</A></H2>
+<P>
+<DL ><DT><STRONG>flitsize</STRONG>
+<DD> This parameter specifies the number of bytes in each
+network flit, which is equivalent to the width of the network in bytes.
+Defaults to 8.
+<DT><STRONG>flitdelay</STRONG>
+<DD> This parameter gives the latency for each flit to
+pass through a network switch, in processor cycles. Defaults to 4 (with a 300 MHz
+processor, this delay indicates a 13 ns flit latency).
+<DT><STRONG>arbdelay</STRONG>
+<DD> This parameter gives the delay invoked by arbitration at each
+network multiplexer for the head flit of any packet. Defaults to 4.
+<DT><STRONG>pipelinedsw</STRONG>
+<DD> This parameter allows the use of pipelined network
+switches, in which the flit delay of multiple flits can be partially
+overlapped. With pipelined switches, the flit delay for each
+successive flit in a packet will begin <TT>pipelinedsw</TT> number of
+cycles after the start of the previous flit delay. If the number 0 or
+a number greater than the flit delay is specified here, the switches
+are not pipelined. Defaults to 2 (with an assumption of 300 MHz processors,
+this implies a 150 MHz network cycle for a fully pipelined switch.)
+<DT><STRONG>netbufsize</STRONG>
+<DD> This parameter specifies the number of flits that can be
+buffered in each network switch. Defaults to 64.
+<DT><STRONG>netportsize</STRONG>
+<DD> This parameter specifies the network interface buffer
+sizes, in packets. Each node has 2 network interfaces, one for sending messages
+to the network, and one for receiving messages from the network. Each
+network interface has 2 port queues (described in Section&nbsp;<A HREF="node91.html#memsys_modules">12.1</A>)
+connecting the network interface to the bus (one for requests and one for replies). This parameter specifies the number of entries available in each port
+queue. This parameter is also used to specify the number of internal buffer entries
+in each network interface for actually sending messages to the network
+or receiving messages from the network. Each network interface has
+two internal buffers: one for requests and one for replies. The total
+number of packets in these two internal buffers is set by the parameter
+<B>netportsize</B>, split evenly between requests and replies.
+The network interface and interconnection network is described more
+thoroughly in Chapter&nbsp;<A HREF="node124.html#rsimmemsys_net">15.3</A>.
+<P>
+ </DL><HR><A NAME="tex2html870" HREF="node44.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html868" HREF="node37.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html862" HREF="node42.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html872" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html871" HREF="node44.html">Queue sizes connecting memory </A>
+<B>Up:</B> <A NAME="tex2html869" HREF="node37.html">Configuration file</A>
+<B> Previous:</B> <A NAME="tex2html863" HREF="node42.html">Directory and memory parameters</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

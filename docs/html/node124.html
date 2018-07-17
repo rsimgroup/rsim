@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Multiprocessor interconnection network</TITLE>
+<META NAME="description" CONTENT="Multiprocessor interconnection network">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1876" HREF="node125.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1874" HREF="node121.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1868" HREF="node123.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1878" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1877" HREF="node125.html">Deadlock avoidance</A>
+<B>Up:</B> <A NAME="tex2html1875" HREF="node121.html">System Interconnects</A>
+<B> Previous:</B> <A NAME="tex2html1869" HREF="node123.html">Network interface modules</A>
+<BR> <P>
+<H1><A NAME="SECTION03930000000000000000">Multiprocessor interconnection network</A></H1>
+<P>
+<A NAME="rsimmemsys_net">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/net.c</TT>, <TT>src/MemSys/mesh.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/simsys.h</TT>, <TT>incl/MemSys/net.h</TT>
+<P>
+The base network provided in the RSIM distribution
+is a 2-dimensional bi-directional mesh (without wraparound
+connections), and is taken from the NETSIM simulation
+system&nbsp;[<A HREF="node132.html#NETSIM">7</A>]. The interconnection network includes separate
+request and reply networks for deadlock-avoidance.
+Unlike the other subsystems discussed in this
+chapter, the network is not built using the standard module framework.
+<P>
+The network flit delay, arbitration delay, width, and buffer sizes can
+be configured as described in Chapter&nbsp;<A HREF="node28.html#cmd_line">4</A>. Additionally,
+the system can be directed to simulate pipelined switches, by which
+the flit delay of multiple flits can be incurred in a pipelined
+manner. To model this behavior, a system with pipelined
+switches uses a flit delay equal to the granularity of pipelining and
+adds the remainder of the originally specified flit delay to the
+arbitration delay of the multiplexers. With these adjustments, the latency of
+the head flit of a packet remains the same, but subsequent flit
+delays are based on the degree of pipelining.
+<P>
+The processor connection to the network of each node is depicted in
+Figure&nbsp;<A HREF="node124.html#meshswitch">15.1</A>.  Similar components connect the node to the
+interconnection network and neighboring processors along the X and Y
+axes.  Messages are injected into the network using the <TT>
+SmnetSend</TT> event and are received from the interconnection network
+using the <TT>ReqRcvSemaWait</TT> and <TT>ReplyRcvSemaWait</TT> events,
+corresponding to the request and reply networks, respectively.
+<P>
+<P><A NAME="2443">&#160;</A><A NAME="meshswitch">&#160;</A> <IMG WIDTH=619 HEIGHT=226 ALIGN=BOTTOM ALT="figure2441" SRC="img9.gif"  > <BR>
+<STRONG>Figure 15.1:</STRONG> Processor side 2D-mesh switch connection.<BR>
+<P>
+<P>
+The network routes packets using dimension-ordered routing, and each
+switch provides wormhole routing. At each buffer, port, multiplexor or
+demultiplexor, the packet's head flit determines its next destination
+in the network.  When moving from one buffer to the next, the head
+flit encounters a delay of <TT>flitdelay</TT> cycles, which corresponds
+to the flit latency, possibly adjusted for pipelining as described
+above. In addition, the head flit consumes arbitration delays
+(possibly adjusted for pipelining) at each multiplexor. (NETSIM allows
+the head flit to experience routing delays at demultiplexors, but
+RSIM does not currently use this feature; these delays are set to 0.)
+A packet's remaining flits are moved when the
+tail flit is allowed to move.  A tail flit is allowed to move in the
+network as long as it does not share a buffer with the head flit since
+the tail is never allowed to overtake the head of a packet.  Once the
+tail is allowed to move, the simulator moves all intermediate flits in
+a pipelined fashion every <TT>flitdelay</TT> cycles until the tail flit
+itself moves.  The various flits in the packet may thus span several
+network buffers at any time.  This tail movement process continues
+until the packet has reached the destination output port or until the
+tail has caught up with its head flit.
+<P>
+The NETSIM reference manual is recommended reading for anyone
+intending to add other interconnection network types or
+policies&nbsp;[<A HREF="node132.html#NETSIM">7</A>]. RSIM supports all of the primary functions
+in NETSIM.
+<P>
+<HR><A NAME="tex2html1876" HREF="node125.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1874" HREF="node121.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1868" HREF="node123.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1878" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1877" HREF="node125.html">Deadlock avoidance</A>
+<B>Up:</B> <A NAME="tex2html1875" HREF="node121.html">System Interconnects</A>
+<B> Previous:</B> <A NAME="tex2html1869" HREF="node123.html">Network interface modules</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

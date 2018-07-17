@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Statistics</TITLE>
+<META NAME="description" CONTENT="Statistics">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1909" HREF="node128.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1907" HREF="node126.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1901" HREF="node126.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1911" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1910" HREF="node128.html">Debugging Support</A>
+<B>Up:</B> <A NAME="tex2html1908" HREF="node126.html">Statistics and Debugging Support</A>
+<B> Previous:</B> <A NAME="tex2html1902" HREF="node126.html">Statistics and Debugging Support</A>
+<BR> <P>
+<H1><A NAME="SECTION031010000000000000000">Statistics</A></H1>
+<P>
+<A NAME="rsim_stats">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/stat.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/simsys.h</TT>
+<P>
+<P>
+<P>
+The detailed set of statistics is printed on simulation output at the
+end of each phase and at the end of the simulation; a concise summary
+of the most important statistics is provided on the simulation
+standard error.  The types of statistics and the utilities for
+processing these statistics
+are described in Chapter&nbsp;<A HREF="node55.html#stats">6</A>.
+<P>
+Some of the statistics are kept track of by simple counters, but
+most of these statistics are computed using the <TT>STATREC</TT>
+functions of YACSIM&nbsp;[<A HREF="node132.html#YACSIM">8</A>]. The key functions used are:
+<P>
+<UL><LI>	<TT>STATREC *NewStatrec(char *name, int type, int means, int hist,
+	int numbins, double lowbin, double hibin)</TT>
+<P>
+	Returns a new statistics record with the specified name and
+	type (<TT>POINT</TT> or <TT>INTERVAL</TT>). A <TT>POINT</TT> statistics
+	record uses the weight passed in through <TT>StatrecUpdate</TT>
+	for the weight of each sample, whereas an <TT>INTERVAL</TT>
+	statistics record uses the difference between the weight
+	parameter for the current sample and the weight parameter
+	for the previous sample as the actual weight  of the current
+	sample. The most common way to use an <TT>INTERVAL</TT>
+	statistics record is to pass in the current simulation time
+	as the weight parameter. In this way, the weight of the
+	sample being passed in is the length of time since the last
+	call to <TT>StatrecUpdate</TT> for this record.
+<P>
+	<TT>means</TT> (can be set to <TT>MEANS</TT> or <TT>NOMEANS</TT>)
+	indicates whether or not this statistics record should calculate
+	mean and standard deviation.  <TT>hist</TT> (can be set to <TT>
+	HIST</TT> or <TT>NOHIST</TT>) indicates whether or not a histogram
+	should be generated and reported for this record. (RSIM has also
+	added the value <TT>HISTSPECIAL</TT>, which indicates that a
+	histogram should be generated, but only those bins with a
+	non-zero number of entries should be displayed when reporting
+	statistics.) If a histogram is used, it will have <TT>numbins</TT>
+	primary bins, equally distributed with values from <TT>lowbin</TT>
+	to <TT>highbin</TT>. There will also be overflow bins provided.<LI>	<TT>void StatrecReset(STATREC *s)</TT>
+<P>
+	Clears out the statistics recorded in <TT>s</TT><LI>	<TT>void StatrecUpdate(STATREC *s, double val, double wt)</TT>
+<P>
+	Adds the value <TT>val</TT> into the statistics record with a
+	weight parameter of <TT>wt</TT><LI>	<TT>void StatrecReport(STATREC *s)</TT>
+<P>
+	Prints a report of the mean, standard deviation, high, low,
+	sample count, and histogram of the <TT>STATREC</TT> on the
+	simulation output (mean, standard deviation, and histogram
+	provided only if thus configured when calling <TT>
+	NewStatrec</TT>).<LI>	<TT>int StatrecSamples(STATREC *s)</TT>
+<P>
+	Returns number of samples recorded<LI>	<TT>double StatrecMean(STATREC *s)</TT>
+<P>
+	Returns the mean of the samples<LI>	<TT>double StatrecSum(STATREC *s)</TT>
+<P>
+	Returns the sum of the samples<LI>	<TT>double StatrecSdv(STATREC *s)</TT>
+<P>
+	Returns the standard deviation of the samples
+<P>
+</UL><HR><A NAME="tex2html1909" HREF="node128.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1907" HREF="node126.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1901" HREF="node126.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1911" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1910" HREF="node128.html">Debugging Support</A>
+<B>Up:</B> <A NAME="tex2html1908" HREF="node126.html">Statistics and Debugging Support</A>
+<B> Previous:</B> <A NAME="tex2html1902" HREF="node126.html">Statistics and Debugging Support</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

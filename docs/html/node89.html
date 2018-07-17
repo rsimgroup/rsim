@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Completing memory instructions in the memory hierarchy</TITLE>
+<META NAME="description" CONTENT="Completing memory instructions in the memory hierarchy">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1462" HREF="node90.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1460" HREF="node85.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1456" HREF="node88.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1464" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1463" HREF="node90.html">Memory Hierarchy and Interconnection </A>
+<B>Up:</B> <A NAME="tex2html1461" HREF="node85.html">Processor Memory Unit</A>
+<B> Previous:</B> <A NAME="tex2html1457" HREF="node88.html">Issuing instructions to the </A>
+<BR> <P>
+<H1><A NAME="SECTION03540000000000000000">Completing memory instructions in the memory hierarchy</A></H1>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/memprocess.cc</TT>, <TT>src/Processor/memunit.cc</TT>,
+<TT>src/Processor/funcs.cc</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/Processor/memory.h</TT>, <TT>incl/Processor/memprocess.h</TT>
+<P>
+<P>
+<P>
+Completion of memory references takes
+place in two parts. First, the <TT>GlobalPerform</TT> function is called
+at the level of the memory hierarchy which responds to the
+reference.
+This function calls the function associated
+with this instruction (as specified in <TT>src/Processor/funcs.cc</TT>) to
+actually read a value from or write a value into the UNIX address space
+of the simulator environment. In the case of virtual store-buffer forwards,
+the value taken by the load is the value forwarded from the buffer rather
+than that in the address space. In the case of accesses which are
+not simulated, this behavior takes place as part of the <TT>CompleteMemOp</TT>
+function (described below).
+<P>
+Then, when a reference is ready to return from the caches, the <TT>
+MemDoneHeapInsert</TT> function is called to mark the instruction for
+completion. In the case of non-simulated accesses, the access is put
+into the <TT>MemDoneHeap</TT> by the <TT>memory_latency</TT> function
+invoked at the time of issue.
+<P>
+The function <TT>CompleteMemQueue</TT> processes instructions from the
+<TT>MemDoneHeap</TT> of the processor by calling <TT>CompleteMemOp</TT> for
+each instruction to complete in a given cycle. The corresponding
+instruction emulation function is called for accesses that were not
+simulated at the caches. For loads, this function first checks whether
+or not a soft exception has been marked on the load for either address
+disambiguation or consistency constraints while it was outstanding. If
+this has occurred, this load must be forced to re-issue, but does not actually
+need to take an exception. Otherwise, this function checks to see whether
+the <TT>limbo</TT> field for the load must be set (that is, if any previous
+stores still have not generated their addresses), or whether the load
+must be redone (if a previous store disambiguated to an address that overlaps
+with the load). If the load does not need to be redone and either does
+not have a <TT>limbo</TT> set or has a processor in which values
+can be passed down from <TT>limbo</TT> loads (as discussed above), the
+function <TT>PerformMemOp</TT> is called to note that the value produced by this
+instruction is
+ready for use. The function <TT>PerformMemOp</TT> is called
+for all stores to reach <TT>CompleteMemOp</TT>.
+<P>
+<TT>PerformMemOp</TT> has two functions: removing instructions from the
+memory unit and passing values down from <TT>limbo</TT> loads. In the
+case of RC, <TT>PerformMemOp</TT> always removes the operation from
+either the memory unit or virtual store buffer (as appropriate) except
+in the case of loads that are either marked with a <TT>limbo</TT> field
+or past a <TT>MEMBAR</TT> that blocks loads. In SC, memory operations
+must leave the memory unit strictly in order. The constraints for PC
+are identical to those for SC, except that loads may leave the memory
+unit past outstanding stores. In no memory model may <TT>limbo</TT> loads
+leave the memory unit before all previous stores have disambiguated.
+If the memory unit policy allows values to be passed down from
+<TT>limbo</TT> loads, <TT>PerformMemOp</TT> fulfills some of the duties
+otherwise associated with the <TT>update_cycle</TT> function (filling
+in physical register values and clearing the busy bit and distributed
+stall queues for the destination register). Note that <TT>PerformMemOp</TT> will
+be called again for the same instruction when the <TT>limbo</TT> flag is
+cleared or, in the case of RC, when prior memory fences have been cleared.
+<P>
+If the system supports speculative load execution to improve the
+performance of its consistency model (with the ``-K'' option), the
+constraints enforced by <TT>PerformMemOp</TT> will be sufficient to
+guarantee that no speculative load leaves the memory unit. Each coherence
+message received at the L1 cache because of an
+external invalidation or a replacement from the lowest level of local
+cache (L2 in our case) must be sent to the memory unit through the <TT>
+SpecLoadBufCohe</TT> function. If such a message invalidates or updates a
+cache line accessed by any outstanding or completed speculative
+load access, that access is marked with a soft exception. If the
+access is still oustanding, the soft exception will be ignored and the
+load will be forced to reissue; if the access has completed, the
+exception must be taken in order to guarantee that the load or any
+later operations do not commit incorrect values into the architectural
+state of the processor&nbsp;[<A HREF="node132.html#KouroshGupta1991b">5</A>, <A HREF="node132.html#MIPSR10KMICRO">28</A>].
+<P>
+<HR><A NAME="tex2html1462" HREF="node90.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1460" HREF="node85.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1456" HREF="node88.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1464" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1463" HREF="node90.html">Memory Hierarchy and Interconnection </A>
+<B>Up:</B> <A NAME="tex2html1461" HREF="node85.html">Processor Memory Unit</A>
+<B> Previous:</B> <A NAME="tex2html1457" HREF="node88.html">Issuing instructions to the </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

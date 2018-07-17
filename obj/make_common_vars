@@ -1,0 +1,70 @@
+
+PREDECODE_SRCFILES = $(PREDECODE_SRCDIR)/predecode.cc \
+	$(PREDECODE_SRCDIR)/predecode_instr.cc \
+	$(PREDECODE_SRCDIR)/predecode_table.cc
+
+UNELF_SRCFILES = $(PREDECODE_SRCDIR)/unelf.cc
+
+PROC_SRCFILES1 = $(PROC_SRCDIR)/active.cc \
+	$(PROC_SRCDIR)/branchpred.cc \
+	$(PROC_SRCDIR)/branchqelt.cc \
+	$(PROC_SRCDIR)/branchresolve.cc \
+	$(PROC_SRCDIR)/capconf.cc \
+	$(PROC_SRCDIR)/config.cc \
+	$(PROC_SRCDIR)/except.cc \
+	$(PROC_SRCDIR)/exec.cc \
+	$(PROC_SRCDIR)/freelist.cc \
+	$(PROC_SRCDIR)/funcs.cc \
+	$(PROC_SRCDIR)/graduate.cc
+
+PROC_SRCFILES2 = $(PROC_SRCDIR)/inames.cc \
+	$(PROC_SRCDIR)/instheap.cc \
+	$(PROC_SRCDIR)/mainsim.cc \
+	$(PROC_SRCDIR)/memprocess.cc \
+	$(PROC_SRCDIR)/memunit.cc \
+	$(PROC_SRCDIR)/pipestages.cc \
+	$(PROC_SRCDIR)/shmalloc.cc
+
+PROC_SRCFILES3 =  $(PROC_SRCDIR)/simio.cc \
+	$(PROC_SRCDIR)/stallq.cc \
+	$(PROC_SRCDIR)/startup.cc \
+	$(PROC_SRCDIR)/state.cc \
+	$(PROC_SRCDIR)/tagcvt.cc \
+	$(PROC_SRCDIR)/traps.cc \
+	$(PROC_SRCDIR)/traptable.cc \
+	$(PROC_SRCDIR)/units.cc
+
+PROC_SRCFILES = $(PROC_SRCFILES1) $(PROC_SRCFILES2) $(PROC_SRCFILES3)
+
+MEMSYS_SRCFILES1 = $(MEMSYS_SRCDIR)/act.c \
+	$(MEMSYS_SRCDIR)/architecture.c \
+	$(MEMSYS_SRCDIR)/associate.c \
+	$(MEMSYS_SRCDIR)/pool.c \
+	$(MEMSYS_SRCDIR)/cache.c \
+	$(MEMSYS_SRCDIR)/cachehelp.c \
+	$(MEMSYS_SRCDIR)/cache2.c \
+	$(MEMSYS_SRCDIR)/cpu.c \
+	$(MEMSYS_SRCDIR)/directory.c \
+	$(MEMSYS_SRCDIR)/driver.c \
+	$(MEMSYS_SRCDIR)/evlst.c
+MEMSYS_SRCFILES2 =  $(MEMSYS_SRCDIR)/globals.c \
+	$(MEMSYS_SRCDIR)/l1cache.c \
+	$(MEMSYS_SRCDIR)/l2cache.c \
+	$(MEMSYS_SRCDIR)/mesh.c \
+	$(MEMSYS_SRCDIR)/module.c \
+	$(MEMSYS_SRCDIR)/mshr.c \
+	$(MEMSYS_SRCDIR)/names.c \
+	$(MEMSYS_SRCDIR)/net.c \
+	$(MEMSYS_SRCDIR)/pipeline.c \
+	$(MEMSYS_SRCDIR)/route.c \
+	$(MEMSYS_SRCDIR)/setup_cohe.c \
+	$(MEMSYS_SRCDIR)/smnet.c
+MEMSYS_SRCFILES3 = $(MEMSYS_SRCDIR)/stat.c \
+	$(MEMSYS_SRCDIR)/userq.c \
+	$(MEMSYS_SRCDIR)/util.c \
+	$(MEMSYS_SRCDIR)/wb.c \
+	$(MEMSYS_SRCDIR)/wbuffer.c \
+	$(MEMSYS_SRCDIR)/bus.c
+
+MEMSYS_SRCFILES = $(MEMSYS_SRCFILES1) $(MEMSYS_SRCFILES2) $(MEMSYS_SRCFILES3)
+

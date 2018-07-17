@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Overview of RSIM Implementation</TITLE>
+<META NAME="description" CONTENT="Overview of RSIM Implementation">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1232" HREF="node70.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1230" HREF="node68.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1224" HREF="node68.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1234" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1233" HREF="node70.html">Event-driven Simulation Library</A>
+<B>Up:</B> <A NAME="tex2html1231" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<B> Previous:</B> <A NAME="tex2html1225" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<BR> <P>
+<H1><A NAME="SECTION03100000000000000000">Overview of RSIM Implementation</A></H1>
+<P>
+<A NAME="intover">&#160;</A>
+<P>
+The remainder of this manual describes the implementation of RSIM.
+It is intended for users interested in modifying
+RSIM, and assumes an  understanding of Part&nbsp;<A HREF="node11.html#usersguide">i</A>
+of this manual.
+<P>
+RSIM is organized as a discrete-event-driven simulator. The
+central data structure of such a simulator is an event list
+consisting of events that are scheduled for the future in simulation time.
+Typically, an event for a hardware module is scheduled for a given
+time only when it is known that the module will need to perform some
+action at that time. Thus, discrete-event-driven simulators typically
+do not perform an action for every cycle. In RSIM, however, the processors and
+cache hierarchies are modeled as a single event (called <TT>RSIM_EVENT</TT>),
+which is scheduled every cycle. This is because we expect that some
+activity will be required of the processor and caches every cycle.
+Note that RSIM is not a pure cycle-by-cycle simulator since events for
+the busses, directories, and network models are scheduled only when needed.
+<P>
+RSIM is implemented in a modular fashion for ease of development and
+maintenance. The primary subsystems in RSIM are the event-driven
+simulation library, the processor out-of-order execution engine,
+the processor memory unit, the cache hierarchy, the 
+directory module, and the interconnection
+system. These modules perform the following roles:
+<P>
+<DL ><DT><STRONG>Event-driven simulation library</STRONG>
+<DD> Steers the course of the
+simulation, activating the processors, memory hierarchy, and network
+subsystem according to the demands of the simulated application and 
+system. This subsystem is based on the YACSIM event-driven
+simulation library&nbsp;[<A HREF="node132.html#CovingtonDwarkadas1991">3</A>, <A HREF="node132.html#YACSIM">8</A>].
+<P>
+<DT><STRONG>Processor out-of-order execution engine</STRONG>
+<DD> Maintains the processor
+pipelines described in Section&nbsp;<A HREF="node22.html#rpipes_up">3.2</A>.
+<P>
+<DT><STRONG>Processor memory unit</STRONG>
+<DD> Interfaces
+the processor pipelines with the caches, maintaining the various
+ordering constraints described in 
+Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>.
+<P>
+<DT><STRONG>Cache hierarchy</STRONG>
+<DD> Processes requests to
+the caches, including both demands from the processor and demands
+from external sources. A significant part of this subsystem is
+based on code from the RPPT (Rice Parallel Processing Testbed)
+direct-execution simulator.
+<P>
+<DT><STRONG>Directory and memory module</STRONG>
+<DD> Processes
+requests from various sources, maintaining
+the cache-coherence protocol of the system. This module is also
+based on code from RPPT.
+<P>
+<DT><STRONG>Interconnection system</STRONG>
+<DD> Connects the various modules within each 
+node, and the nodes within the multiprocessor system. The multiprocessor
+interconnection network is based on the NETSIM simulation
+environment&nbsp;[<A HREF="node132.html#NETSIM">7</A>].
+<P>
+ </DL>
+<P>
+Each of the above subsystems
+acts as a largely independent block, interacting with the other
+units through a small number of predefined mechanisms. Thus, we expect
+most modifications to RSIM to be quite focussed, and affecting
+only the desired functionality. Our experience
+with RSIM in a classroom setting has
+borne these expectations out to some extent; however, each type of
+simulator change does require detailed knowledge of the subsytem being
+modified.
+<P>
+The remaining chapters in this part of the manual describe the above
+subsystems in detail and provide other additional information needed
+to understand the implementation of RSIM. Chapter&nbsp;<A HREF="node70.html#rsim_event">8</A>
+gives a brief explanation of the event-driven simulation library underlying
+RSIM and the manner in which RSIM uses it. Chapter&nbsp;<A HREF="node74.html#rsim_init">9</A>
+describes the initialization routines in RSIM. Chapter&nbsp;<A HREF="node75.html#rsimproc_ooo">10</A>
+gives an overview of <TT>RSIM_EVENT</TT> and describes the details of each stage in the processor out-of-order
+execution engine. Chapter&nbsp;<A HREF="node85.html#rsimproc_memunit">11</A> explains the
+implementation of the processor memory unit.
+Chapter&nbsp;<A HREF="node90.html#rsimmemsys_over">12</A> describes fundamental data
+structures used for the cache, memory, and network systems.
+Chapter&nbsp;<A HREF="node99.html#rsimmemsys_cache">13</A> explains the key functions within the
+simulation of the cache hierarchy. 
+Chapter&nbsp;<A HREF="node112.html#rsimmemsys_dir">14</A> 
+describes the implementation of the directory module. 
+Chapter&nbsp;<A HREF="node121.html#rsimmemsys_interconnect">15</A> explains the principles of the
+interconnection system simulated in RSIM. 
+Chapter&nbsp;<A HREF="node126.html#rsim_aux">16</A>
+explains the additional support provided by RSIM for statistics and
+debugging. Finally, Chapter&nbsp;<A HREF="node129.html#predecodeunelf">17</A> describes
+the RSIM predecoder and the <TT>unelf</TT> utility.
+<P>
+<HR><A NAME="tex2html1232" HREF="node70.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1230" HREF="node68.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1224" HREF="node68.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1234" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1233" HREF="node70.html">Event-driven Simulation Library</A>
+<B>Up:</B> <A NAME="tex2html1231" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<B> Previous:</B> <A NAME="tex2html1225" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

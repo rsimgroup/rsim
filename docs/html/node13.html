@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Unpacking the RSIM software distribution</TITLE>
+<META NAME="description" CONTENT="Unpacking the RSIM software distribution">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html506" HREF="node14.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html504" HREF="node12.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html498" HREF="node12.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html508" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html507" HREF="node14.html">Building the RSIM simulator</A>
+<B>Up:</B> <A NAME="tex2html505" HREF="node12.html">Installing RSIM</A>
+<B> Previous:</B> <A NAME="tex2html499" HREF="node12.html">Installing RSIM</A>
+<BR> <P>
+<H1><A NAME="SECTION02110000000000000000">Unpacking the RSIM software distribution</A></H1>
+<P>
+<A NAME="installing_tar">&#160;</A>
+<P>
+RSIM version 1.0 is available as a UNIX <TT>tar</TT> file <TT>rsim-1.0.tar</TT>
+(uncompressed format) or <TT>rsim-1.0.tar.gz</TT> (compressed with <TT>
+gzip</TT>).  Unpacking the file requires the UNIX <TT>tar</TT> utility. The
+compressed format also requires the <TT>gunzip</TT> utility (available from
+the Free Software Foundation at <TT>http://www.gnu.org</TT>).
+<P>
+For the compressed format, first uncompress the file (some web
+browsers will uncompress the file automatically) with:
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  gunzip rsim-1.0.tar.gz</TT>
+<P>
+<P>
+<P>
+This will create the file <TT>rsim-1.0.tar</TT>.  Now unpack this file with:
+<P>
+<P>
+<P>
+<TT><B>prompt%</B>  tar -xf rsim-1.0.tar</TT>
+<P>
+<P>
+<P>
+This will produce a directory <TT>rsim-1.0</TT>, containing the following
+subdirectories:
+<P>
+<DL ><DT><STRONG>apps</STRONG>
+<DD> Example applications ported to RSIM (including source,
+		executable, and output files), the
+		RSIM applications library, header files, and generic
+		application makefile
+<DT><STRONG>bin</STRONG>
+<DD>  RSIM utilities for statistics processing
+<DT><STRONG>docs</STRONG>
+<DD> Documentation related to RSIM, including this manual
+<DT><STRONG>incl</STRONG>
+<DD> Header files for RSIM
+<DT><STRONG>inputs</STRONG>
+<DD> Sample configuration files for simulated systems,
+		a Javascript utility to construct new
+		configuration files
+<DT><STRONG>obj</STRONG>
+<DD> Makefiles for compiling RSIM for all supported platforms
+<DT><STRONG>src</STRONG>
+<DD> C and C++ source files for the RSIM simulator
+<P>
+ </DL><BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

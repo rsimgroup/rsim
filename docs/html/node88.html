@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Issuing instructions to the memory hierarchy</TITLE>
+<META NAME="description" CONTENT="Issuing instructions to the memory hierarchy">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1453" HREF="node89.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1451" HREF="node85.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1445" HREF="node87.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1455" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1454" HREF="node89.html">Completing memory instructions in </A>
+<B>Up:</B> <A NAME="tex2html1452" HREF="node85.html">Processor Memory Unit</A>
+<B> Previous:</B> <A NAME="tex2html1446" HREF="node87.html">Address generation</A>
+<BR> <P>
+<H1><A NAME="SECTION03530000000000000000">Issuing instructions to the memory hierarchy</A></H1>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/memunit.cc</TT>, <TT>src/Processor/memprocess.cc</TT>,
+<TT>src/MemSys/cpu.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/Processor/memory.h</TT>, <TT>incl/Processor/hash.h</TT>,
+<TT>incl/Processor/memprocess.h</TT>, <TT>incl/MemSys/cpu.h</TT>
+<P>
+<P>
+<P>
+Every cycle, the simulator calls the <TT>
+IssueMem</TT> function. In the case of RC, this function first checks if
+any outstanding memory fences (<TT>MEMBAR</TT> instructions) can be
+broken down - this occurs when every instruction in the class of
+operations that the fence has been waiting upon has completed. If the
+processor has support for a consistency implementation with speculative load
+execution (chosen with ``-K''), all completed speculative loads beyond the voided
+fence that are no longer blocked for consistency or disambiguation constraints
+are allowed to leave the memory unit through the <TT>PerformMemOp</TT>
+function.
+<P>
+The <TT>IssueMem</TT> function then seeks to allow the issue of actual
+loads and stores in the memory system. If the system implements SC or
+PC, the <TT>IssueMems</TT> function is called. With RC, <TT>IssueStores</TT>
+is called first, followed by <TT>IssueLoads</TT>. We issue instructions
+in this order with RC not to favor stores, but rather to favor older
+instructions (As discussed in Section&nbsp;<A HREF="node75.html#rsimproc_ooo">10</A>, no store can
+be marked ready to issue until it is one of the oldest instructions in
+the active list and all previous instructions have completed).
+<P>
+The functions <TT>IssueStores</TT> and <TT>IssueLoads</TT>, or <TT>
+IssueMems</TT> for SC and PC systems, scan the appropriate part of the
+memory unit for instructions that can be issued this cycle.  At a bare
+minimum, the instruction must have passed through address generation
+and there must be a cache port available for the instruction. The
+following description focuses on the additional requirements for
+issuing each type of instruction under each memory consistency model.
+Steps 1a-1e below refer to the various types of instructions that may
+be considered available for issue. Step&nbsp;2 is required
+for each instruction that actually issues.  Step&nbsp;3 is used
+only with consistency implementations that include hardware-controlled
+non-binding prefetching from the instruction window.
+<P>
+<P>
+<P>
+<B>Step 1a: Stores in sequential consistency or processor consistency</B>
+<P>
+<P>
+<P>
+If the instruction under consideration is a store in SC or PC, it must
+be the oldest instruction in the memory unit and must have been
+marked ready in the graduate stage (as described in Section&nbsp;<A HREF="node82.html#rsimproc_ooo_grad">10.7</A>) before it can
+issue to the cache.  If the processor supports hardware prefetching
+from the instruction window, then the system can mark a store for a
+possible hardware prefetch even if it is not ready to issue as a
+demand access to the caches.
+<P>
+<P>
+<P>
+<B>Step 1b: Stores in release consistency</B>
+<P>
+<P>
+<P>
+Stores in RC issue after being marked ready, if there are no current
+ordering constraints imposed by memory fences.  If any such
+constraints are present and if the system has hardware prefetching,
+the system can mark the store for a possible hardware prefetch.  A
+store can be removed from the memory unit as soon as it issues to the
+cache, rather than waiting for its completion in the memory
+hierarchy (as in sequential consistency
+and processor consistency). When a store is issued to the caches,
+the processor's <TT>StoresToMem</TT> field is incremented.
+However,
+as we do not currently simulate data in the caches, stores remain in
+what we call a <EM>virtual store buffer</EM>. The virtual store buffer is
+part of the <TT>StoreQueue</TT> data structure and has a size equivalent
+to the processor's <TT>StoresToMem</TT> field. These elements are not
+counted in the memory unit size, but may be used for obtaining values
+for later loads.
+<P>
+<P>
+<P>
+<B>Step 1c: Loads in sequential consistency</B>
+<P>
+<P>
+<P>
+A load instruction in sequential consistency can only issue non-speculatively if it is at
+the head of the memory unit. If hardware prefetching is enabled, later
+marked for possible prefetching. If speculative load execution is
+present, later loads can be issued to the caches. Before issuing such
+a load, however, the memory unit is checked for any previous stores with
+an overlapping address. If a store exactly matches the addresses needed by
+the load, the load value can be forwarded directly from the store. However,
+if a store address only partially overlaps with the load address, the
+load will be stalled in order to guarantee that it reads a correct value
+when it issues to the caches.
+<P>
+<P>
+<P>
+<B>Step 1d: Loads in processor consistency</B>
+<P>
+<P>
+<P>
+Loads issue in PC under circumstances similar to those of SC. However,
+a load can issue non-speculatively whenever it is preceded only by
+store operations.  A load that is preceded by store operations must
+check previous stores for possible forwarding or stalling before it is
+allowed to issue.
+<P>
+<P>
+<P>
+<B>Step 1e: Loads in release consistency</B>
+<P>
+<P>
+<P>
+In RC, loads can issue non-speculatively whenever they are not
+prevented by previous memory barriers<A NAME="tex2html20" HREF="footnode.html#1573"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.  As in SC and PC, a load that
+is preceded by store operations must check previous stores for
+possible forwards or stalls. However, in RC, such checks must also
+take place against the virtual store buffer.  As the virtual store
+buffer is primarily a simulator abstraction, forwards from this buffer
+are used only to learn the final value of the load; the load itself
+must issue to the cache as before. However, loads must currently stall
+in cases of partial overlaps with instructions in the virtual store
+buffer. This constraint is not expected to hinder performance in
+applications where most data is either reused (thus keeping data in
+cache and giving partial overlaps short latencies) or where most
+pointers are strongly typed (making partial overlaps
+unlikely). However, if applications do not meet these constraints, it
+may be more desirable to simulate the actual data in the caches.
+As in the other models, loads hindered by memory consistency model
+constraints
+can be marked for prefetching or speculatively issued if the consistency
+implementation supports such accesses. Although speculative loads
+and prefetching are allowed around ordinary <TT>MEMBAR</TT>
+instructions, such optimizations are not allowed in the case of
+fences with the <TT>MemIssue</TT> field set.
+<P>
+<P>
+<P>
+<B>Step 2: Issuing an instruction to the memory hierarchy</B>
+<P>
+<P>
+<P>
+For both stores and loads, the <TT>IssueOp</TT> function actually
+initiates an access. First, the <TT>memprogress</TT> field is set to -1
+to indicate that this <TT>instance</TT> is being issued. (In the case of
+forwards, the <TT>memprogress</TT> field would have been set to a
+negative value). This function then consumes a cache port for the access
+(cache ports are denoted as functional units of type <TT>uMEM</TT>).
+The <TT>memory_rep</TT> function is then called. This function prepares
+the cache port to free again in the next cycle if this access is not
+going to be sent to the cache (i.e. if the access is private or if
+the processor has issued a <TT>MEMSYS_OFF</TT> directive). Otherwise, the
+cache is responsible for freeing the cache port explicitly.
+<P>
+Next, the <TT>memory_latency</TT> function is called. This function
+starts by calling <TT>GetMap</TT>, which checks either the processor <TT>
+PageTable</TT> or the shared-memory <TT>SharedPageTable</TT> to determine if
+this access is a segmentation fault (alignment errors would have
+already been detected by <TT>GetAddr</TT>). If the access has a
+segmentation fault or bus error, its cache port is freed up and the
+access is considered completed, as the access will not be sent to
+cache.
+<P>
+If the access does not have any of the previous exceptions, it will
+now be issued. <TT>PREFETCH</TT> instructions are considered complete and
+removed from the memory unit as soon as they are issued. If the
+access is an ordinary load or store and is not simulated (i.e. either
+a private access or the processor has turned <TT>MEMSYS_OFF</TT>),
+it is set to complete in a single cycle. If the access is simulated, it
+is sent to the memory hierarchy by calling <TT>StartUpMemRef</TT>.
+<P>
+<TT>StartUpMemRef</TT> and the other functions in <TT>
+src/Processor/memprocess.cc</TT> are responsible for interfacing between the
+processor memory unit and the memory hierarchy itself. <TT>
+StartUpMemRef</TT> translates the format specified in the <TT>instance</TT>
+data structure to a format understood by the cache and memory
+simulator. This function then calls the function <TT>addrinsert</TT> to
+begin the simulation of an access.
+<P>
+<TT>addrinsert</TT> starts by initializing a memory system request
+data
+structure for this memory access. (This data structure type is
+described in Section&nbsp;<A HREF="node92.html#memsys_req">12.2</A>.) Next, the request is
+inserted into its cache port. If this request fills up the cache
+ports, then the <TT>L1Q_FULL</TT> field is set to inform the processor
+not to issue further requests (this is later cleared by the cache when
+it processes a request from its ports).  After this point, the
+memory system simulator is responsible for processing this access.
+<P>
+<P>
+<P>
+<B>Step 3: Issuing any possible prefetches</B>
+<P>
+<P>
+<P>
+After the functions that issue instructions have completed, the memory
+unit checks to see if any of the possible hardware prefetch
+opportunities marked in this cycle can be utilized. If there are cache
+ports available, prefetches are issued for those instructions using
+<TT>IssuePrefetch</TT>. These prefetches are sent to the appropriate
+level of the cache hierarchy, according to the command-line option
+used.
+<P>
+<HR><A NAME="tex2html1453" HREF="node89.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1451" HREF="node85.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1445" HREF="node87.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1455" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1454" HREF="node89.html">Completing memory instructions in </A>
+<B>Up:</B> <A NAME="tex2html1452" HREF="node85.html">Processor Memory Unit</A>
+<B> Previous:</B> <A NAME="tex2html1446" HREF="node87.html">Address generation</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

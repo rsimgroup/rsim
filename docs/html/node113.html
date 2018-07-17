@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Obtaining a new or incomplete transaction to process</TITLE>
+<META NAME="description" CONTENT="Obtaining a new or incomplete transaction to process">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1753" HREF="node114.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1751" HREF="node112.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1745" HREF="node112.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1755" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1754" HREF="node114.html">Processing incoming REQUESTs</A>
+<B>Up:</B> <A NAME="tex2html1752" HREF="node112.html">Directory and Memory Simulation</A>
+<B> Previous:</B> <A NAME="tex2html1746" HREF="node112.html">Directory and Memory Simulation</A>
+<BR> <P>
+<H1><A NAME="SECTION03810000000000000000">Obtaining a new or incomplete transaction to process</A></H1>
+<P>
+The first stage is <TT>DIRSTART</TT>. In this stage, the directory first sees
+if it can send out a message that was previously added to its list of
+outbound transactions (<TT>OutboundReqs</TT>). If a message can be sent,
+the directory jumps to state <TT>DIROUTBOUND</TT>; otherwise, the message
+at the head of the <TT>OutboundReqs</TT> list is pushed to the end.
+<P>
+Next, the directory starts to check its input ports (<TT>REQUEST</TT> and
+<TT>COHE_REPLY</TT>) in a round-robin fashion. However, the directory
+cannot bring in a new <TT>REQUEST</TT> if it still has a partially
+completed <TT>REQUEST</TT> transaction (described in
+Sections&nbsp;<A HREF="node114.html#rsimmemsys_dir_req">14.2</A>&nbsp;and&nbsp;<A HREF="node115.html#rsimmemsys_dir_sendcohe">14.3</A>). This
+transaction must be completed before the any new <TT>REQUEST</TT>s are
+brought in. In this case, the directory transitions to state <TT>
+DIRSENDCOHE</TT> to attempt to complete the previous <TT>REQUEST</TT>
+transaction rather than bringing in a new one. Further, the directory
+cannot bring in a new <TT>REQUEST</TT> if a formerly pending request
+(described in Section&nbsp;<A HREF="node114.html#rsimmemsys_dir_req">14.2</A>) has become ready for
+processing. In this case, the formerly pending <TT>REQUEST</TT> is chosen
+rather than a new <TT>REQUEST</TT>.  Before looking at the input port for
+new <TT>REQUEST</TT>s, the directory will check to see if it has a
+partially completed transaction in flight (noted in the <TT>
+req_partial</TT> field). This transaction must be completed before any
+new <TT>REQUEST</TT>s are brought in. In this case, the directory
+transitions to state <TT>DIRSENDCOHE</TT>.  If there are no partially
+completed transactions, the directory then looks at its list of
+previously pending <TT>REQUEST</TT>s to process an old <TT>REQUEST</TT> before bringing
+in a new one. Only if there is no partially completed transactions or
+formerly pending <TT>REQUEST</TT> available will the directory bring in a new
+<TT>REQUEST</TT>.  However, there is no restriction on the directory
+bringing in a new <TT>COHE_REPLY</TT>: such an access will be brought in
+and processed regardless of previous pending <TT>REQUEST</TT>s or
+partially-completed <TT>REQUEST</TT> transactions.
+<P>
+For new <TT>REQUEST</TT>s, formerly pending <TT>REQUEST</TT>s, or <TT>
+COHE_REPLY</TT>s, the directory must now stall for its access
+latency. This is calculated based on the width of the directory port
+and the flit transfer time, discussed in
+Section&nbsp;<A HREF="node97.html#memsys_init">12.3</A>. Additionally, for all accesses except <TT>
+COHE_REPLY</TT>s that do not access memory (simple acknowledgments without
+copy-back), the directory must delay by the memory latency specified
+with ``-M''. For <TT>COHE_REPLY</TT>s that do not access memory, the
+directory only stalls for the amount of time specified with the configuration
+parameter <TT>dircycle</TT>, which represents the minimum directory
+delay.
+<P>
+After these
+stalling, the directory jumps to state <TT>DIRSERV</TT>, where <TT>
+REQUEST</TT>s are dispatched to <TT>DIRREQ</TT>, write-backs or other
+replacement messages are sent to case <TT>DIRWRB</TT>, and other <TT>
+COHE_REPLY</TT>s are sent to state <TT>DIRCOHEREP</TT>. Each of these states
+is discussed in the following sections.
+<P>
+<HR><A NAME="tex2html1753" HREF="node114.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1751" HREF="node112.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1745" HREF="node112.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1755" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1754" HREF="node114.html">Processing incoming REQUESTs</A>
+<B>Up:</B> <A NAME="tex2html1752" HREF="node112.html">Directory and Memory Simulation</A>
+<B> Previous:</B> <A NAME="tex2html1746" HREF="node112.html">Directory and Memory Simulation</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

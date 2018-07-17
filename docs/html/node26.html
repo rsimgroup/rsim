@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Exception handling</TITLE>
+<META NAME="description" CONTENT="Exception handling">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html656" HREF="node27.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html654" HREF="node22.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html650" HREF="node25.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html658" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html657" HREF="node27.html">RSIM memory and network </A>
+<B>Up:</B> <A NAME="tex2html655" HREF="node22.html">Processor microarchitecture</A>
+<B> Previous:</B> <A NAME="tex2html651" HREF="node25.html">Processor memory unit</A>
+<BR> <P>
+<H2><A NAME="SECTION02224000000000000000">Exception handling</A></H2>
+<P>
+<A NAME="rpipes_except">&#160;</A>
+<P>
+RSIM supports precise exceptions<A NAME="tex2html10" HREF="footnode.html#449"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A> by prohibiting
+instructions from committing their effects into the processor
+architectural state until the point of graduation.  Excepting
+instructions are recognized at the time of graduation.
+<P>
+RSIM supports the following categories of exceptions: division by
+zero, floating point errors, segmentation faults, bus errors, system
+traps, window traps, soft exceptions, serializing instructions,
+privileged instructions, illegal or unsupported instructions, and
+illegal program counter value.  RSIM simply emulates the effects of
+most of the trap handlers; a few of the trap handlers actually
+have their instructions simulated, and are indicated below. (Soft
+exceptions are handled entirely in the hardware and do not
+have any associated trap handler.)
+<P>
+A <EM>division by zero</EM> exception is triggered only on integer division by
+zero. <EM>Floating point exceptions</EM> can arise from illegal operands, such 
+as attempts to take the square root of a negative number or to perform
+certain comparisons of an ``NaN'' with a number. Both of these exception
+types are non-recoverable.
+<P>
+<EM>Segmentation faults</EM> are currently split into two types. The first type
+is a fault that occurs whenever a processor wishes to grow its stack
+beyond its current limits. For this trap, pages are added to the
+stack to accommodate stack growth, and execution recovers from
+the point of the excepting instruction.
+In the second type of fault,
+the processor attempts to access a page of memory that has not been
+allocated and is not within the limits of the stack. This type of exception
+is nonrecoverable.
+<P>
+A <EM>bus error</EM> occurs whenever a memory access is not aligned
+according to its length. Generally, these exceptions are
+nonrecoverable. However, the SPARC architecture allows
+double-precision
+floating-point loads and
+stores to be aligned only to a word boundary, rather than to a
+double-word
+boundary<A NAME="tex2html11" HREF="footnode.html#395"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>. RSIM currently traps these
+accesses and emulates their behavior. However, the cache accesses
+for these instructions are not simulated.
+<P>
+<EM>System traps</EM> are used to emulate the behavior of operating system calls
+in RSIM. The system traps supported are listed in Section&nbsp;<A HREF="node48.html#apps_library">5.2</A> and
+serve several important functions, such as I/O, memory allocation, and
+process management. Additionally, some system traps are specific to RSIM
+and serve roles such as statistics collection or explicitly associating
+a home node to a region of shared memory. Some operating system calls
+are currently not supported; consequently, functions using these system calls
+(such as <TT>strftime</TT> and <TT>signal</TT>) cannot currently be used in 
+applications to be simulated with RSIM.
+The RSIM simulator trap convention does not currently match the system
+trap convention of Solaris or any other operating system; however, a
+library is provided with RSIM to insure that the correct system
+traps are invoked for each supported function, as described in
+Section&nbsp;<A HREF="node48.html#apps_library">5.2</A>.  The system trap handler restarts program
+execution at the instruction after the excepting instruction.
+<P>
+A <EM>window trap</EM> occurs when the call-depth of a window-save chain
+exceeds the maximum allowed by RSIM (called an overflow), forcing an
+old window to be saved to the stack to make room for the new window,
+or when a <TT>RESTORE</TT> operation allows a previously saved window to once
+again receive a register window (called an underflow)&nbsp;[<A HREF="node132.html#Sun1993">23</A>].
+The instructions used in the window trap handler are actually simulated
+by the RSIM processor, rather than merely having their effects emulated.
+The window trap handler
+returns control to the excepting instruction.
+The number of register windows is configurable, and can range from 4
+to 32 (in all cases, 1 window is reserved for the system).  The
+effect of window traps is not likely to significantly affect the
+performance of scientific codes written in C; however, code written in
+a functional language such as Scheme or an object-oriented language
+such as C++ may experience some performance degradation from
+window traps.
+<P>
+<EM>Soft exceptions</EM> are distinguished from other exception types in that
+even a regular system would not need to trap to any operating system code
+to handle these exceptions; the exception is handled entirely in
+hardware. The active list is flushed, and execution restarts at the
+excepting instruction. These are used for recovering from loads incorrectly
+issued past stores with unknown addresses or from consistency violations
+caused by speculative load execution (as described in Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>).
+<P>
+RSIM uses traps (referred to as <EM>serialization</EM> traps in the code) to implement
+certain instructions that either modify system-wide status registers
+(e.g. <TT>LDFSR</TT>, <TT>STFSR</TT>) or are outdated instructions with
+data-paths that are too complex for a processor with the aggressive
+features simulated in RSIM (e.g. <TT>MULScc</TT>).
+This can lead to significant
+performance degradation in code that uses old libraries, many of which
+internally use <TT>MULScc</TT>. The trap handler for the <TT>STFSR</TT>
+instruction is actually simulated, rather than merely emulated. The
+<TT>LDFSR</TT> instruction is slightly different in that it does not have a trap handler, but functions more like a soft exception. Specifically, the function
+of the trap on this instruction is
+to prevent later instructions from committing their values
+computed with an old floating-point status. Thus, the trap for
+<TT>LDFSR</TT> can be thought of as a soft-exception that does
+not retry the excepting instruction.
+<P>
+<EM>Privileged instructions</EM> include instructions that are valid only
+in system supervisor mode, and lead to an exception if present in user
+code. <EM>Illegal instruction</EM> traps are invalid
+instruction encodings and some instructions unsupported by RSIM (i.e.
+<TT>tcc</TT>, <TT>flush</TT>, <TT>flushw</TT>, and tagged addition and
+subtraction)<A NAME="tex2html12" HREF="footnode.html#450"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A> 
+An <EM>illegal program counter</EM> value
+exception occurs whenever a control transfer instruction makes the
+program counter invalid for the instruction address region (e.g. out
+of range or unaligned program counters). These three exception types
+are all non-recoverable.
+<P>
+<HR><A NAME="tex2html656" HREF="node27.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html654" HREF="node22.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html650" HREF="node25.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html658" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html657" HREF="node27.html">RSIM memory and network </A>
+<B>Up:</B> <A NAME="tex2html655" HREF="node22.html">Processor microarchitecture</A>
+<B> Previous:</B> <A NAME="tex2html651" HREF="node25.html">Processor memory unit</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

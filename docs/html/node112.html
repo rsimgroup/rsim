@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Directory and Memory Simulation</TITLE>
+<META NAME="description" CONTENT="Directory and Memory Simulation">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1734" HREF="node113.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1732" HREF="node68.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1726" HREF="node111.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1736" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1735" HREF="node113.html">Obtaining a new or </A>
+<B>Up:</B> <A NAME="tex2html1733" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<B> Previous:</B> <A NAME="tex2html1727" HREF="node111.html">Deadlock avoidance</A>
+<BR> <P>
+<H1><A NAME="SECTION03800000000000000000">Directory and Memory Simulation</A></H1>
+<P>
+<A NAME="rsimmemsys_dir">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/directory.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/directory.h</TT>
+<P>
+<P>
+<P>
+The processor and cache modules are simulated on a cycle-by-cycle
+basis, as these units are likely to have activity nearly every cycle.
+However, the remaining building blocks of RSIM are activated only
+according  to whether or not they are ready to process a transaction.
+<P>
+The directory controller modeled in RSIM implements a 4-state MESI
+coherence protocol or a 3-state MSI protocol.  The directory is merged
+with the system DRAM, as accesses generally need to process
+information from both the DRAM and the directory at the same time (an
+exception is noted below). The directory and memory banks are
+interleaved on a cache-line basis, using as many modules as specified
+with the ``-I'' option.  The directory is responsible for maintaining
+the current state of a cache line, serializing accesses to each line,
+generating and collecting coherence messages, sending replies, and
+handling race conditions.
+In addition, the
+directory coherence protocol used in RSIM relies on cache-to-cache
+transfers and uses replacement messages, as depicted in
+Figure&nbsp;<A HREF="node27.html#coherencepic">3.3</A>. Coherence replies are collected at the
+directory, and in the case of transfers that require coherence
+actions (other than cache-to-cache transfers), the data is sent to
+the requestor only after all coherence replies have been collected.
+<P>
+The <TT>DirSim</TT> function simulates the actions of the directory and
+includes many stages based on the current
+type of access being processed and the progress of that access. 
+The following sections describe each of the stages in the directory.
+<P>
+<BR> <HR>
+<UL> 
+<LI> <A NAME="tex2html1737" HREF="node113.html#SECTION03810000000000000000">Obtaining a new or incomplete transaction to process</A>
+<LI> <A NAME="tex2html1738" HREF="node114.html#SECTION03820000000000000000">Processing incoming <TT>REQUEST</TT>s</A>
+<LI> <A NAME="tex2html1739" HREF="node115.html#SECTION03830000000000000000">Sending out <TT>COHE</TT> messages</A>
+<LI> <A NAME="tex2html1740" HREF="node116.html#SECTION03840000000000000000">Processing incoming write-back and replacement messages</A>
+<LI> <A NAME="tex2html1741" HREF="node117.html#SECTION03850000000000000000">Processing other incoming <TT>COHE_REPLY</TT>s</A>
+<UL> 
+<LI> <A NAME="tex2html1742" HREF="node118.html#SECTION03851000000000000000">Handling positive acknowledgments</A>
+<LI> <A NAME="tex2html1743" HREF="node119.html#SECTION03852000000000000000">Handling negative acknowledgments</A>
+</UL> 
+<LI> <A NAME="tex2html1744" HREF="node120.html#SECTION03860000000000000000">Deadlock avoidance</A>
+</UL>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

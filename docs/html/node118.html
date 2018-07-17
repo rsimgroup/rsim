@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Handling positive acknowledgments</TITLE>
+<META NAME="description" CONTENT="Handling positive acknowledgments">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1810" HREF="node119.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1808" HREF="node117.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1802" HREF="node117.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1812" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1811" HREF="node119.html">Handling negative acknowledgments</A>
+<B>Up:</B> <A NAME="tex2html1809" HREF="node117.html">Processing other incoming COHE_REPLYs</A>
+<B> Previous:</B> <A NAME="tex2html1803" HREF="node117.html">Processing other incoming COHE_REPLYs</A>
+<BR> <P>
+<H2><A NAME="SECTION03851000000000000000">Handling positive acknowledgments</A></H2>
+<P>
+In the case of positive acknowledgments (or negative acknowledgments
+to coherence messages sent with <TT>NACK_OK</TT>), the directory sees if this
+response enables it to send out a <TT>REPLY</TT> (if the
+access is not a cache-to-cache transfer and all coherence replies
+have now been collected). If so, the directory attempts to send out
+a reply, adding the reply to its <TT>OutboundReqs</TT> structure if no
+space is currently available in its port.
+<P>
+If the positive acknowledgment
+is an acknowledgment from a cache-to-cache transfer (whether it includes
+data or not), the buffer entry for the access is freed, as these
+accesses do not require any further messages to be sent.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

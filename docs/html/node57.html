@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Overall performance statistics</TITLE>
+<META NAME="description" CONTENT="Overall performance statistics">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1039" HREF="node58.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1037" HREF="node56.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1031" HREF="node56.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1041" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1040" HREF="node58.html">Processor statistics</A>
+<B>Up:</B> <A NAME="tex2html1038" HREF="node56.html">Statistics collection</A>
+<B> Previous:</B> <A NAME="tex2html1032" HREF="node56.html">Statistics collection</A>
+<BR> <P>
+<H2><A NAME="SECTION02511000000000000000">Overall performance statistics</A></H2>
+<P>
+<A NAME="perfstats">&#160;</A>
+<P>
+RSIM displays the total
+execution time and the IPC (instructions per cycle) achieved by the
+program on the system simulated. In order to better characterize the
+bottlenecks in application performance, the total execution time is
+further categorized into busy time and stalls due to various classes
+of instructions. These classes of instructions include ALU, FPU, data
+reads, data writes, exceptions, branches, synchronization, and up to 9
+user-defined aggregate classes discussed in Section&nbsp;<A HREF="node50.html#apps_stats">5.4</A>.
+Data read and write stalls are further split
+according to the level of the memory hierarchy at which the memory
+operations were resolved: L1 cache, L2 cache, local memory, or remote
+memory.
+<P>
+With ILP processors, the various components of execution time
+described above are not easily separable, as multiple instructions can
+execute in parallel and out of order on such systems.  We use the
+following policy, also used in other
+studies&nbsp;(e.g.&nbsp;[<A HREF="node132.html#PaiRanganathan1997a">14</A>, <A HREF="node132.html#PaiRanganathan1996a">15</A>, <A HREF="node132.html#RosenblumBugnion1995">18</A>])
+to attribute execution time to the various components. If, in any
+given cycle, the processor retires the maximum allowable number of
+instructions, we count that cycle as part of busy time. Otherwise, we
+charge that cycle to the stall time component corresponding to the
+first instruction that could not be retired.  Thus, the stall time for
+a class of instructions represents the number of cycles that
+instructions of that class spend at the head of the active list
+before retiring.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

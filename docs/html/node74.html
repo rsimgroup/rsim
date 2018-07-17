@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Initialization and Configuration Routines in RSIM</TITLE>
+<META NAME="description" CONTENT="Initialization and Configuration Routines in RSIM">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1288" HREF="node75.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1286" HREF="node68.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1280" HREF="node73.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1290" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1289" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B>Up:</B> <A NAME="tex2html1287" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<B> Previous:</B> <A NAME="tex2html1281" HREF="node73.html">Memory allocation functions</A>
+<BR> <P>
+<H1><A NAME="SECTION03300000000000000000">Initialization and Configuration Routines in RSIM</A></H1>
+<P>
+<A NAME="rsim_init">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/mainsim.cc</TT>, <TT>
+src/Processor/simio.cc</TT>, <TT>src/Processor/config.cc</TT>, <TT>
+src/Processor/exec.cc</TT>, <TT>src/Processor/units.cc</TT>, <TT>
+src/Processor/funcs.cc</TT>, <TT>src/Processor/traptable.cc</TT>, <TT>
+src/MemSys/architecture.c</TT>, <TT>src/MemSys/net.c</TT>, <TT>
+src/Processor/state.cc</TT>, <TT>src/Processor/startup.cc</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/Processor/mainsim.h</TT>, <TT>
+incl/Processor/simio.h</TT>, <TT>incl/Processor/units.h</TT>, <TT>
+incl/MemSys/arch.h</TT>
+<P>
+<P>
+<P>
+RSIM execution starts with the <TT>main</TT> function provided by YACSIM.
+This function takes the arguments passed in on the command line and
+passes them to the <TT>UserMain</TT> function.
+<P>
+The first purpose of the <TT>UserMain</TT> function is to parse the
+command-line arguments. The appropriate global variables (e.g., the
+size of the active list, the number of register windows) are set based
+on the options described in Chapter&nbsp;<A HREF="node28.html#cmd_line">4</A>.
+<P>
+The various input and output files used by the simulator and
+application are redirected according to the command-line options. The
+<TT>FILE</TT> data structures called <TT>simin</TT>, <TT>simout</TT>, and <TT>
+simerr</TT> are set up through the <TT>SimIOInit</TT> function; if the
+simulator input and output are redirected separately from the
+application input and output, the function <TT>RedirectSimIO</TT> is
+called to point these to the appropriate files.
+<P>
+Next, the function <TT>ParseConfigFile</TT> is invoked to read in the
+options from the configuration file (described in
+Chapter&nbsp;<A HREF="node28.html#cmd_line">4</A>) and set global simulation variables based on
+these options. Each parameter  recognized by <TT>
+ParseConfigFile</TT> is associated with a global variable and a parsing
+function in the table called <TT>configparams</TT>. The parsing function
+is used to convert the operand given for a parameter into an
+acceptable input value. For example, the <TT>ConfigureCacheProt</TT>
+function converts the protocol names ``<TT>mesi</TT>'' and ``<TT>msi</TT>''
+to values of type <TT>enum CacheCoherenceProtocolType</TT>, while
+the <TT>ConfigureInt</TT> function merely calls <TT>atoi</TT> to read a
+string into an integer variable. The parameter names and values are
+currently case-insensitive. If the user adds any new entries to
+this table, the macro <TT>NUM_CONFIG_ENTRIES</TT> must also be changed
+accordingly.
+<P>
+The application to be simulated is chosen based on the command line
+options. The predecoded version of the application executable is read
+through the <TT>read_instructions</TT> function. This sets the
+<TT>num_instructions</TT> variable according to the
+number of instructions in the application. The hash table for the <TT>
+SharedPageTable</TT> structure is initialized, and initially contains no
+elements.
+<P>
+<TT>UserMain</TT> calls the <TT>UnitArraySetup</TT> function, which
+defines the functional unit used by each of the instruction types.
+For memory instructions, this function also specifies the type of
+memory access and the amount of data read or written by each memory
+instruction,
+as well as the address alignment needed.
+<P>
+The <TT>FuncTableSetup</TT> function is called next to assign each instruction
+type to the function that emulates its behavior at the functional units.
+After this, the function <TT>TrapTableInit</TT> sets up the instruction lists
+for the simulator traps that are actually simulated (as opposed to only
+having their effects emulated). These traps include window traps and stores
+of the floating-point status register.
+<P>
+Next, the  <TT>SystemInit</TT> function is called to set up the RSIM
+memory system and multiprocessor interconnection network
+according to the parameters earlier read from
+the configuration file with <TT>ParseConfigFile</TT>. After setting some basic
+parameters according to whether or not certain features are present
+(such as the write-buffer or pipelined network switches), this
+function calls <TT>dir_net_init</TT>. More information about
+<TT>dir_net_init</TT> is provided in Section&nbsp;<A HREF="node97.html#memsys_init">12.3</A>.
+<P>
+After this point, the first processor data structure (or <TT>state</TT>) is
+created. The constructor for this structure sets up fundamental
+state parameters and initializes the auxiliary data structures used in the
+processor pipeline (described in Section&nbsp;<A HREF="node84.html#rsimproc_ooo_datastruct">10.9</A>).
+<P>
+Now that the first processor data structure has been created, the
+system must load the application executable and data segment into
+the processor's address space, and must initialize the processor's
+stack and register set. The <TT>startup</TT> function performs each of
+these actions. For systems with ELF, <TT>startup</TT> interfaces with the
+ELF library to extract the relevant sections from the application
+file; for systems without ELF, <TT>startup</TT> relies on a version of
+the application file preprocessed with the <TT>unelf</TT> utility
+discussed in Section&nbsp;<A HREF="node12.html#installing">2</A>. The stack is set up to hold the
+command line arguments passed to the application, and the registers
+<TT>%o0</TT> and <TT>%o1</TT> are set up to hold the corresponding values
+of <TT>argc</TT> and <TT>argv</TT>. (Environment variables are not currently
+supported.) The PC (processor program counter) is set to the entry
+point of the application executable, while the NPC (next program counter)
+points to the subsequent instruction.
+<P>
+After this point, the <TT>RSIM_EVENT</TT> function is scheduled for
+execution using YACSIM, and the event-driven simulator is started.
+<P>
+<HR><A NAME="tex2html1288" HREF="node75.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1286" HREF="node68.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1280" HREF="node73.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1290" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1289" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B>Up:</B> <A NAME="tex2html1287" HREF="node68.html">RSIM DEVELOPER'S GUIDE</A>
+<B> Previous:</B> <A NAME="tex2html1281" HREF="node73.html">Memory allocation functions</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

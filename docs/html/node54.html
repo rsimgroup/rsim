@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Avoiding memory system simulation</TITLE>
+<META NAME="description" CONTENT="Avoiding memory system simulation">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html993" HREF="node55.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html991" HREF="node52.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html987" HREF="node53.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html995" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html994" HREF="node55.html">Statistics Collection and Debugging</A>
+<B>Up:</B> <A NAME="tex2html992" HREF="node52.html">Options to improve simulation </A>
+<B> Previous:</B> <A NAME="tex2html988" HREF="node53.html">Moving data initialization offline</A>
+<BR> <P>
+<H2><A NAME="SECTION02462000000000000000">Avoiding memory system simulation</A></H2>
+<P>
+In cases, where a detailed memory system simulation is not
+important
+(for example, initialization and testing phases), the macro <TT>
+MEMSYS_OFF</TT>
+can be used to speed up the simulation.  This macro
+turns off the multiprocessor and memory system simulation and
+instead assume a perfect cache hit rate. This macro can be useful for
+initialization and cleanup phases; the macro <TT>MEMSYS_ON</TT> is used to
+restart full memory system simulation. Note that each processor must
+independently invoke <TT>MEMSYS_OFF</TT> and <TT>MEMSYS_ON</TT>; the decision
+of whether or not to simulate the full memory system is made on a
+processor-by-processor basis.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

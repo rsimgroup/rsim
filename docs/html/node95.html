@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>The s.reply field</TITLE>
+<META NAME="description" CONTENT="The s.reply field">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1540" HREF="node96.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1538" HREF="node92.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1532" HREF="node94.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1542" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1541" HREF="node96.html">The s.nack_st field</A>
+<B>Up:</B> <A NAME="tex2html1539" HREF="node92.html">Memory system message data </A>
+<B> Previous:</B> <A NAME="tex2html1533" HREF="node94.html">The req_type field</A>
+<BR> <P>
+<H2><A NAME="SECTION03623000000000000000">The <TT>s.reply</TT> field</A></H2>
+<P>
+<TT>REPLY</TT>s and <TT>COHE_REPLY</TT>s also use a field called <TT>s.reply</TT>
+to indicate the response type. This field can have the following values:
+<DL ><DT><STRONG>REPLY</STRONG>
+<DD> Successful completion of the desired action.
+<DT><STRONG>RAR</STRONG>
+<DD> Request a retry: action could not be completed immediately
+due to transient condition, and demand should be retried. These are sent
+by a directory when its pending request buffer fills up or when certain
+negative-acknowledgment responses cannot be immediately resolved (as explained
+in Chapter&nbsp;<A HREF="node112.html#rsimmemsys_dir">14</A>).
+<DT><STRONG>NACK</STRONG>
+<DD> Action could not be completed as specified (<TT>COHE_REPLY</TT>s only).
+These are sent on invalidation messages when the line is not present
+in the cache, or on write-back subset-enforcement messages when the L1 cache
+does not have the line in  modified state.
+<DT><STRONG>NACK_PEND</STRONG>
+<DD> Action could not be completed as specified due
+to a transient condition
+(<TT>COHE_REPLY</TT>s only). The cache sends these responses during
+certain races described in Chapter&nbsp;<A HREF="node99.html#rsimmemsys_cache">13</A>. The
+directory handles these replies by either retrying the corresponding
+<TT>COHE</TT> or reprocessing the original <TT>REQUEST</TT>.
+<P>
+ </DL><BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Network interface modules</TITLE>
+<META NAME="description" CONTENT="Network interface modules">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1865" HREF="node124.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1863" HREF="node121.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1857" HREF="node122.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1867" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1866" HREF="node124.html">Multiprocessor interconnection network</A>
+<B>Up:</B> <A NAME="tex2html1864" HREF="node121.html">System Interconnects</A>
+<B> Previous:</B> <A NAME="tex2html1858" HREF="node122.html">Node bus</A>
+<BR> <P>
+<H1><A NAME="SECTION03920000000000000000">Network interface modules</A></H1>
+<P>
+<A NAME="rsimmemsys_smnet">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/smnet.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/net.h</TT>
+<P>
+<P>
+<P>
+The <TT>SMNET</TT> (Shared Memory-NETwork)
+interfaces in RSIM are the modules that connect each node's local bus
+to the interconnection network.  The
+primary functions of the <TT>SMNET</TT> are as follows:
+<P>
+<UL><LI> Receive messages destined for the  network from the bus. (These may originate from the cache or directory controller.)<LI> Create the message packets.<LI> Inject the messages into the appropriate network ports and
+initiate communication.<LI> Handle incoming messages from the network by removing them from the network port
+and delivering them to the bus.
+</UL>
+<P>
+The main procedure for sending packets to the network is <TT>
+SmnetSend</TT>.  This event handles communication between the bus
+and the network interface.  Upon receiving a new message, <TT>
+SmnetSend</TT> schedules an appropriate event to insert the new message
+into the request or reply network as appropriate.  The events that
+provide this interface have the body functions <TT>ReqSendSemaWait</TT> and <TT>
+ReplySendSemaWait</TT> for the request network and reply network, respectively.
+These events ensure that there is sufficient space in the network
+interface buffers before creating the packets and initiating
+communication.
+<P>
+In addition to sending messages, the Smnet module handles receiving
+messages through the <TT>ReqRcvSemaWait</TT> and <TT>ReplyRcvSemaWait</TT>
+events.  These events wait on semaphores associated with the
+network output ports to receive messages. (Semaphores are discussed in
+Section&nbsp;<A HREF="node72.html#rsimevent_yacsim_sema">8.2</A>.)  As soon as a message is
+received, it is forwarded to the appropriate bus port,
+according to whether it is a request or a reply. The bus
+will actually deliver the message to the caches or the directory.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Instruction issue</TITLE>
+<META NAME="description" CONTENT="Instruction issue">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1352" HREF="node80.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1350" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1344" HREF="node78.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1354" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1353" HREF="node80.html">Instruction execution</A>
+<B>Up:</B> <A NAME="tex2html1351" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1345" HREF="node78.html">Branch prediction</A>
+<BR> <P>
+<H1><A NAME="SECTION03440000000000000000">Instruction issue</A></H1>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/pipestages.cc</TT>, <TT>src/Processor/exec.cc</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/Processor/units.h</TT>
+<P>
+<P>
+<P>
+This stage actually sends instructions to their functional units. The
+<TT>SendToFU</TT> function is called whenever an instruction has no
+outstanding true dependencies. This function reads the values of the
+various source registers from the register file and holds those values
+with the <TT>instance</TT> data structure. This mechanism is not meant
+to imitate actual processor behavior, but rather to provide a
+straightforward simulator abstraction. At the end of this function,
+the <TT>issue</TT> function is called if there is a functional unit
+available; otherwise, this <TT>instance</TT> is placed on a queue for the
+specified functional unit.
+<P>
+The <TT>issue</TT> function places the specified <TT>instance</TT> pm
+the <TT>ReadyQueue</TT> data structure and occupies the
+appropriate functional unit (for memory operations, this function
+is used for address generation).
+<P>
+The function <TT>IssueQueues</TT> processes instructions inserted
+in the <TT>ReadyQueue</TT>s by <TT>issue</TT>. This function then
+inserts the appropriate functional unit onto the <TT>FreeingUnits</TT>
+data structure, specifying that that unit will be free a number of
+cycles later, according to the repeat delay of the instruction. This
+function places the <TT>instance</TT> itself on the <TT>Running</TT>
+structure of the processor, which is used to revive the instruction
+for completion after its functional unit latency has passed.
+<P>
+The <TT>IssueQueues</TT> function also calls <TT>IssueMem</TT> in the
+memory unit, which checks to see if any new memory accesses can be
+issued.
+<P>
+This stage assumes no limit on register file ports. In real
+processors, port contention may cause additional stalls that are not
+considered here.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

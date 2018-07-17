@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>The s.nack_st field</TITLE>
+<META NAME="description" CONTENT="The s.nack_st field">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1549" HREF="node97.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1547" HREF="node92.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1543" HREF="node95.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1551" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1550" HREF="node97.html">Memory system simulator initialization</A>
+<B>Up:</B> <A NAME="tex2html1548" HREF="node92.html">Memory system message data </A>
+<B> Previous:</B> <A NAME="tex2html1544" HREF="node95.html">The s.reply field</A>
+<BR> <P>
+<H2><A NAME="SECTION03624000000000000000">The <TT>s.nack_st</TT> field</A></H2>
+<P>
+<TT>COHE</TT>s additionally have a field called <TT>s.nack_st</TT>, which indicates
+whether or not a <TT>NACK</TT> is an acceptable response to the coherence
+action. Specifically, a <TT>NACK</TT> is not acceptable if the coherence
+message demands a data transfer, as this indicates that the directory
+currently considers the cache to be the exclusive owner of the line.
+Thus, a value of
+<TT>NACK_NOK</TT> is specified for <TT>COPYBACK</TT> and <TT>COPYBACK_INVL</TT>
+messages, while <TT>NACK_OK</TT> distinguishes <TT>INVL</TT> messages.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

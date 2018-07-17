@@ -1,0 +1,37 @@
+Phase 1 STATS
+FILE quicksortp1_1x4d
+Misses: 4100
+Miss latency: 17.81
+Overlapped miss latency: 3.95
+Fraction unoverlapped: 73.67\%
+Refs: 1821333
+L1refs: 1821333
+L2refs: 4100
+L1hits: 98.94 (1802032)
+L1misses: 0.23 (4100)
+L2hits: 74.39 (3050)
+L2misses: 25.61 (1050)
+Local mems: 100.00 (1050)
+Remote mems: 0.00 (0)
+Average load queue = 3.9207
+Average L1 MSHR = 0.019
+Average L2 MSHR = 0.008
+Average network read latency = 31.211 (over 1051 )
+FILE quicksortp2_1x4d
+Misses: 8064
+Miss latency: 96.39
+Overlapped miss latency: 20.12
+Fraction unoverlapped: 78.31\%
+Refs: 1959299
+L1refs: 1959299
+L2refs: 8196
+L1hits: 97.75 (1915168)
+L1misses: 0.42 (8196)
+L2hits: 35.04 (2872)
+L2misses: 63.35 (5192)
+Local mems: 10.13 (526)
+Remote mems: 89.87 (4666)
+Average load queue = 4.63071
+Average L1 MSHR = 0.1695
+Average L2 MSHR = 0.266
+Average network read latency = 130.145 (over 5194 )

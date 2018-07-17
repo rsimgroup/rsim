@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Bringing in messages</TITLE>
+<META NAME="description" CONTENT="Bringing in messages">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1603" HREF="node101.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1601" HREF="node99.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1595" HREF="node99.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1605" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1604" HREF="node101.html">Processing the cache pipelines</A>
+<B>Up:</B> <A NAME="tex2html1602" HREF="node99.html">Cache Hierarchy</A>
+<B> Previous:</B> <A NAME="tex2html1596" HREF="node99.html">Cache Hierarchy</A>
+<BR> <P>
+<H1><A NAME="SECTION03710000000000000000">Bringing in messages</A></H1>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/l1cache.c</TT>, <TT>src/MemSys/l2cache.c</TT>, <TT>src/MemSys/pipeline.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/cache.h</TT>, <TT>incl/MemSys/pipeline.h</TT>
+<P>
+<P>
+<P>
+Two functions are used to bring new messages into each level of cache.
+These functions are <TT>L1CacheInSim</TT> and <TT>L2CacheInSim</TT>. Each of
+these functions checks incoming messages from the ports of the
+module. The function then attempts to insert each incoming message
+into the appropriate tag-array pipeline, according to its <TT>s.type</TT>
+field. If the message can be added to its pipeline, it is removed from
+its input port; otherwise, it remains on the input port for processing
+in a future cycle.
+<P>
+At the L2 cache, if the incoming message is a <TT>REPLY</TT>, then some
+bookkeeping is done for managing the write-back buffer. Specifically, before
+a <TT>REQUEST</TT> can be sent out from the L2 cache, it must have allocated
+a write-back buffer entry for a potential replacement caused by its
+<TT>REPLY</TT>. When the <TT>REPLY</TT> returns to the cache, the
+<TT>wrb_buf_used</TT> field of the cache is incremented to indicate that
+the new <TT>REPLY</TT> may need to send out a replacement.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

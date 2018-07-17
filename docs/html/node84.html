@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Principal data structures</TITLE>
+<META NAME="description" CONTENT="Principal data structures">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1405" HREF="node85.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1403" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1399" HREF="node83.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1407" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1406" HREF="node85.html">Processor Memory Unit</A>
+<B>Up:</B> <A NAME="tex2html1404" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1400" HREF="node83.html">Exception handling</A>
+<BR> <P>
+<H1><A NAME="SECTION03490000000000000000">Principal data structures</A></H1>
+<P>
+<A NAME="rsimproc_ooo_datastruct">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/Processor/active.cc</TT>, <TT>
+src/Processor/freelist.cc</TT>, <TT>src/Processor/tagcvt.cc</TT>, <TT>
+src/Processor/stallq.cc</TT>, <TT>src/Processor/branchqelt.cc</TT>, <TT>
+src/Processor/branchresolve.cc</TT>, <TT>src/Processor/instheap.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/Processor/active.h</TT>, <TT>
+incl/Processor/freelist.h</TT>, <TT>incl/Processor/tagcvt.h</TT>, <TT>
+incl/Processor/stallq.h</TT>, <TT>incl/Processor/circq.h</TT>, <TT>
+incl/Processor/branchq.h</TT>, <TT>incl/Processor/heap.h</TT>, <TT>
+incl/Processor/instheap.h</TT>, <TT>incl/Processor/hash.h</TT>, <TT>
+incl/Processor/memq.h</TT>, <TT>incl/Processor/FastNews.h</TT>
+<P>
+<P>
+<P>
+The majority of the data structures used in the out-of-order
+execution engine are associated with the processor's <TT>state</TT>
+structure.
+<P>
+The first type of data structures are concerned with instruction
+fetching, decoding, and graduation. These structures include the
+register <TT>freelist</TT> class, the <TT>activelist</TT> class, the tag
+converted (<TT>tag_cvt</TT>), the register mapping tables (<TT>
+fpmapper</TT>, <TT>intmapper</TT>, and <TT>activemaptable</TT>), the busy-bit
+arrays (<TT>fpregbusy</TT> and <TT>intregbusy</TT>), and the processor stall
+queue (<TT>stallq</TT>).
+<P>
+The second class of data structures include those associated with
+branch prediction. These include the <TT>branchq</TT> structure, which holds
+the shadow mappers; the <TT>BranchDepQ</TT>, which holds branches waiting for
+shadow mappers (in our system, only one branch can be in this queue at
+a time); and the actual branch prediction tables (<TT>BranchPred</TT> and <TT>PrevPred</TT>) and the return address stack fields (<TT>ReturnAddressStack</TT> and
+<TT>rasptr</TT>).
+<P>
+The third class of data structures deal with instruction issue,
+execution, and completion. Several time-based heaps are included in
+this class: <TT>FreeingUnits</TT>, <TT>Running</TT>, <TT>DoneHeap</TT>, and
+<TT>MemDoneHeap</TT>. Several <TT>MiniStallQ</TT> structures are also used
+in this class. These include the <TT>UnitQ</TT> structures, which include
+instructions waiting for functional units; and the <TT>dist_stallq</TT>
+(distributed register stall queue) structures, which include
+instructions stalling for register dependences.
+<P>
+The final important class of data structures used in the out-of-order
+execution engine deals with simulator
+memory allocation and are provided to speed up memory allocation for
+common data structures which have an upper bound on their number of
+instantiations. These <TT>Allocator</TT> data structures include <TT>
+instances</TT> for <TT>instance</TT> structures, <TT>bqes</TT> for elements of
+the branch queue, <TT>mappers</TT> for shadow mappers, <TT>stallqs</TT> for
+elements of the processor stall queue, <TT>ministallqs</TT> for elements
+of the functional unit and register stall queues, <TT>actives</TT> for
+active list elements, and <TT>tagcvts</TT> for elements of the tag
+converter.  Structures are dynamically allocated from and returned to
+these structures through the inline functions provided in <TT>
+incl/Processor/FastNews.h</TT>.
+<P>
+<HR><A NAME="tex2html1405" HREF="node85.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1403" HREF="node75.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1399" HREF="node83.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1407" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1406" HREF="node85.html">Processor Memory Unit</A>
+<B>Up:</B> <A NAME="tex2html1404" HREF="node75.html">RSIM_EVENT and the Out-of-order </A>
+<B> Previous:</B> <A NAME="tex2html1400" HREF="node83.html">Exception handling</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

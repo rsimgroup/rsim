@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Fundamentals of memory system modules</TITLE>
+<META NAME="description" CONTENT="Fundamentals of memory system modules">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1492" HREF="node92.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1490" HREF="node90.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1484" HREF="node90.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1494" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1493" HREF="node92.html">Memory system message data </A>
+<B>Up:</B> <A NAME="tex2html1491" HREF="node90.html">Memory Hierarchy and Interconnection </A>
+<B> Previous:</B> <A NAME="tex2html1485" HREF="node90.html">Memory Hierarchy and Interconnection </A>
+<BR> <P>
+<H1><A NAME="SECTION03610000000000000000">Fundamentals of memory system modules</A></H1>
+<P>
+<A NAME="memsys_modules">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/architecture.c</TT>, <TT>src/MemSys/module.c</TT>, <TT>src/MemSys/route.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/module.h</TT>, <TT>incl/MemSys/net.h</TT>
+<P>
+<P>
+<P>
+The <TT>SMMODULE</TT> data structure contains a basic module framework
+that is used by many of the modules in the memory system
+simulator. This framework includes fields common to all the module
+types, and is initialized using the <TT>ModuleInit</TT> function. This
+function sets the node number for the module, along with fields
+related to the module's input and output ports.  These ports, which
+are of the type <TT>SMPORT</TT>, are used to connect between the various
+modules in the memory system simulator. <TT>SMPORT</TT> data structures
+act as queues between the various modules and have memory system
+simulator messages as their entries. (These messages are described in
+Section&nbsp;<A HREF="node92.html#memsys_req">12.2</A>.) Each queue has a fixed maximum size,
+initialized by the call to <TT>ModuleInit</TT> (but possibly modified
+using <TT>QueueSizeCorrect</TT> later). Note that only output ports
+are actually created; the input ports of one module are set to 
+the same data structures as the output ports of another module using the
+<TT>ModuleConnect</TT> function described in Section&nbsp;<A HREF="node97.html#memsys_init">12.3</A>.
+<P>
+Each module also has a <EM>routing</EM> function, which generates the
+output port number for each type of message that leaves the module.
+The various modules and default port connections used in RSIM are shown in
+Figure&nbsp;<A HREF="node91.html#port_connects">12.1</A>. Input ports are shown on this figure as <TT>
+i<EM>X</EM></TT>, where <EM>X</EM> is the port number; similarly, output ports
+are shown as <TT>o<EM>X</EM></TT>. The terms <EM>Request</EM>, <EM>Reply</EM>,
+<EM>Cohe</EM>, and <EM>Cohe reply</EM> correspond to the types of memory
+system messages, as explained in Section&nbsp;<A HREF="node92.html#memsys_req">12.2</A>.
+If no write-buffer is included, port <TT>o1</TT> of the L1 cache
+connects directly to port <TT>i0</TT> of the L2 cache, while port
+<TT>o0</TT>  of the L2 cache connects to port <TT>i1</TT> of the L1 cache.
+<P>
+RSIM uses a single module for each bank of the directory and memory.
+The input and output ports connecting the directory and memory to the bus
+are listed in the form <TT>o6,8,...</TT> to indicate that each interleaved
+bank has a separate port in place of the single port shown on the diagram.
+<P>
+The network interface is shown on the diagram as being split into two
+parts, <EM>Send</EM> and <EM>Receive</EM>. <EM>Send</EM> moves new messages from
+the node to the multiprocessor interconnection network, while <EM>Receive</EM>
+brings messages from the interconnection network into the node.
+Note that the network system and its connections to the network interface
+do not use the standard <TT>SMMODULE</TT> and <TT>SMPORT</TT> data structures
+used by the rest of the memory system simulator. The data structures
+for the network and its connections to the network interface are explained
+in Section&nbsp;<A HREF="node124.html#rsimmemsys_net">15.3</A>.
+<P>
+<P><A NAME="1622">&#160;</A><A NAME="port_connects">&#160;</A> <IMG WIDTH=393 HEIGHT=565 ALIGN=BOTTOM ALT="figure1620" SRC="img8.gif"  > <BR>
+<STRONG>Figure 12.1:</STRONG> Modules and port connections in RSIM<BR>
+<P>
+<P>
+The queue sizes for the various ports are configurable at run-time,
+as discussed in Chapter&nbsp;<A HREF="node28.html#cmd_line">4</A>. The size of the queue
+specifies the number of transactions of any type (request or response)
+that can be held in the connection between the modules at any given time.
+If the size of the queue configured at runtime differs from that originally
+initialized with <TT>ModuleInit</TT>, the <TT>QueueSizeCorrect</TT> function
+is called to set the sizes of these ports to the desired values.
+Note that the port queue size also limits the number of
+requests that can be processed by the module each time the module
+is activated. For example, if a cache is intended to start processing
+four requests each cycle, the request port queue should contain
+at least four entries.
+<P>
+The port queue can also contain more than the minimum
+number of entries; in these cases, the queue acts as a buffer to decouple
+a faster module from a slower module. For this reason, the default
+port sizes from the L2 cache to the bus are larger than most of the other
+cache ports; these port sizes are chosen so that the potentially slow
+processing rate of the bus will not cause the L2 cache itself to stall.
+<P>
+The implementation of port queues is such that 
+each port queue holds one of its entries as an ``overflow entry.''
+Thus, most of the modules subtract 1 from the port queue sizes specified
+before calling <TT>ModuleInit</TT> or <TT>QueueSizeCorrect</TT>, as this accounts
+for the separate overflow entry provided. The network
+interface module does not use the overflow request; these units stop
+adding to their output ports before allowing the queues to fill up
+the overflow request.
+<P>
+<HR><A NAME="tex2html1492" HREF="node92.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1490" HREF="node90.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1484" HREF="node90.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1494" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1493" HREF="node92.html">Memory system message data </A>
+<B>Up:</B> <A NAME="tex2html1491" HREF="node90.html">Memory Hierarchy and Interconnection </A>
+<B> Previous:</B> <A NAME="tex2html1485" HREF="node90.html">Memory Hierarchy and Interconnection </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

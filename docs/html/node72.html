@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Semaphore functions</TITLE>
+<META NAME="description" CONTENT="Semaphore functions">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1268" HREF="node73.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1266" HREF="node70.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1260" HREF="node71.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1270" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1269" HREF="node73.html">Memory allocation functions</A>
+<B>Up:</B> <A NAME="tex2html1267" HREF="node70.html">Event-driven Simulation Library</A>
+<B> Previous:</B> <A NAME="tex2html1261" HREF="node71.html">Event-manipulation functions</A>
+<BR> <P>
+<H1><A NAME="SECTION03220000000000000000">Semaphore functions</A></H1>
+<P>
+<A NAME="rsimevent_yacsim_sema">&#160;</A>
+<P>
+<P>
+<P>
+Source files: <TT>src/MemSys/userq.c</TT>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/simsys.h</TT>
+<P>
+<P>
+<P>
+YACSIM <EM>Semaphores</EM> are used for controlling the interaction
+of events in the simulator. The following semaphore functions are 
+supported in RSIM:
+<P>
+<UL><LI>	<TT>SEMAPHORE *NewSemaphore(char *sname, int i)</TT>
+<P>
+This function creates a new semaphore with the name specified in
+<TT>sname</TT> and the initial semaphore value <TT>i</TT>.<LI>	<TT>void SemaphoreSignal(SEMAPHORE *sptr)</TT>
+<P>
+This function activates the event at the head of the semaphore queue
+(added through a previous call to <TT>ActivitySchedSema</TT> or 
+<TT>EventReschedSema</TT>).
+If there is no event, the semaphore value is incremented.
+</UL><BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

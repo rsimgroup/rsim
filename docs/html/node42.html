@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Directory and memory parameters</TITLE>
+<META NAME="description" CONTENT="Directory and memory parameters">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html859" HREF="node43.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html857" HREF="node37.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html851" HREF="node41.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html861" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html860" HREF="node43.html">Interconnection network parameters</A>
+<B>Up:</B> <A NAME="tex2html858" HREF="node37.html">Configuration file</A>
+<B> Previous:</B> <A NAME="tex2html852" HREF="node41.html">Bus parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION02325000000000000000">Directory and memory parameters</A></H2>
+<P>
+<DL ><DT><STRONG>memorylatency</STRONG>
+<DD> This number specifies the DRAM access latency in
+cycles. (Note that this is only the actual time at the
+DRAM, and does not include time on the bus, in the caches, or at any
+other resource.) Defaults to 18 cycles (60 ns with a 300 MHz processor).
+<P>
+<DT><STRONG>dircycle</STRONG>
+<DD> This number gives the minimum directory access latency,
+which is the latency incurred by non-data responses to the directory.
+(Requests to the directory for data or data-carrying responses to the directory
+must access the DRAM and thus incur the latency specified by <B>memorylatency</B>.)
+This parameter is specified in processor cycles, and defaults to 3.
+<P>
+<DT><STRONG>meminterleaving</STRONG>
+<DD> This number specifies the degree of memory and
+directory interleaving at each node. Defaults to 4.
+<P>
+<DT><STRONG>dirbufsize</STRONG>
+<DD> This number sets the maximum number of pending
+requests at the directory at any time. If additional requests are
+received, they are bounced back to the sender with a retry request.
+<P>
+<DT><STRONG>dirpacketcreate</STRONG>
+<DD> Some transactions require the directory to
+send coherence requests to the other caches (such as invalidations
+or cache-to-cache transfer requests). This number specifies the time 
+to produce the first such coherence request for a given transaction,
+in processor cycles. Defaults to 12.
+<P>
+<DT><STRONG>dirpacketcreateaddtl</STRONG>
+<DD> This number specifies the additional
+delay in processor cycles for each subsequent coherence request for a given
+transaction (after the first one). Defaults to 6.
+<P>
+ </DL><BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

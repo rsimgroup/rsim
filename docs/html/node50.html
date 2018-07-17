@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Statistics collection</TITLE>
+<META NAME="description" CONTENT="Statistics collection">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html951" HREF="node51.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html949" HREF="node46.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html943" HREF="node49.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html953" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html952" HREF="node51.html">Performance tuning</A>
+<B>Up:</B> <A NAME="tex2html950" HREF="node46.html">Porting Applications to RSIM</A>
+<B> Previous:</B> <A NAME="tex2html944" HREF="node49.html">Synchronization support for multiprocessor </A>
+<BR> <P>
+<H1><A NAME="SECTION02440000000000000000">Statistics collection</A></H1>
+<P>
+<A NAME="apps_stats">&#160;</A>
+RSIM automatically generates statistics for many important
+characteristics of the simulated system. 
+RSIM has special functions and macros that can be
+used to subdivide these statistics
+according to the phases of an application.
+<P>
+The user can add the <TT>newphase</TT> and <TT>endphase</TT> functions to
+indicate the start and end of an application phase. The <TT>newphase</TT>
+function takes a single integer argument that represents the new phase
+number (the simulation starts in phase 0). This function also clears
+out all current processor simulation statistics.  The <TT>endphase</TT>
+function takes no arguments. This function prints out both a concise
+summary and a detailed set of processor simulation statistics,
+described in Chapter&nbsp;<A HREF="node55.html#stats">6</A>.
+<P>
+There are additional macros that can be used within a processor phase
+to aggregate a set of instructions into a single statistics
+class. These macros are <TT>START_USR&lt;num&gt;</TT> and <TT>END_USR&lt;num&gt;</TT>,
+where <TT>num</TT> is an integer between 1 and 9. When RSIM prints the
+processor statistics for a phase, all the time spent between a
+set of these aggregation macros is lumped together, rather than being
+associated with the individual instructions included therein. In
+addition to the <TT>USR&lt;num&gt;</TT> aggregation classes, there are also
+aggregation classes for various synchronization operations called <TT>
+ACQ</TT>, <TT>SPIN</TT>, <TT>REL</TT>, and <TT>BAR</TT>. These aggregation classes
+can be used with <TT>START_ACQ</TT>, <TT>END_ACQ</TT>, and so forth.
+<P>
+Note that aggregate classes
+cannot be nested. Additionally, an aggregate class is not counted as
+graduating until all instructions in the class have graduated.
+Consequently, the partial statistics printed according to the ``<TT>-A</TT>''
+option in Section&nbsp;<A HREF="node36.html#cmd_line_simcontrol">4.1.7</A> (i.e. the 
+the number of cycles
+since each processor graduated an instruction) do not count
+instructions graduated within an aggregate class.
+<P>
+The functions <TT>StatReportAll</TT> and <TT>StatClearAll</TT> handle the
+statistics associated with the caches, memory system, and network. Each
+one applies to the entire system, and thus should usually be called only by
+processor 0 just after a barrier. <TT>StatReportAll</TT> prints out a
+detailed set of statistics associated with the caches, memory system,
+and network of the system, while <TT>StatClearAll</TT> clears all the
+statistics gathered.
+<P>
+<HR><A NAME="tex2html951" HREF="node51.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html949" HREF="node46.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html943" HREF="node49.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html953" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html952" HREF="node51.html">Performance tuning</A>
+<B>Up:</B> <A NAME="tex2html950" HREF="node46.html">Porting Applications to RSIM</A>
+<B> Previous:</B> <A NAME="tex2html944" HREF="node49.html">Synchronization support for multiprocessor </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

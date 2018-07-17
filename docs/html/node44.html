@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Queue sizes connecting memory and network modules</TITLE>
+<META NAME="description" CONTENT="Queue sizes connecting memory and network modules">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html879" HREF="node45.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html877" HREF="node37.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html873" HREF="node43.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html881" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html880" HREF="node45.html">Compile-time parameters</A>
+<B>Up:</B> <A NAME="tex2html878" HREF="node37.html">Configuration file</A>
+<B> Previous:</B> <A NAME="tex2html874" HREF="node43.html">Interconnection network parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION02327000000000000000">Queue sizes connecting memory and network modules</A></H2>
+<P>
+<A NAME="cmd_line_portsz">&#160;</A>
+<P>
+The modules in the memory system are connected through ports,
+which are FIFO queues (see Section&nbsp;<A HREF="node91.html#memsys_modules">12.1</A> for more information). Each port is a bidirectional connection, but
+the queues in each direction can have different lengths. An entry in the
+port queue is removed as soon as the appropriate module can start
+processing it. Thus, the port queue size also limits the number of
+requests that can be processed by the module each time the module
+is activated. For example, if a cache is intended to initiate processing
+for four requests each cycle, the request port queue should contain
+at least four entries.
+<P>
+The port queue can also contain more than the minimum
+number of entries; in these cases, the queue acts a buffer to decouple
+a faster module from a slower module. For this reason, the default
+port sizes from the L2 cache to the bus are larger than most of the other
+cache ports; these port sizes are chosen so that the potentially slow
+processing rate of the bus will not cause the L2 cache itself to stall.
+<P>
+The configurable port sizes are listed below, along with their
+default values. When applicable, the transaction type carried by each
+specified port is included in parentheses. These transaction types are
+explained in more detail in Section&nbsp;<A HREF="node92.html#memsys_req">12.2</A>.
+<P>
+<TABLE COLS=3 BORDER FRAME=BOX RULES=GROUPS>
+<COLGROUP><COL ALIGN=LEFT><COLGROUP><COL ALIGN=LEFT><COLGROUP><COL ALIGN=LEFT>
+<TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>
+Name </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Description </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Default </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszl1wbreq </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>L1  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  Write buffer (data request) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 2 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszwbl1rep </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>Write buffer  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  L1 (data reply) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 1 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszwbl2req </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>Write buffer  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  L2 (data request) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 1 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszl2wbrep </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>L2  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  Write buffer (data reply) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 1 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszl1l2req </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>L1  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  L2 (data request) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 1 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszl2l1rep </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>L2  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  L1 (data reply) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 1 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszl2l1cohe </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>L2  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  L1 (coherence request [including subset enforcement]) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 1 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszl1l2cr </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>L1  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  L2 (coherence reply) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 1 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszl2busreq </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>L2  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  Bus (data request) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 8 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszl2buscr </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>L2  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  Bus (coherence reply, cache-to-cache data reply) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 8 </TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 
+portszbusl2rep </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>Bus  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  L2 (data reply) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 2 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszbusl2cohe </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>Bus  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  L2 (coherence request) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 2 </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszbusother </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>Bus  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  other modules </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 16  (per port) </TD></TR>
+</TBODY><TBODY>
+<TR><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>portszdir </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP>Directory  <IMG WIDTH=14 HEIGHT=9 ALIGN=BOTTOM ALT="tex2html_wrap_inline3926" SRC="img6.gif"  >  bus  </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> 64 (per port) </TD></TR>
+</TBODY>
+</TABLE>
+<HR><A NAME="tex2html879" HREF="node45.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html877" HREF="node37.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html873" HREF="node43.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html881" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html880" HREF="node45.html">Compile-time parameters</A>
+<B>Up:</B> <A NAME="tex2html878" HREF="node37.html">Configuration file</A>
+<B> Previous:</B> <A NAME="tex2html874" HREF="node43.html">Interconnection network parameters</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

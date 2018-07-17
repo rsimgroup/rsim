@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Handling REPLY type</TITLE>
+<META NAME="description" CONTENT="Handling REPLY type">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1650" HREF="node105.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1648" HREF="node102.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1642" HREF="node103.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1652" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1651" HREF="node105.html">Handling COHE type</A>
+<B>Up:</B> <A NAME="tex2html1649" HREF="node102.html">Processing L1 cache actions</A>
+<B> Previous:</B> <A NAME="tex2html1643" HREF="node103.html">Handling REQUEST type</A>
+<BR> <P>
+<H2><A NAME="SECTION03732000000000000000">Handling <TT>REPLY</TT> type</A></H2>
+<P>
+<P>
+<P>
+<B>Step 1: Checking status of MSHR entry</B>
+<P>
+<P>
+<P>
+For a <TT>REPLY</TT>, the function <TT>L1ProcessTagReq</TT> uses
+the <TT>FindInMshrEntries</TT> function to find the MSHR number corresponding to
+the <TT>REPLY</TT>.
+<P>
+If there is no MSHR entry for the <TT>REPLY</TT>, then it must be a response to a
+non-allocated write or to an L2 prefetch <TT>REQUEST</TT>. For such a <TT>REPLY</TT>,
+<TT>
+GlobalPerformAndHeapInsertAllCoalesced</TT> should be immediately called.
+This function calls the <TT>GlobalPerform</TT> function for the corresponding <TT>REQUEST</TT>
+and any other <TT>REQUEST</TT>s that may have coalesced with this <TT>REQUEST</TT> at
+the write-buffer or L2 cache, while also inserting the <TT>REPLY</TT>s into
+the <TT>MemDoneHeap</TT> described in Section&nbsp;<A HREF="node85.html#rsimproc_memunit">11</A>.
+<P>
+<P>
+<P>
+<B>Step 2: Processing <TT>REPLY</TT>s that match an MSHR</B>
+<P>
+<P>
+<P>
+If the <TT>REPLY</TT> matches an MSHR, the function <TT>GetCoheReq</TT> is used
+to determine if any coherence message coalesced into the MSHR
+while it was outstanding. If so, any possible effects of this coherence
+message will be processed along with the <TT>REPLY</TT>.
+<P>
+<P>
+<P>
+<B>Step 2a: Processing upgrade <TT>REPLY</TT>s</B>
+<P>
+<P>
+<P>
+For upgrades, the <TT>REPLY</TT> handler calls the cache's coherence routine
+to determine the final state of the cache line. If any writes are present
+in the MSHR for the cache line and the state of the line is exclusive, the state
+changes to modified. If a <TT>COHE</TT> was merged into the MSHR,
+its effect on the cache line state is now carried out. (Note: no coherence
+message that requires a copyback or cache-to-cache transfer will ever
+merge into an MSHR, as discussed in
+Section&nbsp;<A HREF="node105.html#rsimmemsys_cache_l1proctagreq_cohe">13.3.3</A>.)
+<P>
+<P>
+<P>
+<B>Step 2b: Processing cache miss <TT>REPLY</TT>s</B>
+<P>
+<P>
+<P>
+For cache misses (<TT>REPLY</TT>s other than upgrades), the <TT>REPLY</TT>
+handler calls either <TT>
+premiss_ageupdate</TT> or <TT>miss_ageupdate</TT> based on whether or not the
+line is a ``present miss'' (a line whose tag remains in cache after a
+<TT>COHE</TT>, but is in an <TT>INVALID</TT> state).
+<P>
+If the line is
+not a ``present miss'', the <TT>miss_ageupdate</TT> function tries to find a
+possible replacement candidate. If any set entry is <TT>INVALID</TT>,
+this line is used so as to avoid replacement. If a line must be
+replaced, then the least-recently used <TT>SH_CL</TT> line is used; if
+none is available, the least-recently used <TT>PR_CL</TT> or, finally,
+<TT>PR_DY</TT> line is used<A NAME="tex2html28" HREF="footnode.html#2219"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.
+<P>
+If no victim is available because all lines
+in the set have upgrades pending, the <TT>REPLY</TT> is not taken and
+a message needs to be sent back to the sender.
+This is done in the 
+<TT>NackUpgradeConflictReply</TT> function.
+This function uses the MSHR allocated reserved by the 
+<TT>REQUEST</TT>  corresponding to this rejected <TT>REPLY</TT> as a resource
+from which to issue the new message. This resource
+is added to the smart MSHR list simulator abstraction (discussed in Section&nbsp;<A HREF="node101.html#rsimmemsys_cache_process">13.2</A>).
+<P>
+For <TT>REPLY</TT>s that do find a space in which to  insert the new line,
+the cache's
+coherence routine is  called to determine the state for the
+new line being brought in.  If any writes are present
+in the MSHR for the  cache line and the state of the line is exclusive, the state
+changes to modified. If a <TT>COHE</TT> was merged into the MSHR,
+its effect on the cache line state will also be carried out.
+<P>
+If this line replaces a current line, the cache's coherence routine is
+called to determine any possible requests that must be sent
+as a result. If the variable <TT>blw_req_type</TT> is set, a writeback must be
+sent as a result of this replacement (occurs if the victim had been in modified
+state). In this case, the <TT>GetReplReq</TT> function must be called to
+create a write-back message. This function sets up all the fields for
+a new message that writes back the line being replaced. This new
+write-back message is sent out in Step&nbsp;3.
+<P>
+<P>
+<P>
+<B>Step 3: Returning replies to processor</B>
+<P>
+<P>
+<P>
+Regardless of <TT>REPLY</TT> type processed, the system now prepares to
+remove the corresponding entry from the MSHRs.
+<P>
+If some non-MSHR accesses (L2
+prefetches, writes with a write-through cache) are also coalesced with
+the reply, the function <TT>GlobalPerformAndHeapInsertAllCoalescedWritesOnly</TT>
+or <TT>GlobalPerformAndHeapInsertAllCoalescedL2PrefsOnly</TT> is called to
+provide replies all of them to the processor.
+<P>
+Then, <TT>MSHRIterateUncoalesce</TT> is called, passing through all the
+responses coalesced into the <TT>REPLY</TT> and the MSHR itself and
+informing the processor of these.
+<P>
+If this reply does not cause a write-back, its MSHR is
+freed. Otherwise, the MSHR is temporarily used as storage space for
+the write-back, and will be thus held until the write-back is able to
+issue from the MSHR to the next level of cache. As with other resources
+held to issue messages to the ports, the MSHR is added to the smart MSHR list.
+<P>
+<TT>L1ProcessTagReq</TT> does not currently account for cache fill time.
+<P>
+<HR><A NAME="tex2html1650" HREF="node105.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1648" HREF="node102.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1642" HREF="node103.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1652" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1651" HREF="node105.html">Handling COHE type</A>
+<B>Up:</B> <A NAME="tex2html1649" HREF="node102.html">Processing L1 cache actions</A>
+<B> Previous:</B> <A NAME="tex2html1643" HREF="node103.html">Handling REQUEST type</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

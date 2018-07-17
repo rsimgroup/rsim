@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Processing incoming REQUESTs</TITLE>
+<META NAME="description" CONTENT="Processing incoming REQUESTs">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1764" HREF="node115.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1762" HREF="node112.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1756" HREF="node113.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1766" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1765" HREF="node115.html">Sending out COHE messages</A>
+<B>Up:</B> <A NAME="tex2html1763" HREF="node112.html">Directory and Memory Simulation</A>
+<B> Previous:</B> <A NAME="tex2html1757" HREF="node113.html">Obtaining a new or </A>
+<BR> <P>
+<H1><A NAME="SECTION03820000000000000000">Processing incoming <TT>REQUEST</TT>s</A></H1>
+<P>
+<A NAME="rsimmemsys_dir_req">&#160;</A>
+The first part of <TT>DIRREQ</TT> handles ``preprocessed'' <TT>REQUEST</TT>s,
+which have already come to the directory before but
+were bounced back at the cache by <TT>NackUpgradeConflictReply</TT>
+(Section&nbsp;<A HREF="node99.html#rsimmemsys_cache">13</A>).  These are simply bounced back to the
+cache. For other <TT>REQUEST</TT>s, the directory coherence routine (<TT>Dir_Cohe</TT>)
+must be called in order to determine the course of handling this access.
+<P>
+<TT>Dir_Cohe</TT> determines the state transition for the line at the directory,
+as well as the possible <TT>COHE</TT> messages that this access will need to
+send out. As <TT>Dir_Cohe</TT> may consume a directory buffer, the directory
+must first check to make sure that a buffer is available; if none is
+available, the directory sends the <TT>REQUEST</TT> back as an <TT>RAR</TT>.
+<P>
+If <TT>Dir_Cohe</TT> responds with a <TT>DIR_REPLY</TT> or <TT>VISIT_MEM</TT>,
+no <TT>COHE</TT> actions must be sent as a result
+of this transaction. Consequently, the directory attempts to send a
+<TT>REPLY</TT>
+back to the caches. If a <TT>REPLY</TT> cannot be sent, the <TT>REQUEST</TT>
+is held in its input port or pending buffer until it can be processed
+later; the directory returns to case <TT>DIRSTARTOVER</TT> in such cases.
+If a <TT>REPLY</TT> can be sent, the directory moves to <TT>DIRSENDREQ</TT>.
+<P>
+If the <TT>REQUEST</TT> comes from a cache that the directory believes to
+have the line in exclusive state, then the <TT>REQUEST</TT> must have
+bypassed an in-flight write-back or replacement message from the same
+node. In this case, <TT>Dir_Cohe</TT> returns <TT>WAITFORWRB</TT> to force
+this <TT>REQUEST</TT> to wait for a write-back or replacement message
+before being processed. Such a <TT>REQUEST</TT> is moved to the pending
+queue to allow other <TT>REQUEST</TT>s to be processed in the meanwhile.
+Similarly, if the <TT>REQUEST</TT> is to a line that is currently in a
+transient directory state, caused by outstanding <TT>COHE</TT> messages or
+an outstanding <TT>WAITFORWRB</TT>, <TT>Dir_Cohe</TT> returns <TT>WAIT_PEND</TT>
+and the <TT>REQUEST</TT> is also added to the pending buffer.
+<P>
+If the <TT>REQUEST</TT> requires new <TT>COHE</TT> messages to be sent out and
+the line is currently held in shared state by other nodes, the
+<TT>Dir_Cohe</TT> function returns <TT>WAIT_CNT</TT>. In this case, the
+directory must create new invalidation <TT>COHE</TT> packets. These messages
+are sent as <TT>INVL</TT> coherence messages, with <TT>NACK_OK</TT> set to
+indicate that a negative-acknowledgment is acceptable.
+<P>
+If the line is currently held in exclusive state by another node, <TT>
+Dir_Cohe</TT> returns <TT>FORWARD_REQUEST</TT>. This reponse indicates that
+the outbound coherence message should request the owner of the cache
+line to send a cache-to-cache transfer to the requester.  If the <TT>REQUEST</TT>
+being sent is a shared-mode access (read), the cache-to-cache transfer
+<TT>COHE</TT> request is sent as a <TT>COPYBACK</TT>, indicating that the memory should
+also be sent a copy of any dirty data. This is needed because the
+cache-coherence protocol does not support a shared-dirty state; any line
+shared by multiple caches must be held with the same value at the
+memory. If the <TT>REQUEST</TT> is an exclusive-mode access, the cache-to-cache
+transfer <TT>COHE</TT> request is sent as <TT>COPYBACK_INVL</TT>, indicating that it is
+sufficient to send only an acknowledgment to the directory after sending
+the cache-to-cache transfer. In either case, negative acknowledgments
+are not acceptable, so the cache-to-cache transfer request is sent with
+<TT>NACK_NOK</TT>.
+<P>
+In either the <TT>WAIT_CNT</TT> or <TT>FORWARD_REQUEST</TT> cases, 
+the directory has to delay the processing of outbound coherence
+messages
+according
+to the packet creation time described in Section&nbsp;<A HREF="node28.html#cmd_line">4</A>. 
+Namely,
+the first <TT>COHE</TT> message will wait for a delay of <TT>pkt_create_time</TT>,
+while each subsequent message will wait for <TT>addtl_pkt_crt_time</TT>.
+Each time the directory delays for a packet creation, the <TT>REQUEST</TT> is
+put into the directory's partially-completed transaction structure (<TT>req_partial</TT>), and the directory transitions to <TT>DIRSENDCOHE</TT>.
+<P>
+<HR><A NAME="tex2html1764" HREF="node115.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1762" HREF="node112.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1756" HREF="node113.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1766" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1765" HREF="node115.html">Sending out COHE messages</A>
+<B>Up:</B> <A NAME="tex2html1763" HREF="node112.html">Directory and Memory Simulation</A>
+<B> Previous:</B> <A NAME="tex2html1757" HREF="node113.html">Obtaining a new or </A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Memory system message data structure</TITLE>
+<META NAME="description" CONTENT="Memory system message data structure">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html1503" HREF="node93.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html1501" HREF="node90.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html1495" HREF="node91.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html1505" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html1504" HREF="node93.html">The s.type field</A>
+<B>Up:</B> <A NAME="tex2html1502" HREF="node90.html">Memory Hierarchy and Interconnection </A>
+<B> Previous:</B> <A NAME="tex2html1496" HREF="node91.html">Fundamentals of memory system </A>
+<BR> <P>
+<H1><A NAME="SECTION03620000000000000000">Memory system message data structure</A></H1>
+<P>
+<A NAME="memsys_req">&#160;</A>
+<P>
+<P>
+<P>
+Header files: <TT>incl/MemSys/req.h</TT>
+<P>
+<P>
+<P>
+The fundamental unit of information exchange among the RSIM memory
+system simulator modules is referred to in this manual as a memory
+system message<A NAME="tex2html22" HREF="footnode.html#1804"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://www-ece.rice.edu/~vijaypai/icons/foot_motif.gif"></A>.  This data structure
+conveys essential information about the access being simulated,
+just as the <TT>instance</TT> structure acts as the basic
+unit of information exchange among the processor pipeline stages.
+<P>
+The memory system message specifies an action that must be performed
+on a certain portion of the  memory hierarchy, as described below.
+The five most important fields of the message data structure are
+the <TT>tag</TT> field, the <TT>s.type</TT> field, the <TT>req_type</TT>
+field, the <TT>s.reply</TT> field, and the <TT>s.nack_st</TT> field.
+The
+<TT>tag</TT> field
+specifies the cache line to which the action in question applies.
+This field is used with the same meaning in all varieties of messages.
+The following sections describe how each of the other fields is used
+to distinguish the types of messages in the memory system simulator.
+<P>
+<BR> <HR>
+<UL> 
+<LI> <A NAME="tex2html1506" HREF="node93.html#SECTION03621000000000000000">The <TT>s.type</TT> field</A>
+<LI> <A NAME="tex2html1507" HREF="node94.html#SECTION03622000000000000000">The <TT>req_type</TT> field</A>
+<LI> <A NAME="tex2html1508" HREF="node95.html#SECTION03623000000000000000">The <TT>s.reply</TT> field</A>
+<LI> <A NAME="tex2html1509" HREF="node96.html#SECTION03624000000000000000">The <TT>s.nack_st</TT> field</A>
+</UL>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

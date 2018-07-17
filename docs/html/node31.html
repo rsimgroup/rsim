@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Memory unit parameters</TITLE>
+<META NAME="description" CONTENT="Memory unit parameters">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html733" HREF="node32.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html731" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html725" HREF="node30.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html735" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html734" HREF="node32.html">Cache parameters</A>
+<B>Up:</B> <A NAME="tex2html732" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html726" HREF="node30.html">Processor parameters</A>
+<BR> <P>
+<H2><A NAME="SECTION02312000000000000000">Memory unit parameters</A></H2>
+<P>
+<DL ><DT><STRONG>-m num</STRONG>
+<DD>	Maximum number of operations in the processor memory
+		unit, described in Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>. 
+		Defaults to 32.
+<DT><STRONG>-L num</STRONG>
+<DD>   Represents the memory ordering constraint for uniprocessor
+data dependences in the situation of a load past a prior store with
+an unknown address (as described in Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>).
+The following table specifies the policies supported:
+<P>
+<TABLE COLS=2>
+<COL ALIGN=CENTER><COL ALIGN=LEFT>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP>
+Policy number </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Description </TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP> 
+0 </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Stall load until all previous store addresses known (supported only with release consistency) </TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP> 
+1 </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Issue load, but do not let other instructions use load value until</TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP> & all previous store addresses known (supported only with release consistency) </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP></TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP> 
+2 </TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP> Issue load and let other instructions use load value even when addresses of previous stores are unknown.</TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP> & If prior store later discovered to have conflicting address,</TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP></TD></TR>
+<TR><TD VALIGN=BASELINE ALIGN=CENTER NOWRAP> & cause soft exception. This is the default.
+</TD><TD VALIGN=BASELINE ALIGN=LEFT NOWRAP></TD></TR>
+</TABLE>
+<P>
+<DT><STRONG>-p</STRONG>
+<DD>	Turn on hardware-controlled prefetching for optimized consistency implementations&nbsp;(discussed in Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>). Bring all hardware prefetches to L1 cache.
+<DT><STRONG>-P</STRONG>
+<DD>	Same as ``-p'', but brings write prefetches only to L2 cache.
+<DT><STRONG>-J</STRONG>
+<DD>	All prefetches (software and hardware) go only to L2 cache.
+<DT><STRONG>-K</STRONG>
+<DD>	Enable speculative load execution for optimized consistency implementations&nbsp;(discussed in Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>).
+<DT><STRONG>-N</STRONG>
+<DD>	Store buffering in SC: allows stores to graduate before
+completion&nbsp;[<A HREF="node132.html#KouroshGupta1991a">4</A>, <A HREF="node132.html#RanganathanPai1997b">17</A>] (useful in SC
+only; stores graduate before completion in all other models by default;
+discussed in Section&nbsp;<A HREF="node25.html#rpipes_mem">3.2.3</A>)
+<DT><STRONG>-6</STRONG>
+<DD>	Processor consistency, if RSIM compiled with <TT>-DSTORE_ORDERING</TT>. RSIM compiled with <TT>-DSTORE_ORDERING</TT> provides SC by default.
+<P>
+ </DL><HR><A NAME="tex2html733" HREF="node32.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html731" HREF="node29.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html725" HREF="node30.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html735" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html734" HREF="node32.html">Cache parameters</A>
+<B>Up:</B> <A NAME="tex2html732" HREF="node29.html">Command line options</A>
+<B> Previous:</B> <A NAME="tex2html726" HREF="node30.html">Processor parameters</A>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>

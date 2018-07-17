@@ -1,0 +1,185 @@
+\begin{thebibliography}{10}
+
+\bibitem{BennettFlynn1995}
+James~E. Bennett and Michael~J. Flynn.
+\newblock Performance {F}actors for {S}uperscalar {P}rocessors.
+\newblock Technical Report CSL-TR-95-661, Stanford University, February 1995.
+
+\bibitem{Brown1988}
+Randy Brown.
+\newblock Calendar {Q}ueues: A {F}ast {O(1)} {P}riority {Q}ueue
+  {I}mplementation for the {S}imulation {E}vent {S}et {P}roblem.
+\newblock {\em Communications of the ACM}, 31(10):1220--1227, October 1988.
+
+\bibitem{CovingtonDwarkadas1991}
+R.~G. Covington, S.~Dwarkadas, J.~R. Jump, S.~Madala, and J.~B. Sinclair.
+\newblock The {E}fficient {S}imulation of {P}arallel {C}omputer {S}ystems.
+\newblock {\em International Journal of Computer Simulation}, 1:31--58, January
+  1991.
+
+\bibitem{KouroshGupta1991a}
+Kourosh Gharachorloo, Anoop Gupta, and John Hennessy.
+\newblock {P}erformance {E}valuation of {M}emory {C}onsistency {M}odels for
+  {S}hared-{M}emory {M}ultiprocessors.
+\newblock In {\em Proceedings of Fourth International Conference on
+  Architectural Support for Programming Languages and Operating Systems}, pages
+  245--257, 1991.
+
+\bibitem{KouroshGupta1991b}
+Kourosh Gharachorloo, Anoop Gupta, and John Hennessy.
+\newblock {T}wo {T}echniques to {E}nhance the {P}erformance of {M}emory
+  {C}onsistency {M}odels.
+\newblock In {\em Proceedings of the International Conference on Parallel
+  Processing}, pages I355--I364, 1991.
+
+\bibitem{KouroshLenoski1990}
+Kourosh Gharachorloo, Daniel Lenoski, James Laudon, Phillip Gibbons, Anoop
+  Gupta, and John Hennessy.
+\newblock {M}emory {C}onsistency and {E}vent {O}rdering in {S}calable
+  {S}hared-{M}emory {M}ultiprocessors.
+\newblock In {\em Proceedings of the 17th International Symposium on Computer
+  Architecture}, pages 15--26, May 1990.
+
+\bibitem{NETSIM}
+J.~Robert Jump.
+\newblock {\em NETSIM Reference Manual}.
+\newblock Rice University Electrical and Computer Engineering Department, March
+  1993.
+\newblock Available at http://www-ece.rice.edu/$\sim$rsim/rppt.html.
+
+\bibitem{YACSIM}
+J.~Robert Jump.
+\newblock {\em YACSIM Reference Manual}.
+\newblock Rice University Electrical and Computer Engineering Department, March
+  1993.
+\newblock Available at http://www-ece.rice.edu/$\sim$rsim/rppt.html.
+
+\bibitem{KaeliEmma1991}
+David~R. Kaeli and Philip~G. Emma.
+\newblock Branch {H}istory {T}able {P}rediction of {M}oving {T}arget {B}ranches
+  {D}ue to {S}ubroutine {R}eturns.
+\newblock In {\em Proceedings of the 18th Annual International Symposium on
+  Computer Architecture}, pages 34--42, May 1991.
+
+\bibitem{Kroft1981}
+David Kroft.
+\newblock Lockup-{F}ree {I}nstruction {F}etch/{P}refetch {C}ache
+  {O}rganization.
+\newblock In {\em Proceedings of the 8th International Symposium on Computer
+  Architecture}, pages 81--87, May 1981.
+
+\bibitem{Lamport1979}
+Leslie Lamport.
+\newblock {H}ow to {M}ake a {M}ultiprocessor {C}omputer {T}hat {C}orrectly
+  {E}xecutes {M}ultiprocess {P}rograms.
+\newblock {\em IEEE Transactions on Computers}, C-28(9):690--691, September
+  1979.
+
+\bibitem{LaudonLenoski1997}
+James Laudon and Daniel Lenoski.
+\newblock The {SGI} {O}rigin 2000: {A} cc{NUMA} {H}ighly {S}calable {S}erver.
+\newblock In {\em Proceedings of the 24th International Symposium on Computer
+  Architecture}, June 1997.
+
+\bibitem{MIPSR10K}
+MIPS Technologies, Inc.
+\newblock {\em R10000 Microprocessor User's Manual, Version 2.0}, December
+  1996.
+
+\bibitem{PaiRanganathan1997a}
+Vijay~S. Pai, Parthasarathy Ranganathan, and Sarita~V. Adve.
+\newblock {T}he {I}mpact of {I}nstruction {L}evel {P}arallelism on
+  {M}ultiprocessor {P}erformance and {S}imulation {M}ethodology.
+\newblock In {\em Proceedings of the 3rd International Symposium on High
+  Performance Computer Architecture}, pages 72--83, February 1997.
+
+\bibitem{PaiRanganathan1996a}
+Vijay~S. Pai, Parthasarathy Ranganathan, Sarita~V. Adve, and Tracy Harton.
+\newblock {A}n {E}valuation of {M}emory {C}onsistency {M}odels for
+  {S}hared-{M}emory {S}ystems with {ILP} {P}rocessors.
+\newblock In {\em Proceedings of the 7th International Conference on
+  Architectural Support for Programming Languages and Operating Systems}, pages
+  12--23, October 1996.
+
+\bibitem{RanganathanPai1997a}
+Parthasarathy Ranganathan, Vijay~S. Pai, Hazim Abdel-Shafi, and Sarita~V. Adve.
+\newblock The {I}nteraction of {S}oftware {P}refetching with {ILP} {P}rocessors
+  in {S}hared-{M}emory {S}ystems.
+\newblock In {\em Proceedings of the 24th Annual International Symposium on
+  Computer Architecture}, June 1997.
+
+\bibitem{RanganathanPai1997b}
+Parthasarathy Ranganathan, Vijay~S. Pai, and Sarita~V. Adve.
+\newblock {U}sing {S}peculative {R}etirement and {L}arger {I}nstruction
+  {W}indows to {N}arrow the {P}erformance {G}ap between {M}emory {C}onsistency
+  {M}odels.
+\newblock In {\em Proceedings of the Ninth Annual ACM Symposium on Parallel
+  Algorithms and Architectures}, June 1997.
+
+\bibitem{RosenblumBugnion1995}
+Mendel Rosenblum, Edouard Bugnion, Stephen~Alan Herrod, Emmet Witchel, and
+  Anoop Gupta.
+\newblock The {I}mpact of {A}rchitectural {T}rends on {O}perating {S}ystem
+  {P}erformance.
+\newblock In {\em Proceedings of the 15th ACM Symposium on Operating Systems
+  Principles}, pages 285--298, December 1995.
+
+\bibitem{ScheurichDubois1987}
+Christoph Scheurich and Michel Dubois.
+\newblock {C}orrect {M}emory {O}peration of {C}ache-{B}ased {M}ultiprocessors.
+\newblock In {\em Proceedings 14th Annual International Symposium on Computer
+  Architecture}, pages 234--243, Pittsburgh, PA, June 1987.
+
+\bibitem{SinghWeber1992}
+Jaswinder~Pal Singh, Wolf-Dietrich Weber, and Anoop Gupta.
+\newblock {SPLASH}: {S}tanford {P}arallel {A}pplications for {S}hared-{M}emory.
+\newblock {\em Computer Architecture News}, 20(1):5--44, March 1992.
+
+\bibitem{SkadronClark1997}
+Kevein Skadron and Douglas~W. Clark.
+\newblock {D}esign {I}ssues and {T}radeoffs for {W}rite {B}uffers.
+\newblock In {\em Proceedings of the 3rd International Symposium on High
+  Performance Computer Architecture}, pages 144--155, February 1997.
+
+\bibitem{Smith1981}
+J.~E. Smith.
+\newblock A study of branch prediction strategies.
+\newblock In {\em Proceedings of the 8th Annual Symposium on Computer
+  Architecture}, pages 135--148, May 1981.
+
+\bibitem{Sun1993}
+Sparc International.
+\newblock {\em The SPARC Architecture Manual}, 1993.
+\newblock Version 9.
+
+\bibitem{SprangleChappell1997}
+Eric Sprangle, Robert~S. Chappell, Mitch Alsup, and Yale~N. Patt.
+\newblock The {A}gree {P}redictor: {A} {M}echanism for {R}educing {N}egative
+  {B}ranch {H}istory {I}nterference.
+\newblock In {\em Proceedings of the 24th Annual International Symposium on
+  Computer Architecture}, June 1997.
+
+\bibitem{ULTRASPARC2}
+Sun Microelectronics.
+\newblock {\em {UltraSPARC-II}: {S}econd {G}eneration {SPARC} {v9} 64-{B}it
+  {M}icroprocessor {W}ith {VIS}}, July 1997.
+
+\bibitem{Sun1991}
+Sun Microsystems Inc.
+\newblock {\em The SPARC Architecture Manual}, January 1991.
+\newblock No. 800-199-12, Version 8.
+
+\bibitem{WooOhara1995}
+Steven~Cameron Woo, Moriyoshi Ohara, Evan Torrie, Jaswinder~Pal Singh, and
+  Anoop Gupta.
+\newblock The {SPLASH}-2 {P}rograms: {C}haracterization and {M}ethodological
+  {C}onsiderations.
+\newblock In {\em Proceedings of the 22nd International Symposium on Computer
+  Architecture}, pages 24--36, June 1995.
+
+\bibitem{MIPSR10KMICRO}
+Kenneth~C. Yeager.
+\newblock The {MIPS} {R10000} {S}uperscalar {M}icroprocessor.
+\newblock {\em IEEE Micro}, 16(2):28--40, April 1996.
+
+\end{thebibliography}

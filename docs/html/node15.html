@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<!--Converted with LaTeX2HTML 96.1 (Feb 5, 1996) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds -->
+<HTML>
+<HEAD>
+<TITLE>Building the RSIM applications library</TITLE>
+<META NAME="description" CONTENT="Building the RSIM applications library">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<LINK REL=STYLESHEET HREF="manual.css">
+</HEAD>
+<BODY LANG="EN">
+ <A NAME="tex2html528" HREF="node16.html"><IMG WIDTH=37 HEIGHT=24 ALIGN=BOTTOM ALT="next" SRC="http://www-ece.rice.edu/~vijaypai/icons/next_motif.gif"></A> <A NAME="tex2html526" HREF="node12.html"><IMG WIDTH=26 HEIGHT=24 ALIGN=BOTTOM ALT="up" SRC="http://www-ece.rice.edu/~vijaypai/icons/up_motif.gif"></A> <A NAME="tex2html520" HREF="node14.html"><IMG WIDTH=63 HEIGHT=24 ALIGN=BOTTOM ALT="previous" SRC="http://www-ece.rice.edu/~vijaypai/icons/previous_motif.gif"></A> <A NAME="tex2html530" HREF="node3.html"><IMG WIDTH=65 HEIGHT=24 ALIGN=BOTTOM ALT="contents" SRC="http://www-ece.rice.edu/~vijaypai/icons/contents_motif.gif"></A>  <BR>
+<B> Next:</B> <A NAME="tex2html529" HREF="node16.html">Building applications ported to </A>
+<B>Up:</B> <A NAME="tex2html527" HREF="node12.html">Installing RSIM</A>
+<B> Previous:</B> <A NAME="tex2html521" HREF="node14.html">Building the RSIM simulator</A>
+<BR> <P>
+<H1><A NAME="SECTION02130000000000000000">Building the RSIM applications library</A></H1>
+<P>
+<A NAME="installing_lib">&#160;</A>
+<P>
+The RSIM applications library provides some of the library functions needed for
+linking the applications to be simulated, as described
+in Chapters&nbsp;<A HREF="node4.html#overview">1</A>&nbsp;and&nbsp;<A HREF="node46.html#apps">5</A>.
+<P>
+The RSIM applications library is located in the directory <TT>
+apps/utils/lib</TT>. This directory includes a makefile used for actually
+building the library on a SPARC Solaris platform. The user should type
+<TT>make install</TT> to use this makefile.
+This
+will create the RSIM libraries. Additionally, it will also produce a
+separate modified version of the standard system C library in the
+directory <TT>apps/utils/lib</TT>. This modified C library excludes many
+of the functions used internally by other functions in the C library
+to insure that the linker properly resolves these references
+to the RSIM applications library, rather than to standard functions
+in the system C library.
+<P>
+Details on supported and unsupported system library functions appear
+in Chapter&nbsp;<A HREF="node46.html#apps">5</A>.
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Vijay Sadananda Pai <BR>
+Thu Aug  7 14:18:56 CDT 1997</I>
+</ADDRESS>
+</BODY>
+</HTML>
